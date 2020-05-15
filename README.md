@@ -50,19 +50,23 @@ For list:
 ```javascript
 document.addEventListener('DOMContentLoaded', function() {
   new ShowMore({
-    className: 'show-more',
-    textMore: ' | Show more',
-    textLess: ' | Show less'
+    class: 'show-more',
+    more: ' | Show more',
+    less: ' | Show less'
   });
 
   new ShowMore({
-    className: 'show-list',
-    textMore: ' &#8681; show more',
-    textLess: ' &#8679; show less'
+    class: 'show-list',
+    more: ' &#8681; show more',
+    less: ' &#8679; show less'
   })
 
 });
 ```
+
+`class` - name of the class after which we want to add support for showing / hiding text or list,
+ `more` and `less` is the text that appears after the text or list.
+
 
 ## Browsers support
 
