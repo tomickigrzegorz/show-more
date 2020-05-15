@@ -36,11 +36,15 @@ npm run build
 For text:
 ```html
 <div class="show-more" data-type="text" data-number="80">
+  ...
+</div>
 ```
 
 For list:
 ```html
 <ul class="show-list" data-type="list" data-number="5">
+  ...
+</ul>
 ```
 
 ```javascript
