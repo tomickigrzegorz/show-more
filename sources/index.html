@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
+  <title>ShowMoreLess</title>
+  <style>
+    *,
+    *:after,
+    *:before {
+      box-sizing: border-box;
+    }
+
+    body,
+    html {
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      font-family: 'Lato', sans-serif;
+      font-size: 18px;
+      line-height: 150%;
+    }
+
+    ul {
+      padding: 0;
+      list-style: inside;
+    }
+
+    .container {
+      max-width: 800px;
+      width: 100%;
+      min-height: 100%;
+      padding: 0 20px;
+    }
+
+    .show-more {
+      margin: 30px auto;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .showMore,
+    .showLess {
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .showMore:hover,
+    .showLess:hover {
+      color: red;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="show-more" data-type="text" data-number="120"><strong>Contrary to popular belief, Lorem Ipsum is not
+        simply
+        random
+        text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.
+        Richard McClintock</strong>, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more
+      obscure
+      Latin
+      words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical
+      literature,
+      discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum
+      et
+      Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of
+      ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes
+      from a line in section 1.10.32.</div>
+
+    <div class="show-more" data-type="text" data-number="80">It is a long established fact that a reader will
+      be
+      distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that
+      it
+      has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making
+      it
+    </div>
+
+
+    <ul class="show-list" data-type="list" data-number="5">
+      <li>item 1</li>
+      <li>item 2</li>
+      <li>item 3</li>
+      <li>item 4</li>
+      <li>item 5</li>
+      <li>item 6</li>
+      <li>item 7</li>
+      <li>item 8</li>
+      <li>item 9</li>
+      <li>item 10</li>
+      <li>item 11</li>
+      <li>item 12</li>
+      <li>item 13</li>
+      <li>item 14</li>
+      <li>item 15</li>
+    </ul>
+
+
+    <ul class="show-list" data-type="list" data-number="3">
+      <li>item 1</li>
+      <li>item 2</li>
+      <li>item 3</li>
+      <li>item 4</li>
+      <li>item 5</li>
+      <li>item 6</li>
+    </ul>
+
+  </div>
+  <script src="./showMore.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      new ShowMore({
+        className: 'show-more',
+        textMore: ' | Show more',
+        textLess: ' | Show less'
+      });
+
+      new ShowMore({
+        className: 'show-list',
+        textMore: ' &#8681; show more',
+        textLess: ' &#8679; show less'
+      })
+    });
+  </script>
+</body>
+
+</html>
