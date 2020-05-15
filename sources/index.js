@@ -1,8 +1,8 @@
 class ShowMore {
   constructor(options) {
-    this.className = `.${options.className}`;
-    this.showMore = ` <span class="showMore">${options.textMore}</span>`;
-    this.showLess = ` <span class="showLess">${options.textLess}</span>`;
+    this.className = `.${options.class}`;
+    this.showMore = ` <span class="showMore">${options.more}</span>`;
+    this.showLess = ` <span class="showLess">${options.less}</span>`;
     this.render();
   }
 
@@ -34,11 +34,13 @@ class ShowMore {
 
   appendControlsText(element, originalText, truncatedText) {
     element.addEventListener('click', e => {
-      e.currentTarget.innerHTML = '';
       const className = e.target.className;
-
-      e.currentTarget.innerHTML = className === 'showMore' ? originalText : truncatedText.replace(/(\r\n|\n|\r)/gm, "");
-      e.currentTarget.insertAdjacentHTML('beforeend', className === 'showMore' ? this.showLess : this.showMore);
+      if (className === 'showMore' || className === 'showLess') {
+        e.currentTarget.innerHTML = '';
+  
+        e.currentTarget.innerHTML = className === 'showMore' ? originalText : truncatedText.replace(/(\r\n|\n|\r)/gm, "");
+        e.currentTarget.insertAdjacentHTML('beforeend', className === 'showMore' ? this.showLess : this.showMore);
+      }
     })
   }
 
