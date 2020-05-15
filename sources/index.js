@@ -10,38 +10,51 @@ class ShowMore {
     const elements = document.querySelectorAll(this.className);
 
     for (let i = 0; i < elements.length; i++) {
-      const type = elements[i].dataset.type;
+      const { type } = elements[i].dataset;
       const limit = Number(elements[i].dataset.number);
 
-      type === 'text' ? this.showMoreText(elements[i], limit) : this.showMoreList(elements[i], limit);
+      const text = this.showMoreText(elements[i], limit);
+      const list = this.showMoreList(elements[i], limit);
+      // eslint-disable-next-line no-unused-expressions
+      type === 'text' ? text : list;
     }
   }
 
   showMoreText(element, limit) {
     const originalText = element.innerHTML;
     let truncatedText = '';
+    const differenceBetweenHTMLaTEXT =
+      originalText.replace(/(\r\n|\n|\r)/gm, '').length -
+      element.innerText.replace(/(\r\n|\n|\r)/gm, '').length;
 
     if (originalText.length > limit) {
-      truncatedText = originalText.substr(0, limit);
-      truncatedText = truncatedText.substr(0, Math.min(truncatedText.length, truncatedText.lastIndexOf(" ")));
+      truncatedText = originalText.substr(0, limit + differenceBetweenHTMLaTEXT);
+      truncatedText = truncatedText.substr(
+        0,
+        Math.min(truncatedText.length, truncatedText.lastIndexOf(' '))
+      );
 
-      element.innerHTML = `${truncatedText.replace(/(\r\n|\n|\r)/gm, "")}`;
-      element.insertAdjacentHTML('beforeend', this.showMore)
+      element.innerHTML = truncatedText;
+      element.insertAdjacentHTML('beforeend', this.showMore);
 
       this.appendControlsText(element, originalText, truncatedText);
     }
   }
 
   appendControlsText(element, originalText, truncatedText) {
-    element.addEventListener('click', e => {
-      const className = e.target.className;
+    element.addEventListener('click', (e) => {
+      const { className } = e.target;
       if (className === 'showMore' || className === 'showLess') {
         e.currentTarget.innerHTML = '';
-  
-        e.currentTarget.innerHTML = className === 'showMore' ? originalText : truncatedText.replace(/(\r\n|\n|\r)/gm, "");
-        e.currentTarget.insertAdjacentHTML('beforeend', className === 'showMore' ? this.showLess : this.showMore);
+
+        e.currentTarget.innerHTML =
+          className === 'showMore' ? originalText : truncatedText.replace(/(\r\n|\n|\r)/gm, '');
+        e.currentTarget.insertAdjacentHTML(
+          'beforeend',
+          className === 'showMore' ? this.showLess : this.showMore
+        );
       }
-    })
+    });
   }
 
   showMoreList(element, limit) {
@@ -61,8 +74,8 @@ class ShowMore {
   }
 
   appendControlList(element, limit) {
-    element.addEventListener('click', e => {
-      const className = e.target.className;
+    element.addEventListener('click', (e) => {
+      const { className } = e.target;
       if (className === 'showMore' || className === 'showLess') {
         element.classList.toggle('is-open');
         const isOpen = e.currentTarget.classList.contains('is-open');
@@ -71,10 +84,8 @@ class ShowMore {
         for (let i = 0; i < elements.length; i++) {
           if (isOpen) {
             elements[i].classList.remove('hidden');
-          } else {
-            if (i >= limit && i < elements.length - 1) {
-              elements[i].classList.add('hidden');
-            }
+          } else if (i >= limit && i < elements.length - 1) {
+            elements[i].classList.add('hidden');
           }
         }
 
@@ -86,7 +97,7 @@ class ShowMore {
 
         element.appendChild(li);
       }
-    })
+    });
   }
 }
 
