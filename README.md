@@ -2,9 +2,9 @@
 
 This plugin provide functionality to append show-more controls to DOM-elements that are either text or lists.
 
-### Libe demo
+### Demo
 
-[Live DEMO](https://tomik23.github.io/show-more/)
+[https://tomik23.github.io/show-more/](https://tomik23.github.io/show-more/)
 
 ## Clone the repo and install dependencies
 ```bash
