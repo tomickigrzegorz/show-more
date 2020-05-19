@@ -1,8 +1,12 @@
 class ShowMore {
   constructor(options) {
+    const { type, more, less } = options.show;
     this.className = `.${options.class}`;
-    this.showMore = ` <span class="showMore">${options.more}</span>`;
-    this.showLess = ` <span class="showLess">${options.less}</span>`;
+    this.type = type || 'span';
+    this.more = more;
+    this.more = less;
+    this.showMore = ` <span class="showMore">${more}</span>`;
+    this.showLess = ` <span class="showLess">${less}</span>`;
     this.render();
   }
 
@@ -18,6 +22,9 @@ class ShowMore {
           break;
         case 'list':
           this.showMoreList(elements[i], limit);
+          break;
+        case 'table':
+          this.showMoreTable(elements[i], limit);
           break;
         default:
           break;
@@ -38,9 +45,11 @@ class ShowMore {
         0,
         Math.min(truncatedText.length, truncatedText.lastIndexOf(' '))
       );
-
       element.innerHTML = truncatedText;
-      element.insertAdjacentHTML('beforeend', this.showMore);
+
+      const el = this.createElement(this.type);
+      el.insertAdjacentHTML('beforeend', this.showMore);
+      element.appendChild(el);
 
       this.appendControlsText(element, originalText, truncatedText);
     }
@@ -54,10 +63,13 @@ class ShowMore {
 
         e.currentTarget.innerHTML =
           className === 'showMore' ? originalText : truncatedText.replace(/(\r\n|\n|\r)/gm, '');
-        e.currentTarget.insertAdjacentHTML(
+
+        const el = document.createElement(this.type);
+        el.insertAdjacentHTML(
           'beforeend',
           className === 'showMore' ? this.showLess : this.showMore
         );
+        e.currentTarget.appendChild(el);
       }
     });
   }
@@ -70,9 +82,9 @@ class ShowMore {
           elements[i].classList.add('hidden');
         }
       }
-      const li = document.createElement('li');
-      li.insertAdjacentHTML('beforeend', this.showMore);
-      element.appendChild(li);
+      const el = this.createElement(this.type);
+      el.insertAdjacentHTML('beforeend', this.showMore);
+      element.appendChild(el);
 
       this.appendControlList(element, limit);
     }
@@ -97,12 +109,74 @@ class ShowMore {
         const last = elements[elements.length - 1];
         last.parentNode.removeChild(last);
 
-        const li = document.createElement('li');
-        li.insertAdjacentHTML('beforeend', isOpen ? this.showLess : this.showMore);
+        const el = this.createElement(this.type);
+        el.insertAdjacentHTML('beforeend', isOpen ? this.showLess : this.showMore);
 
-        element.appendChild(li);
+        element.appendChild(el);
       }
     });
+  }
+
+  showMoreTable(element, limit) {
+    const { rows } = element.tBodies[0];
+
+    if (rows.length > limit) {
+      for (let i = 0; i < rows.length; i++) {
+        if (i >= limit) {
+          rows[i].classList.add('hidden');
+        }
+      }
+
+      const tfoot = this.createElement('tfoot');
+      const tr = this.createElement('tr');
+      const th = this.createElement('th');
+      tfoot.appendChild(tr);
+      th.colSpan = this.getTableColumnCount(element);
+      tr.appendChild(th);
+
+      th.insertAdjacentHTML('beforeend', this.showMore);
+      element.appendChild(tfoot);
+    }
+    this.appendControlsTable(element, limit);
+  }
+
+  appendControlsTable(element, limit) {
+    element.addEventListener('click', (e) => {
+      const { className } = e.target;
+      const { rows } = element.tBodies[0];
+      if (className === 'showMore') {
+        e.target.innerHTML = '';
+        for (let i = 0; i < rows.length; i++) {
+          rows[i].classList.remove('hidden');
+        }
+        e.target.insertAdjacentHTML('beforeend', this.showLess);
+      }
+      if (className === 'showLess') {
+        e.target.innerHTML = '';
+        for (let i = 0; i < rows.length; i++) {
+          if (i >= limit) {
+            rows[i].classList.add('hidden');
+          }
+        }
+        e.target.insertAdjacentHTML('beforeend', this.showMore);
+      }
+    });
+  }
+
+  createElement(element) {
+    return document.createElement(element);
+  }
+
+  getTableColumnCount(table) {
+    let columnCount = 0;
+    const { rows } = table;
+    if (rows.length > 0) {
+      const { cells } = rows[0];
+      for (let i = 0, len = cells.length; i < len; ++i) {
+        columnCount += cells[i].colSpan;
+      }
+    }
+    return columnCount;
   }
 }
 
