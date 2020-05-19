@@ -10,8 +10,8 @@ class ShowMore {
     const elements = document.querySelectorAll(this.className);
 
     for (let i = 0; i < elements.length; i++) {
-      const { type } = elements[i].dataset;
-      const limit = Number(elements[i].dataset.number);
+      const type = elements[i].getAttribute('data-type');
+      const limit = Number(elements[i].getAttribute('data-number'));
 
       const text = this.showMoreText(elements[i], limit);
       const list = this.showMoreList(elements[i], limit);
