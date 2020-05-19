@@ -10,13 +10,18 @@ class ShowMore {
     const elements = document.querySelectorAll(this.className);
 
     for (let i = 0; i < elements.length; i++) {
-      const type = elements[i].getAttribute('data-type');
       const limit = Number(elements[i].getAttribute('data-number'));
-
-      const text = this.showMoreText(elements[i], limit);
-      const list = this.showMoreList(elements[i], limit);
-      // eslint-disable-next-line no-unused-expressions
-      type === 'text' ? text : list;
+      const type = elements[i].getAttribute('data-type');
+      switch (type) {
+        case 'text':
+          this.showMoreText(elements[i], limit);
+          break;
+        case 'list':
+          this.showMoreList(elements[i], limit);
+          break;
+        default:
+          break;
+      }
     }
   }
 

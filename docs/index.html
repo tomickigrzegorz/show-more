@@ -57,6 +57,17 @@
     .showLess:hover {
       color: red;
     }
+
+    .display-inline {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      list-style: none;
+    }
+
+    .display-inline li+li {
+      margin-left: 10px;
+    }
   </style>
 </head>
 
@@ -108,12 +119,12 @@
     </ul>
 
 
-    <ul class="show-list" data-type="list" data-number="3">
-      <li>item 1</li>
-      <li>item 2</li>
-      <li>item 3</li>
-      <li>item 4</li>
-      <li>item 5</li>
+    <ul class="display-inline" data-type="list" data-number="3">
+      <li>item 1,</li>
+      <li>item 2,</li>
+      <li>item 3,</li>
+      <li>item 4,</li>
+      <li>item 5,</li>
       <li>item 6</li>
     </ul>
 
@@ -131,6 +142,12 @@
         class: 'show-list',
         more: ' &#8681; show more',
         less: ' &#8679; show less'
+      })
+
+      new ShowMore({
+        class: 'display-inline',
+        more: ' &#187; show more',
+        less: ' &#8249; show less'
       })
     });
   </script>
