@@ -23,7 +23,7 @@ export default {
         { src: 'sources/index.html', dest: 'docs/' }
       ]
     }),
-    (PRODUCTION && del({ targets: 'docs/*'})),
+    (PRODUCTION && del({ targets: 'docs/*' })),
     (!PRODUCTION && serve({ open: true, contentBase: 'docs' })),
     (!PRODUCTION && livereload())
   ]

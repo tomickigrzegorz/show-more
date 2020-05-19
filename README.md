@@ -18,17 +18,17 @@ npm i
 Watch the app, just call:
 
 ```bash
-yarn watch
+yarn dev
 # or
-npm run watch
+npm run dev
 ```
 
 Build app:
 
 ```bash
-yarn build
+yarn prod
 # or
-npm run build
+npm run prod
 ```
 
 ## Configuration of the plugin
@@ -47,18 +47,30 @@ For list:
 </ul>
 ```
 
+For table:
+```html
+<table class="show-table" data-type="table" data-number="2">
+```
+> Important, the table must contain the tbody element. [See example](https://tomik23.github.io/show-more/)
+
 ```javascript
 document.addEventListener('DOMContentLoaded', function() {
   new ShowMore({
     class: 'show-more',
-    more: ' | Show more',
-    less: ' | Show less'
+     show: {
+        type: 'span',
+        more: ' | Show more',
+        less: ' | Show less'
+     }
   });
 
   new ShowMore({
     class: 'show-list',
-    more: ' &#8681; show more',
-    less: ' &#8679; show less'
+     show: {
+        type: 'li',
+        more: ' &#8681; show more',
+        less: ' &#8679; show less'
+     }
   })
 
 });
