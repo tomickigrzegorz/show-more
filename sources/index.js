@@ -16,42 +16,71 @@ class ShowMore {
     for (let i = 0; i < elements.length; i++) {
       const limit = Number(elements[i].getAttribute('data-number'));
       const type = elements[i].getAttribute('data-type');
-      switch (type) {
-        case 'text':
-          this.showMoreText(elements[i], limit);
-          break;
-        case 'list':
-          this.showMoreList(elements[i], limit);
-          break;
-        case 'table':
-          this.showMoreTable(elements[i], limit);
-          break;
-        default:
-          break;
-      }
+      this.showMoreLess(type, elements[i], limit);
     }
   }
 
-  showMoreText(element, limit) {
-    const originalText = element.innerHTML;
-    let truncatedText = '';
-    const differenceBetweenHTMLaTEXT =
-      originalText.replace(/(\r\n|\n|\r)/gm, '').length -
-      element.innerText.replace(/(\r\n|\n|\r)/gm, '').length;
+  showMoreLess(type, element, limit) {
+    if (type === 'text') {
+      const originalText = element.innerHTML;
+      let truncatedText = '';
+      const differenceBetweenHTMLaTEXT =
+        originalText.replace(/(\r\n|\n|\r)/gm, '').length -
+        element.innerText.replace(/(\r\n|\n|\r)/gm, '').length;
 
-    if (originalText.length > limit) {
-      truncatedText = originalText.substr(0, limit + differenceBetweenHTMLaTEXT);
-      truncatedText = truncatedText.substr(
-        0,
-        Math.min(truncatedText.length, truncatedText.lastIndexOf(' '))
-      );
-      element.innerHTML = truncatedText;
+      if (originalText.length > limit) {
+        truncatedText = originalText.substr(0, limit + differenceBetweenHTMLaTEXT);
+        truncatedText = truncatedText.substr(
+          0,
+          Math.min(truncatedText.length, truncatedText.lastIndexOf(' '))
+        );
+        element.innerHTML = truncatedText;
 
-      const el = this.createElement(this.type);
-      el.insertAdjacentHTML('beforeend', this.showMore);
-      element.appendChild(el);
+        const el = this.createElement(this.type);
+        el.insertAdjacentHTML('beforeend', this.showMore);
+        element.appendChild(el);
 
-      this.appendControlsText(element, originalText, truncatedText);
+        this.appendControlsText(element, originalText, truncatedText);
+      }
+    }
+
+    if (type === 'list') {
+      const elements = [].slice.call(element.children);
+      if (elements.length > limit) {
+        for (let i = 0; i < elements.length; i++) {
+          if (i >= limit) {
+            elements[i].classList.add('hidden');
+          }
+        }
+        const el = this.createElement(this.type);
+        el.insertAdjacentHTML('beforeend', this.showMore);
+        element.appendChild(el);
+
+        this.appendControlList(element, limit);
+      }
+    }
+
+    if (type === 'table') {
+      const { rows } = element.tBodies[0];
+
+      if (rows.length > limit) {
+        for (let i = 0; i < rows.length; i++) {
+          if (i >= limit) {
+            rows[i].classList.add('hidden');
+          }
+        }
+
+        const tfoot = this.createElement('tfoot');
+        const tr = this.createElement('tr');
+        const th = this.createElement('th');
+        tfoot.appendChild(tr);
+        th.colSpan = this.getTableColumnCount(element);
+        tr.appendChild(th);
+
+        th.insertAdjacentHTML('beforeend', this.showMore);
+        element.appendChild(tfoot);
+      }
+      this.appendControlsTable(element, limit);
     }
   }
 
@@ -60,7 +89,6 @@ class ShowMore {
       const { className } = e.target;
       if (className === 'showMore' || className === 'showLess') {
         e.currentTarget.innerHTML = '';
-
         e.currentTarget.innerHTML =
           className === 'showMore' ? originalText : truncatedText.replace(/(\r\n|\n|\r)/gm, '');
 
@@ -72,22 +100,6 @@ class ShowMore {
         e.currentTarget.appendChild(el);
       }
     });
-  }
-
-  showMoreList(element, limit) {
-    const elements = [].slice.call(element.children);
-    if (elements.length > limit) {
-      for (let i = 0; i < elements.length; i++) {
-        if (i >= limit) {
-          elements[i].classList.add('hidden');
-        }
-      }
-      const el = this.createElement(this.type);
-      el.insertAdjacentHTML('beforeend', this.showMore);
-      element.appendChild(el);
-
-      this.appendControlList(element, limit);
-    }
   }
 
   appendControlList(element, limit) {
@@ -117,29 +129,6 @@ class ShowMore {
     });
   }
 
-  showMoreTable(element, limit) {
-    const { rows } = element.tBodies[0];
-
-    if (rows.length > limit) {
-      for (let i = 0; i < rows.length; i++) {
-        if (i >= limit) {
-          rows[i].classList.add('hidden');
-        }
-      }
-
-      const tfoot = this.createElement('tfoot');
-      const tr = this.createElement('tr');
-      const th = this.createElement('th');
-      tfoot.appendChild(tr);
-      th.colSpan = this.getTableColumnCount(element);
-      tr.appendChild(th);
-
-      th.insertAdjacentHTML('beforeend', this.showMore);
-      element.appendChild(tfoot);
-    }
-    this.appendControlsTable(element, limit);
-  }
-
   appendControlsTable(element, limit) {
     element.addEventListener('click', (e) => {
       const { className } = e.target;
@@ -153,10 +142,8 @@ class ShowMore {
       }
       if (className === 'showLess') {
         e.target.innerHTML = '';
-        for (let i = 0; i < rows.length; i++) {
-          if (i >= limit) {
-            rows[i].classList.add('hidden');
-          }
+        for (let i = limit; i < rows.length; i++) {
+          rows[i].classList.add('hidden');
         }
         e.target.insertAdjacentHTML('beforeend', this.showMore);
       }

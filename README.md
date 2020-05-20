@@ -1,6 +1,8 @@
 ## Show More/Less
 
-This plugin provide functionality to append show-more controls to DOM-elements that are either text or lists.
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+
+JavaScript library that truncates text, list or table by chars, elements or row and shows/hides text blocks, elements or table row with Show More and Show Less.
 
 ### Demo
 
@@ -53,6 +55,12 @@ For table:
 ```
 > Important, the table must contain the tbody element. [See example](https://tomik23.github.io/show-more/)
 
+| element | description |
+|--------------- |-------------|
+| `data-type` | we have three type after which it will be hidden [text, list or table] |
+| `data-number` | "text" after how many characters will appear "show more/less", "list" after how many elements, eg in ul will show "show more/less", "table" after how many entries in tbody will appear "show more/less" |
+
+
 ```javascript
 document.addEventListener('DOMContentLoaded', function() {
   new ShowMore({
@@ -76,8 +84,11 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 ```
 
-`class` - name of the class after which we want to add support for showing / hiding text or list,
- `more` and `less` is the text that appears after the text or list.
+| element | description |
+|----------|-------------|
+| `class` | name of the class after which we want to add support for showing / hiding text or list |
+| `type` | on the parameter we will create an html element and put in the text "show more/less" |
+| `more/less` | is the text and chars that appears after the text, list or table e.g. `> show more` and  `< show less` |
 
 
 ## Browsers support
