@@ -2,11 +2,12 @@ class ShowMore {
   constructor(options) {
     const { type, more, less } = options.show;
     this.className = `.${options.class}`;
-    this.type = type || 'span';
+    this.typeElement = type || 'span';
     this.more = more;
     this.more = less;
     this.showMore = ` <span class="showMore">${more}</span>`;
     this.showLess = ` <span class="showLess">${less}</span>`;
+    this.regex = /(\r\n|\n|\r)/gm;
     this.render();
   }
 
@@ -14,19 +15,20 @@ class ShowMore {
     const elements = document.querySelectorAll(this.className);
 
     for (let i = 0; i < elements.length; i++) {
-      const limit = Number(elements[i].getAttribute('data-number'));
-      const type = elements[i].getAttribute('data-type');
-      this.showMoreLess(type, elements[i], limit);
+      const dataLimit = elements[i].getAttribute('data-number');
+      const dataType = elements[i].getAttribute('data-type');
+      this.init(dataType, elements[i], Number(dataLimit));
     }
   }
 
-  showMoreLess(type, element, limit) {
+  init(type, element, limit) {
     if (type === 'text') {
       const originalText = element.innerHTML;
+
       let truncatedText = '';
       const differenceBetweenHTMLaTEXT =
-        originalText.replace(/(\r\n|\n|\r)/gm, '').length -
-        element.innerText.replace(/(\r\n|\n|\r)/gm, '').length;
+        originalText.replace(this.regex, ' ').length -
+        element.innerText.replace(this.regex, ' ').length;
 
       if (originalText.length > limit) {
         truncatedText = originalText.substr(0, limit + differenceBetweenHTMLaTEXT);
@@ -34,29 +36,28 @@ class ShowMore {
           0,
           Math.min(truncatedText.length, truncatedText.lastIndexOf(' '))
         );
+
         element.innerHTML = truncatedText;
 
-        const el = this.createElement(this.type);
-        el.insertAdjacentHTML('beforeend', this.showMore);
+        const el = this.createElement(this.typeElement);
+        this.insertAdHTML(el, this.showMore);
         element.appendChild(el);
 
-        this.appendControlsText(element, originalText, truncatedText);
+        this.appendControls({ type, element, originalText, truncatedText });
       }
     }
 
     if (type === 'list') {
       const elements = [].slice.call(element.children);
       if (elements.length > limit) {
-        for (let i = 0; i < elements.length; i++) {
-          if (i >= limit) {
-            elements[i].classList.add('hidden');
-          }
+        for (let i = limit; i < elements.length; i++) {
+          elements[i].classList.add('hidden');
         }
-        const el = this.createElement(this.type);
-        el.insertAdjacentHTML('beforeend', this.showMore);
+        const el = this.createElement(this.typeElement);
+        this.insertAdHTML(el, this.showMore);
         element.appendChild(el);
 
-        this.appendControlList(element, limit);
+        this.appendControls({ type, element, limit });
       }
     }
 
@@ -64,90 +65,86 @@ class ShowMore {
       const { rows } = element.tBodies[0];
 
       if (rows.length > limit) {
-        for (let i = 0; i < rows.length; i++) {
-          if (i >= limit) {
-            rows[i].classList.add('hidden');
-          }
+        for (let i = limit; i < rows.length; i++) {
+          rows[i].classList.add('hidden');
         }
 
         const tfoot = this.createElement('tfoot');
         const tr = this.createElement('tr');
-        const th = this.createElement('th');
+        const td = this.createElement('td');
         tfoot.appendChild(tr);
-        th.colSpan = this.getTableColumnCount(element);
-        tr.appendChild(th);
+        td.colSpan = this.getTableColumnCount(element);
+        tr.appendChild(td);
 
-        th.insertAdjacentHTML('beforeend', this.showMore);
+        this.insertAdHTML(td, this.showMore);
         element.appendChild(tfoot);
       }
-      this.appendControlsTable(element, limit);
+      this.appendControls({ type, element, limit });
     }
   }
 
-  appendControlsText(element, originalText, truncatedText) {
-    element.addEventListener('click', (e) => {
-      const { className } = e.target;
-      if (className === 'showMore' || className === 'showLess') {
-        e.currentTarget.innerHTML = '';
-        e.currentTarget.innerHTML =
-          className === 'showMore' ? originalText : truncatedText.replace(/(\r\n|\n|\r)/gm, '');
+  appendControls({ type, element, limit, originalText, truncatedText }) {
+    element.addEventListener('click', ({ currentTarget, target }) => {
+      const { className } = target;
+      if (type === 'text') {
+        if (className === 'showMore' || className === 'showLess') {
+          currentTarget.innerHTML = '';
+          currentTarget.innerHTML =
+            className === 'showMore' ? originalText : truncatedText.replace(this.regex, ' ');
 
-        const el = document.createElement(this.type);
-        el.insertAdjacentHTML(
-          'beforeend',
-          className === 'showMore' ? this.showLess : this.showMore
-        );
-        e.currentTarget.appendChild(el);
+          const el = document.createElement(this.typeElement);
+          this.insertAdHTML(el, className === 'showMore' ? this.showLess : this.showMore);
+          currentTarget.appendChild(el);
+        }
       }
-    });
-  }
 
-  appendControlList(element, limit) {
-    element.addEventListener('click', (e) => {
-      const { className } = e.target;
-      if (className === 'showMore' || className === 'showLess') {
-        element.classList.toggle('is-open');
-        const isOpen = e.currentTarget.classList.contains('is-open');
-        const elements = [].slice.call(e.currentTarget.children);
+      if (type === 'list') {
+        if (className === 'showMore' || className === 'showLess') {
+          element.classList.toggle('expanded');
+          const isOpen = currentTarget.classList.contains('expanded');
+          const elements = [].slice.call(currentTarget.children);
 
-        for (let i = 0; i < elements.length; i++) {
-          if (isOpen) {
-            elements[i].classList.remove('hidden');
-          } else if (i >= limit && i < elements.length - 1) {
-            elements[i].classList.add('hidden');
+          for (let i = 0; i < elements.length; i++) {
+            if (isOpen) {
+              elements[i].classList.remove('hidden');
+            } else if (i >= limit && i < elements.length - 1) {
+              elements[i].classList.add('hidden');
+            }
           }
+
+          const lastElement = elements[elements.length - 1];
+          lastElement.parentNode.removeChild(lastElement);
+
+          const el = this.createElement(this.typeElement);
+          this.insertAdHTML(el, isOpen ? this.showLess : this.showMore);
+
+          element.appendChild(el);
         }
+      }
 
-        const last = elements[elements.length - 1];
-        last.parentNode.removeChild(last);
-
-        const el = this.createElement(this.type);
-        el.insertAdjacentHTML('beforeend', isOpen ? this.showLess : this.showMore);
-
-        element.appendChild(el);
+      if (type === 'table') {
+        const { rows } = element.tBodies[0];
+        const targetParent = target.parentNode;
+        if (className === 'showMore') {
+          targetParent.innerHTML = '';
+          for (let i = 0; i < rows.length; i++) {
+            rows[i].classList.remove('hidden');
+          }
+          this.insertAdHTML(targetParent, this.showLess);
+        }
+        if (className === 'showLess') {
+          targetParent.innerHTML = '';
+          for (let i = limit; i < rows.length; i++) {
+            rows[i].classList.add('hidden');
+          }
+          this.insertAdHTML(targetParent, this.showMore);
+        }
       }
     });
   }
 
-  appendControlsTable(element, limit) {
-    element.addEventListener('click', (e) => {
-      const { className } = e.target;
-      const { rows } = element.tBodies[0];
-      if (className === 'showMore') {
-        e.target.innerHTML = '';
-        for (let i = 0; i < rows.length; i++) {
-          rows[i].classList.remove('hidden');
-        }
-        e.target.insertAdjacentHTML('beforeend', this.showLess);
-      }
-      if (className === 'showLess') {
-        e.target.innerHTML = '';
-        for (let i = limit; i < rows.length; i++) {
-          rows[i].classList.add('hidden');
-        }
-        e.target.insertAdjacentHTML('beforeend', this.showMore);
-      }
-    });
+  insertAdHTML(target, more) {
+    return target.insertAdjacentHTML('beforeend', more);
   }
 
   createElement(element) {
