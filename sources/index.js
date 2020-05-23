@@ -151,7 +151,8 @@ class ShowMore {
   getTableColumnCount(table) {
     let columnCount = 0;
     const { rows } = table;
-    if (table.length > 0) {
+
+    if (rows.length > 0) {
       const { cells } = rows[0];
       for (let i = 0, len = cells.length; i < len; ++i) {
         columnCount += cells[i].colSpan;
