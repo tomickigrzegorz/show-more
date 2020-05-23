@@ -1,12 +1,9 @@
 class ShowMore {
   constructor(options) {
-    const { type, more, less } = options.show;
     this.className = `.${options.class}`;
-    this.typeElement = type || 'span';
-    this.more = more;
-    this.more = less;
-    this.showMore = ` <span class="showMore">${more}</span>`;
-    this.showLess = ` <span class="showLess">${less}</span>`;
+    this.typeElement = options.show.type || 'span';
+    this.showMore = ` <span class="showMore">${options.show.more}</span>`;
+    this.showLess = ` <span class="showLess">${options.show.less}</span>`;
     this.regex = /(\r\n|\n|\r)/gm;
     this.render();
   }
@@ -17,7 +14,7 @@ class ShowMore {
     for (let i = 0; i < elements.length; i++) {
       const dataLimit = elements[i].getAttribute('data-number');
       const dataType = elements[i].getAttribute('data-type');
-      this.init(dataType, elements[i], Number(dataLimit));
+      this.init(dataType, elements[i], +dataLimit);
     }
   }
 
@@ -40,7 +37,7 @@ class ShowMore {
         element.innerHTML = truncatedText;
 
         const el = this.createElement(this.typeElement);
-        this.insertAdHTML(el, this.showMore);
+        this.insertHTML(el, this.showMore);
         element.appendChild(el);
 
         this.appendControls({ type, element, originalText, truncatedText });
@@ -54,7 +51,7 @@ class ShowMore {
           elements[i].classList.add('hidden');
         }
         const el = this.createElement(this.typeElement);
-        this.insertAdHTML(el, this.showMore);
+        this.insertHTML(el, this.showMore);
         element.appendChild(el);
 
         this.appendControls({ type, element, limit });
@@ -76,7 +73,7 @@ class ShowMore {
         td.colSpan = this.getTableColumnCount(element);
         tr.appendChild(td);
 
-        this.insertAdHTML(td, this.showMore);
+        this.insertHTML(td, this.showMore);
         element.appendChild(tfoot);
       }
       this.appendControls({ type, element, limit });
@@ -93,7 +90,7 @@ class ShowMore {
             className === 'showMore' ? originalText : truncatedText.replace(this.regex, ' ');
 
           const el = document.createElement(this.typeElement);
-          this.insertAdHTML(el, className === 'showMore' ? this.showLess : this.showMore);
+          this.insertHTML(el, className === 'showMore' ? this.showLess : this.showMore);
           currentTarget.appendChild(el);
         }
       }
@@ -116,7 +113,7 @@ class ShowMore {
           lastElement.parentNode.removeChild(lastElement);
 
           const el = this.createElement(this.typeElement);
-          this.insertAdHTML(el, isOpen ? this.showLess : this.showMore);
+          this.insertHTML(el, isOpen ? this.showLess : this.showMore);
 
           element.appendChild(el);
         }
@@ -130,20 +127,20 @@ class ShowMore {
           for (let i = 0; i < rows.length; i++) {
             rows[i].classList.remove('hidden');
           }
-          this.insertAdHTML(targetParent, this.showLess);
+          this.insertHTML(targetParent, this.showLess);
         }
         if (className === 'showLess') {
           targetParent.innerHTML = '';
           for (let i = limit; i < rows.length; i++) {
             rows[i].classList.add('hidden');
           }
-          this.insertAdHTML(targetParent, this.showMore);
+          this.insertHTML(targetParent, this.showMore);
         }
       }
     });
   }
 
-  insertAdHTML(target, more) {
+  insertHTML(target, more) {
     return target.insertAdjacentHTML('beforeend', more);
   }
 
@@ -154,7 +151,7 @@ class ShowMore {
   getTableColumnCount(table) {
     let columnCount = 0;
     const { rows } = table;
-    if (rows.length > 0) {
+    if (table.length > 0) {
       const { cells } = rows[0];
       for (let i = 0, len = cells.length; i < len; ++i) {
         columnCount += cells[i].colSpan;
