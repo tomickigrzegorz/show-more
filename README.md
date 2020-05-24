@@ -58,7 +58,7 @@ For table:
 | element | description |
 |--------------- |-------------|
 | `data-type` | we have three type after which it will be hidden [text, list or table] |
-| `data-number` | "text" after how many characters will appear "show more/less",<br/> "list" after how many elements, eg in ul will show "show more/less",<br /> "table" after how many entries in tbody will appear "show more/less" |
+| `data-number` | `text` after how many characters to hide the text and insert `show more/less`<br />`list` or `table` after how many elements/rows hide the rest and insert `show more/less` |
 
 
 ```javascript
@@ -97,8 +97,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 | element | description |
 |----------|-------------|
-| `class` | name of the class after which we want to add support for showing / hiding text, list or table |
-| `type` | on the parameter we will create an html element and put in the text "show more/less" |
+| `class` | name of the class after which we want to add support for showing/hiding text, list or table |
+| `type` | on the parameter we will create an html element and put in the text `show more/less` |
 | `more/less` | is the text and chars that appears after the text, list or table e.g. `> show more` and  `< show less` |
 
 
