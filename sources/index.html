@@ -76,7 +76,7 @@
 
       <section>
         <h2>Table more/less rows</h2>
-        <table class="show-table" data-type="table" data-number="3">
+        <table class="show-table" data-type="table" data-number="4">
           <thead>
             <tr>
               <th>ONE</th>
@@ -86,31 +86,38 @@
           </thead>
           <tbody>
             <tr>
-              <td>item 1</td>
-              <td>item 2</td>
-              <td>item 3</td>
+              <td>1</td>
+              <td>2</td>
+              <td>3</td>
             </tr>
             <tr>
-              <td>item 4</td>
-              <td>item 5</td>
-              <td>item 6</td>
+              <td>4</td>
+              <td>5</td>
+              <td>6</td>
             </tr>
             <tr>
-              <td>item 7</td>
-              <td>item 8</td>
-              <td>item 9</td>
+              <td>7</td>
+              <td>8</td>
+              <td>9</td>
             </tr>
             <tr>
-              <td>item 10</td>
-              <td>item 11</td>
-              <td>item 12</td>
+              <td>10</td>
+              <td>11</td>
+              <td>12</td>
             </tr>
             <tr>
-              <td>item 13</td>
-              <td>item 14</td>
-              <td>item 15</td>
+              <td>13</td>
+              <td>14</td>
+              <td>15</td>
             </tr>
           </tbody>
+          <tfoot>
+            <tr>
+              <td> = 35</td>
+              <td> = 40</td>
+              <td> = 45</td>
+            </tr>
+          </tfoot>
         </table>
       </section>
 
@@ -138,7 +145,7 @@
         new ShowMore({
           class: 'show-list',
           show: {
-            type: 'div',
+            type: 'li',
             more: ' &#8595; show more',
             less: ' &#8593; less'
           }
@@ -147,6 +154,7 @@
         new ShowMore({
           class: 'display-inline',
           show: {
+            type: 'li',
             more: ' &#8594; show more',
             less: ' &#8592; less'
           }
