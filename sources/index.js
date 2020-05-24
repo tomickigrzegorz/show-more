@@ -6,7 +6,7 @@ class ShowMore {
     this.less = options.show.less;
     this.showMore = `<span class="showMore showMoreButton">${options.show.more}</span>`;
     this.showLess = `<span class="showLess showMoreButton">${options.show.less}</span>`;
-    this.regex = /(\r\n|\n|\r)/gm;
+    this.regex = /(\r\n|\n|\r|\s\s+)/gm;
     this.render();
   }
 
@@ -15,12 +15,13 @@ class ShowMore {
 
     for (let i = 0; i < elements.length; i++) {
       const dataLimit = elements[i].getAttribute('data-number');
+      const dataLimitAfter = elements[i].getAttribute('data-after');
       const dataType = elements[i].getAttribute('data-type');
-      this.init(dataType, elements[i], +dataLimit);
+      this.init(dataType, elements[i], +dataLimit, +dataLimitAfter);
     }
   }
 
-  init(type, element, limit) {
+  init(type, element, limit, after) {
     element.setAttribute('aria-expanded', 'false');
 
     if (type === 'text') {
@@ -31,12 +32,17 @@ class ShowMore {
         originalText.replace(this.regex, ' ').length -
         element.innerText.replace(this.regex, ' ').length;
 
-      if (originalText.length > limit) {
-        truncatedText = originalText.substr(0, limit + differenceBetweenHTMLaTEXT);
+      const limitCounts = limit + after;
+      if (originalText.length > limitCounts) {
+        truncatedText = originalText
+          .replace(this.regex, ' ')
+          .substr(0, after || limitCounts + differenceBetweenHTMLaTEXT);
         truncatedText = truncatedText.substr(
           0,
           Math.min(truncatedText.length, truncatedText.lastIndexOf(' '))
         );
+
+        // console.log(after, differenceBetweenHTMLaTEXT, truncatedText, originalText);
 
         element.innerHTML = truncatedText;
 
