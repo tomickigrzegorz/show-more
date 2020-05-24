@@ -38,6 +38,7 @@ npm run prod
 For text:
 ```html
 <div class="show-more" data-type="text" data-number="80">
+  Lorem ipsum, dolor ...
   ...
 </div>
 ```
@@ -45,13 +46,26 @@ For text:
 For list:
 ```html
 <ul class="show-list" data-type="list" data-number="5">
+  <li>Import win</li>
   ...
 </ul>
+<!-- or -->
+<ol class="show-list" data-type="list" data-number="5">
+  <li>Import win</li>
+  ...
+</ol>
+<!-- or -->
+<div class="show-list" data-type="list" data-number="5">
+  <a href="#">Administracja biur</a>
+  ...
+</div>
 ```
 
 For table:
 ```html
 <table class="show-table" data-type="table" data-number="2">
+  ...
+</table>
 ```
 | element | description |
 |--------------- |-------------|
