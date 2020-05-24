@@ -42,8 +42,6 @@ class ShowMore {
           Math.min(truncatedText.length, truncatedText.lastIndexOf(' '))
         );
 
-        // console.log(after, differenceBetweenHTMLaTEXT, truncatedText, originalText);
-
         element.innerHTML = truncatedText;
 
         this.appendControls({ type, element, originalText, truncatedText });
