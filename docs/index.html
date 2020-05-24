@@ -26,7 +26,7 @@
           Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.</div>
 
         <details>
-          <summary>Show code</summary>
+          <summary>Show html code</summary>
           <pre>
             <code class="language-html">
 &lt;div class=&quot;show-more&quot; data-type=&quot;text&quot; data-number=&quot;120&quot;&gt;
@@ -35,7 +35,20 @@
             </code>
           </pre>
         </details>
-
+        <details>
+          <summary>Show js code</summary>
+          <pre>
+            <code class="language-js">
+new ShowMore({
+  class: 'show-more',
+  show: {
+    more: ' ... Show more',
+    less: ' Less'
+  }
+});
+            </code>
+          </pre>
+        </details>
       </section>
 
       <section>
@@ -46,7 +59,7 @@
           making it</div>
 
         <details>
-          <summary>Show code</summary>
+          <summary>Show html code</summary>
           <pre>
               <code class="language-html">
 &lt;div class=&quot;show-more&quot; data-type=&quot;text&quot; data-number=&quot;120&quot;&gt;
@@ -55,7 +68,21 @@
               </code>
             </pre>
         </details>
-
+        <details>
+          <summary>Show js code</summary>
+          <pre>
+            <code class="language-js">
+new ShowMore({
+  class: 'show-more-div',
+  show: {
+    type: 'div',
+    more: ' &#8595; Show more',
+    less: ' &#8593; Less'
+  }
+});
+            </code>
+          </pre>
+        </details>
       </section>
 
       <section>
@@ -74,7 +101,7 @@
         </ul>
 
         <details>
-          <summary>Show code</summary>
+          <summary>Show html code</summary>
           <pre>
               <code class="language-html">
 &lt;ul class=&quot;show-list&quot; data-type=&quot;list&quot; data-number=&quot;5&quot;&gt;
@@ -92,7 +119,21 @@
               </code>
             </pre>
         </details>
-
+        <details>
+          <summary>Show js code</summary>
+          <pre>
+            <code class="language-js">
+new ShowMore({
+  class: 'show-list',
+  show: {
+    type: 'li',
+    more: ' &#8595; show more',
+    less: ' &#8593; less'
+  }
+})
+            </code>
+          </pre>
+        </details>
       </section>
 
       <section>
@@ -106,7 +147,7 @@
           <li>Hurtownie elektryczne</li>
         </ul>
         <details>
-          <summary>Show code</summary>
+          <summary>Show html code</summary>
           <pre>
             <code class="language-html">
 &lt;ul class=&quot;display-inline&quot; data-type=&quot;list&quot; data-number=&quot;3&quot;&gt;
@@ -119,6 +160,21 @@
 &lt;/ul&gt;
               </code>
             </pre>
+        </details>
+        <details>
+          <summary>Show js code</summary>
+          <pre>
+            <code class="language-js">
+new ShowMore({
+  class: 'display-inline',
+  show: {
+    type: 'li',
+    more: ' &#8594; show more',
+    less: ' &#8592; less'
+  }
+})
+            </code>
+          </pre>
         </details>
       </section>
 
@@ -136,7 +192,7 @@
           <a href="#">Żegluga</a>
         </div>
         <details>
-          <summary>Show code</summary>
+          <summary>Show html code</summary>
           <pre>
             <code class="language-html">
 &lt;div class=&quot;show-links&quot; data-type=&quot;list&quot; data-number=&quot;5&quot;&gt;
@@ -152,6 +208,21 @@
 &lt;/div&gt;
               </code>
             </pre>
+        </details>
+        <details>
+          <summary>Show js code</summary>
+          <pre>
+            <code class="language-js">
+new ShowMore({
+  class: 'show-links',
+  show: {
+    type: 'div',
+    more: ' &#8595; show more',
+    less: ' &#8593; less'
+  }
+})
+            </code>
+          </pre>
         </details>
       </section>
 
@@ -201,7 +272,7 @@
           </tfoot>
         </table>
         <details>
-          <summary>Show code</summary>
+          <summary>Show html code</summary>
           <pre>
             <code class="language-html">
 &lt;table class=&quot;show-table&quot; data-type=&quot;table&quot; data-number=&quot;4&quot;&gt;
@@ -247,6 +318,20 @@
       &lt;/tr&gt;
     &lt;/tfoot&gt;
 &lt;/table&gt;
+            </code>
+          </pre>
+        </details>
+        <details>
+          <summary>Show js code</summary>
+          <pre>
+            <code class="language-js">
+new ShowMore({
+  class: 'show-table',
+  show: {
+    more: ' &#8595; show more',
+    less: ' &#8593; less'
+  }
+})
             </code>
           </pre>
         </details>
@@ -304,7 +389,6 @@
         new ShowMore({
           class: 'show-table',
           show: {
-            type: 'div',
             more: ' &#8595; show more',
             less: ' &#8593; less'
           }
