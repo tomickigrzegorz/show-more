@@ -71,7 +71,7 @@ For table:
 |--------------- |-------------|
 | `data-type` | we have three type after which it will be hidden [text, list or table] |
 | `data-number` | `text` after how many characters to hide the text and insert `show more/less`<br />`list` or `table` after how many elements/rows hide the rest and insert `show more/less` |
-| `data-after` | this parameter allows you to set how much text should be after the `show more/less button`.<br />Let's say we have 20 records with text and we determine that the text is to be trimmed after 100 characters in each record, it may happen that in several records the text is very short and has 110 characters, so `show more/less` will appear after 100 characters and after clicking an additional 10 characters, it will look funny. To prevent this, we add the `data-after="50"` parameter, which means that the hidden text must be at least 50 characters. Otherwise, `show more/less` will not appear. |
+| `data-after` | this parameter allows you to set how much text should be after the `show more/less button`.<br />Let's say we have 20 records with text and we determine that the text is to be trimmed after 100<br />characters in each record, it may happen that in several records the text is very short and has<br />110 characters, so `show more/less` will appear after 100 characters and after clicking an<br />additional 10 characters, it will look funny. To prevent this, we add the `data-after="50"`<br />parameter, which means that the hidden text must be at least 50 characters. Otherwise,<br />`show more/less` will not appear. |
 
 > Number of records counted in the table `tr` based on all `tr` of `thead`, `tbody` and `tfoot`
 
