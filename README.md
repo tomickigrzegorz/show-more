@@ -60,6 +60,7 @@ For table:
 | `data-type` | we have three type after which it will be hidden [text, list or table] |
 | `data-number` | `text` after how many characters to hide the text and insert `show more/less`<br />`list` or `table` after how many elements/rows hide the rest and insert `show more/less` |
 
+> Number of records counted in the table `tr` based on all `tr` of `thead`, `tbody` and `tfoot`
 
 ```javascript
 document.addEventListener('DOMContentLoaded', function() {
