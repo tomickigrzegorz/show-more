@@ -53,8 +53,6 @@ For table:
 ```html
 <table class="show-table" data-type="table" data-number="2">
 ```
-> Important, the table must contain the tbody element. [See example](https://tomik23.github.io/show-more/)
-
 | element | description |
 |--------------- |-------------|
 | `data-type` | we have three type after which it will be hidden [text, list or table] |
