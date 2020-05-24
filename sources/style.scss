@@ -90,3 +90,17 @@ tfoot th {
   font-weight: normal;
   text-align: left;
 }
+
+details {
+  font-size: 16px;
+  margin-top: 20px;
+
+  summary {
+    cursor: pointer;
+  }
+
+  pre {
+    margin-top: -10px;
+    margin-bottom: -50px;
+  }
+}
