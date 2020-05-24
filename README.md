@@ -81,8 +81,8 @@ document.addEventListener('DOMContentLoaded', function() {
     class: 'show-more',
      show: {
         type: 'span',
-        more: ' | Show more',
-        less: ' | Show less'
+        more: 'Show more',
+        less: 'Show less'
      }
   });
 
@@ -91,8 +91,8 @@ document.addEventListener('DOMContentLoaded', function() {
     class: 'show-list',
      show: {
         type: 'li',
-        more: ' &#8595; show more',
-        less: ' &#8593; show less'
+        more: '&#8595; show more',
+        less: '&#8593; show less'
      }
   })
 
@@ -100,8 +100,8 @@ document.addEventListener('DOMContentLoaded', function() {
   new ShowMore({
     class: 'show-table',
      show: {
-        more: ' &#8595; show more',
-        less: ' &#8593; show less'
+        more: '&#8595; show more',
+        less: '&#8593; show less'
      }
   })
 
