@@ -4,8 +4,8 @@ class ShowMore {
     this.typeElement = options.show.type || 'span';
     this.more = options.show.more;
     this.less = options.show.less;
-    this.showMore = ` <span class="showMore showMoreButton">${options.show.more}</span>`;
-    this.showLess = ` <span class="showLess showMoreButton">${options.show.less}</span>`;
+    this.showMore = `<span class="showMore showMoreButton">${options.show.more}</span>`;
+    this.showLess = `<span class="showLess showMoreButton">${options.show.less}</span>`;
     this.regex = /(\r\n|\n|\r)/gm;
     this.render();
   }
