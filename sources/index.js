@@ -6,7 +6,7 @@ class ShowMore {
     this.less = options.show.less;
     this.showMore = `<span class="showMore showMoreButton">${options.show.more}</span>`;
     this.showLess = `<span class="showLess showMoreButton">${options.show.less}</span>`;
-    this.regex = /(\r\n|\n|\r|\s\s+)/gm;
+    this.regex = /^\s*[\r\n]?/gm;
     this.render();
   }
 
@@ -30,13 +30,12 @@ class ShowMore {
 
       let truncatedText = '';
       const differenceBetweenHTMLaTEXT =
-        originalText.replace(this.regex, ' ').length -
-        element.innerText.replace(this.regex, ' ').length;
+        originalText.replace(this.regex, '').length -
+        element.innerText.replace(this.regex, '').length;
 
-
-      if (originalText.length > limitCounts) {
+      if (element.innerText.length > limitCounts) {
         truncatedText = originalText
-          .replace(this.regex, ' ')
+          .replace(this.regex, '')
           .substr(0, limit + differenceBetweenHTMLaTEXT);
         truncatedText = truncatedText.substr(
           0,
