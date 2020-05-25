@@ -26,17 +26,18 @@ class ShowMore {
 
     if (type === 'text') {
       const originalText = element.innerHTML;
+      const limitCounts = limit + after;
 
       let truncatedText = '';
       const differenceBetweenHTMLaTEXT =
         originalText.replace(this.regex, ' ').length -
         element.innerText.replace(this.regex, ' ').length;
 
-      const limitCounts = limit + after;
+
       if (originalText.length > limitCounts) {
         truncatedText = originalText
           .replace(this.regex, ' ')
-          .substr(0, after || limitCounts + differenceBetweenHTMLaTEXT);
+          .substr(0, limit + differenceBetweenHTMLaTEXT);
         truncatedText = truncatedText.substr(
           0,
           Math.min(truncatedText.length, truncatedText.lastIndexOf(' '))
