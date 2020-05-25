@@ -105,3 +105,8 @@ details {
     margin-bottom: -50px;
   }
 }
+
+
+html[data-useragent*='IE'] details {
+  display: none;
+}

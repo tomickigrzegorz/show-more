@@ -431,6 +431,12 @@ new ShowMore({
           }
         })
       });
+
+      if (navigator.userAgent.indexOf('MSIE') !== -1 || navigator.appVersion.indexOf('Trident/') > -1) {
+        var doc = document.documentElement;
+        doc.setAttribute('data-useragent', 'IE');
+      }
+
     </script>
   </body>
 
