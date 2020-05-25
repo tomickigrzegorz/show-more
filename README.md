@@ -82,8 +82,8 @@ document.addEventListener('DOMContentLoaded', function() {
     class: 'your-class',
      show: {
         type: 'span', // parameter not required
-        more: ' → show more',
-        less: ' ← less'
+        more: ' → show more', // text before expanding 
+        less: ' ← less' // expanded text
      }
   });
 });
