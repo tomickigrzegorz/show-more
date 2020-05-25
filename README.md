@@ -37,7 +37,7 @@ npm run prod
 
 For text:
 ```html
-<div class="show-more" data-type="text" data-number="80" data-after="30">
+<div class="your-class" data-type="text" data-number="80" data-after="30">
   Lorem ipsum, dolor ...
   ...
 </div>
@@ -45,17 +45,17 @@ For text:
 
 For list:
 ```html
-<ul class="show-list" data-type="list" data-number="5" >
+<ul class="your-class" data-type="list" data-number="5" >
   <li>Import win</li>
   ...
 </ul>
 <!-- or -->
-<ol class="show-list" data-type="list" data-number="5">
+<ol class="your-class" data-type="list" data-number="5">
   <li>Import win</li>
   ...
 </ol>
 <!-- or -->
-<div class="show-list" data-type="list" data-number="5">
+<div class="your-class" data-type="list" data-number="5">
   <a href="#">Administracja biur</a>
   ...
 </div>
@@ -63,7 +63,7 @@ For list:
 
 For table:
 ```html
-<table class="show-table" data-type="table" data-number="2">
+<table class="your-class" data-type="table" data-number="2">
   ...
 </table>
 ```
@@ -77,35 +77,15 @@ For table:
 
 ```javascript
 document.addEventListener('DOMContentLoaded', function() {
-  // text
+  // text, table, list, elelemnts
   new ShowMore({
-    class: 'show-more',
+    class: 'your-class',
      show: {
-        type: 'span',
-        more: 'Show more',
-        less: 'Show less'
+        type: 'span', // parameter not required
+        more: ' → show more',
+        less: ' ← less'
      }
   });
-
-  // li or inline elements
-  new ShowMore({
-    class: 'show-list',
-     show: {
-        type: 'li',
-        more: '&#8595; show more',
-        less: '&#8593; show less'
-     }
-  })
-
-  // table
-  new ShowMore({
-    class: 'show-table',
-     show: {
-        more: '&#8595; show more',
-        less: '&#8593; show less'
-     }
-  })
-
 });
 ```
 
