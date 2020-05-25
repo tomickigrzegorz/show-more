@@ -16,27 +16,29 @@
     <div class="container">
       <section>
         <h3>More text - without data-after, cut after 120 characters</h3>
-        <div class="show-more" data-type="text" data-number="120">It is a long established fact that a reader will be
+        <div class="show-more-long" data-type="text" data-number="120">It is a long established fact that a reader will
+          be
           distracted by the readable content of a page when looking at its layout.</div>
         <details>
           <summary>Show html code</summary>
           <pre>
             <code code class="language-html">
-&lt;div class=&quot;show-more&quot; data-type=&quot;text&quot; data-number=&quot;120&quot; &gt;
+&lt;div class=&quot;show-more-long&quot; data-type=&quot;text&quot; data-number=&quot;120&quot; &gt;
   It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.
 &lt;/div&gt;
             </code>
           </pre>
         </details>
         <h3>More text - from data-after="50", prevent cutting after 120 characters</h3>
-        <div class="show-more" data-type="text" data-number="120" data-after="50">It is a long established fact that a
+        <div class="show-more-long" data-type="text" data-number="120" data-after="50">It is a long established fact
+          that a
           reader will be distracted by the
           readable content of a page when looking at its layout.</div>
         <details>
           <summary>Show html code</summary>
           <pre>
           <code class="language-html">
-&lt;div class=&quot;show-more&quot; data-type=&quot;text&quot; data-number=&quot;120&quot; data-after=&quot;50&quot;&gt;
+&lt;div class=&quot;show-more-long&quot; data-type=&quot;text&quot; data-number=&quot;120&quot; data-after=&quot;50&quot;&gt;
   It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.
 &lt;/div&gt;
           </code>
@@ -45,7 +47,8 @@
       </section>
       <section>
         <h2>More text</h2>
-        <div class="show-more" data-type="text" data-number="120" data-after="50"><strong>Contrary to popular belief,
+        <div class="show-more-long" data-type="text" data-number="120" data-after="50"><strong>Contrary to popular
+            belief,
             Lorem Ipsum is not simply random text</strong>. It has roots in a piece of classical Latin literature from
           45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in
           Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going
@@ -58,7 +61,7 @@
           <summary>Show html code</summary>
           <pre>
             <code class="language-html">
-&lt;div class=&quot;show-more&quot; data-type=&quot;text&quot; data-number=&quot;120&quot; data-after=&quot;50&quot;&gt;
+&lt;div class=&quot;show-more-long&quot; data-type=&quot;text&quot; data-number=&quot;120&quot; data-after=&quot;50&quot;&gt;
   &lt;strong&gt;Contrary to popular belief, Lorem Ipsum is not simply random text&lt;/strong&gt;. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (&lt;b&gt;The Extremes of Good and Evil&lt;/b&gt;) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.
 &lt;/div&gt;
             </code>
@@ -69,10 +72,10 @@
           <pre>
             <code class="language-js">
 new ShowMore({
-  class: 'show-more',
+  class: 'show-more-long',
   show: {
-    more: '... Show more',
-    less: 'Less'
+    more: ' &#8594; show more',
+    less: ' &#8592; less'
   }
 });
             </code>
@@ -103,8 +106,8 @@ new ShowMore({
   class: 'show-more-div',
   show: {
     type: 'div',
-    more: '&#8595; Show more',
-    less: '&#8593; Less'
+    more: '&#8595; show more',
+    less: '&#8593; less'
   }
 });
             </code>
@@ -371,8 +374,8 @@ new ShowMore({
         new ShowMore({
           class: 'show-more',
           show: {
-            more: '... Show more',
-            less: 'Less'
+            more: '... show more',
+            less: 'less'
           }
         });
 
@@ -380,10 +383,18 @@ new ShowMore({
           class: 'show-more-div',
           show: {
             type: 'div',
-            more: '&#8595; Show more',
-            less: '&#8593; Less'
+            more: '&#8595; show more',
+            less: '&#8593; less'
           }
         });
+
+        new ShowMore({
+          class: 'show-more-long',
+          show: {
+            more: ' &#8594; show more',
+            less: ' &#8592; less'
+          }
+        })
 
         new ShowMore({
           class: 'show-list',
