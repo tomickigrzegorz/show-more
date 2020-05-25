@@ -148,19 +148,6 @@ class ShowMore {
     element.setAttribute('aria-expanded', type);
     target.innerHTML = button;
   }
-
-  getTableColumnCount(table) {
-    let columnCount = 0;
-    const { rows } = table;
-
-    if (rows.length > 0) {
-      const { cells } = rows[0];
-      for (let i = 0, len = cells.length; i < len; ++i) {
-        columnCount += cells[i].colSpan;
-      }
-    }
-    return columnCount;
-  }
 }
 
 export default ShowMore;
