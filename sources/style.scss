@@ -18,17 +18,15 @@ body {
   line-height: 150%;
 }
 
+a {
+  position: relative;
+  display: inline-block;
+}
+
 ul {
   padding: 0;
   margin: 0;
   list-style-position: inside;
-}
-
-.container {
-  max-width: 600px;
-  width: 100%;
-  min-height: 100%;
-  padding: 0 20px;
 }
 
 section {
@@ -38,37 +36,6 @@ section {
     border-top: 1px solid rgb(219, 219, 219);
   }
 }
-
-.show-more {
-  margin: auto;
-}
-
-.hidden {
-  display: none;
-}
-
-.showMore,
-.showLess {
-  cursor: pointer;
-  color: #0095e5;
-  white-space: nowrap;
-
-  &:hover {
-    color: red;
-  }
-}
-
-.display-inline {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  list-style: none;
-
-  li {
-    margin-right: 10px;
-  }
-}
-
 
 table {
   border-collapse: collapse;
@@ -106,6 +73,64 @@ details {
   }
 }
 
+.container {
+  max-width: 600px;
+  width: 100%;
+  min-height: 100%;
+  padding: 0 20px;
+}
+
+.show-more {
+  margin: auto;
+}
+
+.hidden {
+  display: none;
+}
+
+.showMore,
+.showLess {
+  cursor: pointer;
+  color: #0095e5;
+  white-space: nowrap;
+
+  &:hover {
+    color: red;
+  }
+}
+
+.display-inline {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  list-style: none;
+
+  li {
+    margin-right: 10px;
+  }
+}
+
+.show-links {
+  a {
+    text-decoration: none;
+    margin-right: 5px;
+
+    &:after {
+      content: '';
+      display: block;
+      margin: auto;
+      height: 2px;
+      width: 0;
+      background-color: transparent;
+      transition: width .5s ease, background-color .5s ease;
+    }
+
+    &:hover:after {
+      width: 100%;
+      background-color: #e50000;
+    }
+  }
+}
 
 html[data-useragent*='IE'] details {
   display: none;
