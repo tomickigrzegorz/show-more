@@ -81,7 +81,7 @@ document.addEventListener('DOMContentLoaded', function() {
   new ShowMore({
     class: 'your-class',
      show: {
-        type: 'span', // parameter not required
+        type: 'span', // [div, li, a, ...] parameter not required
         more: ' → show more', // text before expanding 
         less: ' ← less' // expanded text
      }
