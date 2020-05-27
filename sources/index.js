@@ -24,10 +24,9 @@ class ShowMore {
   init(type, element, limit, after) {
     element.setAttribute('aria-expanded', 'false');
     const limitCounts = limit + after;
+
     if (type === 'text') {
       const originalText = element.innerHTML;
-      // const limitCounts = limit + after;
-
       let truncatedText = '';
       const differenceBetweenHTMLaTEXT =
         originalText.replace(this.regex, '').length -

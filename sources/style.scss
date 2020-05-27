@@ -30,10 +30,10 @@ ul {
 }
 
 section {
-  padding: 30px 0 20px;
+  padding: 30px 0 50px;
 
   &+section {
-    border-top: 1px solid rgb(219, 219, 219);
+    border-top: 1px solid #dbdbdb;
   }
 }
 
@@ -57,20 +57,6 @@ tbody tr:nth-child(odd) {
 tfoot th {
   font-weight: normal;
   text-align: left;
-}
-
-details {
-  font-size: 16px;
-  margin-top: 20px;
-
-  summary {
-    cursor: pointer;
-  }
-
-  pre {
-    margin-top: -10px;
-    margin-bottom: -50px;
-  }
 }
 
 .container {
@@ -132,6 +118,55 @@ details {
   }
 }
 
-html[data-useragent*='IE'] details {
+.example {
+  position: relative;
+  display: block;
+  margin: 10px auto;
+
+  h5 {
+    position: relative;
+    cursor: pointer;
+    padding: 2px 2px 2px 25px;
+    margin: 0;
+
+    &:before {
+      position: absolute;
+      content: "\27A4";
+      left: 0;
+      top: 1px;
+      transition: transform .2s ease-in-out;
+    }
+  }
+
+  pre {
+    overflow: auto;
+    margin: -20px auto -60px auto;
+    padding: 0;
+
+    code {
+      line-height: 130%;
+      padding: 0 .5em 0 1em;
+    }
+  }
+}
+
+.open {
+  &:focus {
+    outline: 1px dashed red;
+  }
+
+  h5 {
+    &::before {
+      transform: rotate(90deg);
+    }
+  }
+
+  pre {
+    display: block;
+  }
+}
+
+
+html[data-useragent*='IE'] .example {
   display: none;
 }
