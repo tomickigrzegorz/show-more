@@ -80,13 +80,10 @@ For table:
 ```javascript
 document.addEventListener('DOMContentLoaded', function() {
   // text, table, list, elelemnts
-  new ShowMore({
-    class: 'your-class',
-     show: {
-        type: 'span', // [div, li, a, ...] parameter not required
-        more: ' → show more', // text before expanding 
-        less: ' ← less' // expanded text
-     }
+  new ShowMore('.your-class', {
+    type: 'span', // [div, li, a, ...] parameter not required
+    more: ' → show more', // text before expanding 
+    less: ' ← less' // expanded text
   });
 });
 ```

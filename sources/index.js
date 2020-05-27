@@ -1,11 +1,11 @@
 class ShowMore {
-  constructor(options) {
-    this.className = `.${options.class}`;
-    this.typeElement = options.show.type || 'span';
-    this.more = options.show.more;
-    this.less = options.show.less;
-    this.showMore = `<span class="showMore showMoreButton">${options.show.more}</span>`;
-    this.showLess = `<span class="showLess showMoreButton">${options.show.less}</span>`;
+  constructor(className, { type, more, less }) {
+    this.className = className;
+    this.typeElement = type || 'span';
+    this.more = more;
+    this.less = less;
+    this.showMore = `<span class="showMore showMoreButton">${more}</span>`;
+    this.showLess = `<span class="showLess showMoreButton">${less}</span>`;
     this.regex = /^\s*[\r\n]?/gm;
     this.render();
   }

@@ -67,12 +67,9 @@
           <h5>Show js</h5>
           <pre class="hidden">
             <code class="language-js">
-new ShowMore({
-  class: 'show-more-long',
-  show: {
-    more: ' &#8594; show more',
-    less: ' &#8592; less'
-  }
+new ShowMore('.show-more-long', {
+  more: ' &#8594; show more',
+  less: ' &#8592; less'
 });
             </code>
           </pre>
@@ -96,13 +93,10 @@ new ShowMore({
           <h5>Show js</h5>
           <pre class="hidden">
             <code class="language-js">
-new ShowMore({
-  class: 'show-more-div',
-  show: {
-    type: 'div',
-    more: '&#8595; show more',
-    less: '&#8593; less'
-  }
+new ShowMore('.show-more-div', {
+  type: 'div',
+  more: '&#8595; show more',
+  less: '&#8593; less'
 });
             </code>
           </pre>
@@ -133,13 +127,10 @@ new ShowMore({
           <h5>Show js</h5>
           <pre class="hidden">
             <code class="language-js">
-new ShowMore({
-  class: 'show-list',
-  show: {
-    type: 'li',
-    more: '&#8595; show more',
-    less: '&#8593; less'
-  }
+new ShowMore('.show-list', {
+  type: 'li',
+  more: '&#8595; show more',
+  less: '&#8593; less'
 })
             </code>
           </pre>
@@ -166,13 +157,10 @@ new ShowMore({
           <h5>Show js</h5>
           <pre class="hidden">
             <code class="language-js">
-new ShowMore({
-  class: 'display-inline',
-  show: {
-    type: 'li',
-    more: '&#8594; show more',
-    less: '&#8592; less'
-  }
+new ShowMore('.display-inline', {
+  type: 'li',
+  more: '&#8594; show more',
+  less: '&#8592; less'
 })
             </code>
           </pre>
@@ -202,13 +190,10 @@ new ShowMore({
           <h5>Show js</h5>
           <pre class="hidden">
             <code class="language-js">
-new ShowMore({
-  class: 'show-links',
-  show: {
-    type: 'div',
-    more: '&#8595; show more',
-    less: '&#8593; less'
-  }
+new ShowMore('.show-links', {
+  type: 'div',
+  more: '&#8595; show more',
+  less: '&#8593; less'
 })
             </code>
           </pre>
@@ -270,12 +255,9 @@ new ShowMore({
           <h5>Show js</h5>
           <pre class="hidden">
             <code class="language-js">
-new ShowMore({
-  class: 'show-table',
-  show: {
-    more: '&#8595; show more',
-    less: '&#8593; less'
-  }
+new ShowMore('.show-table', {
+  more: '&#8595; show more',
+  less: '&#8593; less'
 })
             </code>
           </pre>
@@ -287,64 +269,43 @@ new ShowMore({
     <script>hljs.initHighlightingOnLoad();</script>
     <script>
       document.addEventListener('DOMContentLoaded', function () {
-        new ShowMore({
-          class: 'show-more',
-          show: {
-            more: '... show more',
-            less: 'less'
-          }
-        });
-
-        new ShowMore({
-          class: 'show-more-div',
-          show: {
-            type: 'div',
-            more: '&#8595; show more',
-            less: '&#8593; less'
-          }
-        });
-
-        new ShowMore({
-          class: 'show-more-long',
-          show: {
-            more: ' &#8594; show more',
-            less: ' &#8592; less'
-          }
+        new ShowMore('.show-more', {
+          more: '... show more',
+          less: 'less'
         })
 
-        new ShowMore({
-          class: 'show-list',
-          show: {
-            type: 'li',
-            more: '&#8595; show more',
-            less: '&#8593; less'
-          }
+        new ShowMore('.show-more-div', {
+          type: 'div',
+          more: '&#8595; show more',
+          less: '&#8593; less'
         })
 
-        new ShowMore({
-          class: 'display-inline',
-          show: {
-            type: 'li',
-            more: '&#8594; show more',
-            less: '&#8592; less'
-          }
+        new ShowMore('.show-more-long', {
+          more: ' &#8594; show more',
+          less: ' &#8592; less'
         })
 
-        new ShowMore({
-          class: 'show-links',
-          show: {
-            type: 'div',
-            more: '&#8595; show more',
-            less: '&#8593; less'
-          }
+        new ShowMore('.show-list', {
+          type: 'li',
+          more: '&#8595; show more',
+          less: '&#8593; less'
         })
 
-        new ShowMore({
-          class: 'show-table',
-          show: {
-            more: '&#8595; show more',
-            less: '&#8593; less'
-          }
+        new ShowMore('.display-inline', {
+          type: 'li',
+          more: '&#8594; show more',
+          less: '&#8592; less'
+        })
+
+        new ShowMore('.show-links', {
+          type: 'div',
+          more: '&#8595; show more',
+          less: '&#8593; less'
+        })
+
+        new ShowMore('.show-table', {
+          more: '&#8595; show more',
+          less: '&#8593; less'
         })
       });
 
