@@ -23,10 +23,10 @@ class ShowMore {
 
   init(type, element, limit, after) {
     element.setAttribute('aria-expanded', 'false');
-
+    const limitCounts = limit + after;
     if (type === 'text') {
       const originalText = element.innerHTML;
-      const limitCounts = limit + after;
+      // const limitCounts = limit + after;
 
       let truncatedText = '';
       const differenceBetweenHTMLaTEXT =
@@ -50,7 +50,7 @@ class ShowMore {
 
     if (type === 'list') {
       const elements = [].slice.call(element.children);
-      if (elements.length > limit) {
+      if (elements.length > limitCounts) {
         for (let i = limit; i < elements.length; i++) {
           elements[i].classList.add('hidden');
         }
@@ -60,12 +60,12 @@ class ShowMore {
 
     if (type === 'table') {
       const { rows } = element;
-      if (rows.length > limit) {
+      if (rows.length > limitCounts) {
         for (let i = limit; i < rows.length; i++) {
           rows[i].classList.add('hidden');
         }
+        this.appendControls({ type, element, limit });
       }
-      this.appendControls({ type, element, limit });
     }
   }
 
