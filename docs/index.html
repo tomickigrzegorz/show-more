@@ -364,7 +364,7 @@ new ShowMore({
       var sections = document.querySelectorAll('section');
       for (var i = 0; i < sections.length; i++) {
         var element = sections[i].children;
-        var htmlCode = element[1].cloneNode(true).outerHTML.replace(/        /gm, '');
+        var htmlCode = element[1].cloneNode(true).outerHTML.replace(/^\s{1,8}/gm, '');
 
         var htmlConverter = htmlCode.replace(/[\u00A0-\u9999<>\\&]/gim, function (i) {
           return `&#${i.charCodeAt(0)};`;
