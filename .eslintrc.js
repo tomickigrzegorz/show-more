@@ -23,11 +23,6 @@ module.exports = {
                 "endOfLine": "auto"
             }
         ],
-        "quotes": [2, "duble"],
-        "linebreak-style": [
-            "error",
-            "windows"
-        ],
         "class-methods-use-this": "off",
         "quotes": [
             "error",
