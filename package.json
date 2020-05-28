@@ -1,10 +1,10 @@
 {
   "name": "show-more",
-  "version": "1.0.2",
+  "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
   "author": "Grzegorz Tomicki",
-  "description": "This plugin provide functionality to append show-more controls to DOM-elements that are either text, lists or table.",
+  "description": "JavaScript library that truncates text, list or table by chars, elements or row and shows/hides text blocks, elements or table row with Show More and Show Less.",
   "homepage": "https://github.com/tomik23/show-more#readme",
   "repository": {
     "type": "git",
@@ -13,10 +13,11 @@
   "keywords": [
     "show-more/less",
     "text",
-    "list",
+    "lists",
+    "tables",
+    "elements",
     "display-inlne",
-    "block",
-    "table"
+    "block"
   ],
   "scripts": {
     "dev": "concurrently \"yarn sass:dev\" \"yarn watch\"",
