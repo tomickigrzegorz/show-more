@@ -269,20 +269,15 @@ new ShowMore('.show-table', {
     <script>hljs.initHighlightingOnLoad();</script>
     <script>
       document.addEventListener('DOMContentLoaded', function () {
-        new ShowMore('.show-more', {
-          more: '... show more',
-          less: 'less'
+        new ShowMore('.show-more-long', {
+          more: ' &#8594; show more',
+          less: ' &#8592; less'
         })
 
         new ShowMore('.show-more-div', {
           type: 'div',
           more: '&#8595; show more',
           less: '&#8593; less'
-        })
-
-        new ShowMore('.show-more-long', {
-          more: ' &#8594; show more',
-          less: ' &#8592; less'
         })
 
         new ShowMore('.show-list', {
@@ -309,7 +304,6 @@ new ShowMore('.show-table', {
         })
       });
 
-
       if (navigator.userAgent.indexOf('MSIE') !== -1 || navigator.appVersion.indexOf('Trident/') > -1) {
         var doc = document.documentElement;
         doc.setAttribute('data-useragent', 'IE');
@@ -318,7 +312,7 @@ new ShowMore('.show-table', {
       var examples = document.querySelectorAll('.example');
       for (var i = 0; i < examples.length; i++) {
         examples[i].addEventListener('click', function (e) {
-          e.currentTarget.classList.toggle('open');
+          e.target.parentNode.classList.toggle('open');
         });
       }
 
