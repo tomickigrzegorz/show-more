@@ -59,6 +59,10 @@ tfoot th {
   text-align: left;
 }
 
+html[data-useragent*="IE"] .example {
+  display: none;
+}
+
 .container {
   max-width: 600px;
   width: 100%;
@@ -66,24 +70,6 @@ tfoot th {
   padding: 0 20px;
 }
 
-.show-more {
-  margin: auto;
-}
-
-.hidden {
-  display: none;
-}
-
-.showMore,
-.showLess {
-  cursor: pointer;
-  color: #0095e5;
-  white-space: nowrap;
-
-  &:hover {
-    color: red;
-  }
-}
 
 .display-inline {
   display: flex;
@@ -96,7 +82,7 @@ tfoot th {
   }
 }
 
-.show-links {
+.links-style {
   a {
     text-decoration: none;
     margin-right: 5px;
@@ -163,9 +149,4 @@ tfoot th {
   pre {
     display: block;
   }
-}
-
-
-html[data-useragent*='IE'] .example {
-  display: none;
 }
