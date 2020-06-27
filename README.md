@@ -33,40 +33,68 @@ yarn prod
 npm run prod
 ```
 
-## Configuration of the plugin
+## How to use it
 
-For text:
+### Add css and js library to html
+
 ```html
-<div class="your-class" data-type="text" data-number="80" data-after="30">
+<link rel="stylesheet" href="style.css">
+<script src="showMore.min.js"></script>
+```
+
+### For text:
+```html
+<div class="example-text" data-type="text" data-number="80" data-after="30">
   Lorem ipsum, dolor ...
   ...
 </div>
 ```
 
-For list:
+```js
+new ShowMore('.example-text', {
+  more: ' → show more',
+  less: ' ← less'
+});
+```
+
+### For list:
 ```html
-<ul class="your-class" data-type="list" data-number="5" data-after="3">
-  <li>Import win</li>
+<ul class="example-list" data-type="list" data-number="5" data-after="3">
+  <li>Import item 1</li>
+  <li>Import item 2</li>
   ...
 </ul>
-<!-- or -->
-<ol class="your-class" data-type="list" data-number="5" data-after="3">
-  <li>Import win</li>
-  ...
-</ol>
-<!-- or -->
-<div class="your-class" data-type="list" data-number="5" data-after="3">
-  <a href="#">Administracja biur</a>
+```
+```html
+<div class="example-list" data-type="list" data-number="5" data-after="3">
+  <a href="#">item 1</a>
+  <a href="#">item 2</a>
   ...
 </div>
 ```
 
-For table:
+```js
+new ShowMore('.example-list', {
+  type: 'li',
+  more: ' → show more',
+  less: ' ← less'
+});
+```
+
+### For table:
 ```html
-<table class="your-class" data-type="table" data-number="2" data-after="3">
+<table class="example-table" data-type="table" data-number="2" data-after="3">
   ...
 </table>
 ```
+
+```js
+new ShowMore('.example-table', {
+  more: ' → show more',
+  less: ' ← less'
+});
+```
+
 | element | description |
 |--------------- |-------------|
 | `data-type` | we have three type after which it will be hidden [text, list or table] |
@@ -90,7 +118,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 | element | description |
 |----------|-------------|
-| `class` | name of the class after which we want to add support for showing/hiding text, list or table |
+| `your-class` | name of the class after which we want to add support for showing/hiding text, list or table |
 | `type` | on the parameter we will create an html element and put in the text `show more/less` |
 | `more/less` | is the text and chars that appears after the text, list or table e.g. `> show more` and  `< show less` |
 
