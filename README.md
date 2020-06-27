@@ -33,7 +33,7 @@ yarn prod
 npm run prod
 ```
 
-## How to use it
+## How to use it:
 
 ### Add css and js library to html
 
@@ -41,7 +41,7 @@ npm run prod
 <link rel="stylesheet" href="style.css">
 <script src="showMore.min.js"></script>
 ```
-
+---
 ### For text:
 ```html
 <div class="example-text" data-type="text" data-number="80" data-after="30">
@@ -56,7 +56,7 @@ new ShowMore('.example-text', {
   less: ' ← less'
 });
 ```
-
+---
 ### For list:
 ```html
 <ul class="example-list" data-type="list" data-number="5" data-after="3">
@@ -65,14 +65,6 @@ new ShowMore('.example-text', {
   ...
 </ul>
 ```
-```html
-<div class="example-list" data-type="list" data-number="5" data-after="3">
-  <a href="#">item 1</a>
-  <a href="#">item 2</a>
-  ...
-</div>
-```
-
 ```js
 new ShowMore('.example-list', {
   type: 'li',
@@ -80,6 +72,22 @@ new ShowMore('.example-list', {
   less: ' ← less'
 });
 ```
+---
+
+```html
+<div class="example-list-b" data-type="list" data-number="5" data-after="3">
+  <a href="#">item 1</a>
+  <a href="#">item 2</a>
+  ...
+</div>
+```
+```js
+new ShowMore('.example-list-b', {
+  more: ' → show more',
+  less: ' ← less'
+});
+```
+---
 
 ### For table:
 ```html
