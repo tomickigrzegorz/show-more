@@ -42,7 +42,7 @@ npm run prod
 <script src="showMore.min.js"></script>
 ```
 ---
-### For text → [live example](https://tomik23.github.io/show-more/#example-text):
+### For text → [live example](https://tomik23.github.io/show-more#example-text):
 ```html
 <div class="example-text" data-type="text" data-number="80" data-after="30">
   Lorem ipsum, dolor ...
@@ -57,7 +57,7 @@ new ShowMore('.example-text', {
 });
 ```
 ---
-### For list → [live example](https://tomik23.github.io/show-more/#example-list):
+### For list → [live example](https://tomik23.github.io/show-more#example-list):
 ```html
 <ul class="example-list" data-type="list" data-number="5" data-after="3">
   <li>Import item 1</li>
@@ -89,7 +89,7 @@ new ShowMore('.example-list-b', {
 ```
 ---
 
-### For table → [live example](https://tomik23.github.io/show-more/#example-table):
+### For table → [live example](https://tomik23.github.io/show-more#example-table):
 ```html
 <table class="example-table" data-type="table" data-number="2" data-after="3">
   ...
