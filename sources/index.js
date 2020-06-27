@@ -4,9 +4,13 @@ class ShowMore {
     this.typeElement = type || 'span';
     this.more = more;
     this.less = less;
-    this.showMore = `<span class="showMore showMoreButton">${more}</span>`;
-    this.showLess = `<span class="showLess showMoreButton">${less}</span>`;
-    this.regex = /^\s*[\r\n]?/gm;
+    this.showMore = `<span class="show-more show-more-button" aria-label="expand" tabindex="0">${more}</span>`;
+    this.showLess = `<span class="show-less show-more-button" aria-label="collapse" tabindex="0">${less}</span>`;
+    this.regex = {
+      newLine: /[^\x20-\x7E]/gm,
+      space: /\s{2,}/gm,
+      br: /<\s*\/?br\s*[/]?>/gm,
+    };
     this.render();
   }
 
@@ -29,12 +33,17 @@ class ShowMore {
       const originalText = element.innerHTML;
       let truncatedText = '';
       const differenceBetweenHTMLaTEXT =
-        originalText.replace(this.regex, '').length -
-        element.innerText.replace(this.regex, '').length;
+        originalText
+          .replace(this.regex.newLine, '')
+          .replace(this.regex.space, ' ')
+          .replace(this.regex.br, '').length -
+        element.innerText.replace(this.regex.newLine, '').length;
 
       if (element.innerText.length > limitCounts) {
         truncatedText = originalText
-          .replace(this.regex, '')
+          .replace(this.regex.newLine, '')
+          .replace(this.regex.space, ' ')
+          .replace(this.regex.br, ' ')
           .substr(0, limit + differenceBetweenHTMLaTEXT);
         truncatedText = truncatedText.substr(
           0,
@@ -88,10 +97,9 @@ class ShowMore {
           : currentTarget.getAttribute('aria-expanded');
 
       if (type === 'text') {
-        if (target.classList.contains('showMoreButton')) {
+        if (target.classList.contains('show-more-button')) {
           element.innerHTML = '';
-          element.innerHTML =
-            ariaExpanded === 'false' ? originalText : truncatedText.replace(this.regex, ' ');
+          element.innerHTML = ariaExpanded === 'false' ? originalText : truncatedText;
 
           const el = document.createElement(this.typeElement);
           el.insertAdjacentHTML(
@@ -100,9 +108,9 @@ class ShowMore {
           );
 
           if (ariaExpanded === 'true') {
-            this.dataExpanded(element, target, this.more, 'false');
+            this.dataExpanded(element, target, this.more, type, false);
           } else {
-            this.dataExpanded(element, target, this.less, 'true');
+            this.dataExpanded(element, target, this.less, type, true);
           }
 
           element.appendChild(el);
@@ -110,17 +118,17 @@ class ShowMore {
       }
 
       if (type === 'list') {
-        if (target.classList.contains('showMoreButton')) {
+        if (target.classList.contains('show-more-button')) {
           const elements = [].slice.call(currentTarget.children);
           for (let i = 0; i < elements.length; i++) {
             if (ariaExpanded === 'false') {
               elements[i].classList.remove('hidden');
-              this.dataExpanded(element, target, this.less, 'true');
+              this.dataExpanded(element, target, this.less, type, true);
             }
 
             if (ariaExpanded === 'true' && i >= limit && i < elements.length - 1) {
               elements[i].classList.add('hidden');
-              this.dataExpanded(element, target, this.more, 'false');
+              this.dataExpanded(element, target, this.more, type, false);
             }
           }
         }
@@ -132,20 +140,24 @@ class ShowMore {
           for (let i = 0; i < rows.length; i++) {
             rows[i].classList.remove('hidden');
           }
-          this.dataExpanded(element, target, this.less, 'true');
+          this.dataExpanded(element, target, this.less, type, true);
         } else {
           for (let i = limit; i < rows.length; i++) {
             rows[i].classList.add('hidden');
           }
-          this.dataExpanded(element, target, this.more, 'false');
+          this.dataExpanded(element, target, this.more, type, false);
         }
       }
     });
   }
 
-  dataExpanded(element, target, button, type) {
-    element.setAttribute('aria-expanded', type);
+  dataExpanded(element, target, button, type, logic) {
+    const ariaLabelText = type === 'table' ? type : `the ${type}`;
+    const expandCollapse = logic ? 'collapse' : 'expand';
+
+    element.setAttribute('aria-expanded', logic);
     target.innerHTML = button;
+    target.setAttribute('aria-label', `${expandCollapse} ${ariaLabelText}`);
   }
 }
 
