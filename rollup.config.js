@@ -1,8 +1,6 @@
-import copy from 'rollup-plugin-copy';
 import serve from 'rollup-plugin-serve';
 import livereload from 'rollup-plugin-livereload';
-import babel from '@rollup/plugin-babel';
-import { terser } from "rollup-plugin-terser";
+import compiler from '@ampproject/rollup-plugin-closure-compiler';
 
 const { PRODUCTION } = process.env;
 
@@ -15,12 +13,15 @@ export default {
     sourcemap: PRODUCTION ? false : true
   },
   plugins: [
-    babel({ exclude: 'node_modules/**' }),
-    terser(),
-    copy({
-      targets: [
-        { src: 'sources/index.html', dest: 'docs/' }
-      ]
+    compiler({
+      languageIn: 'ECMASCRIPT6',
+      language_out: 'ECMASCRIPT5',
+      compilation_level: 'ADVANCED',
+      externs: './sources/externs/externs.js',
+      // compilation_level: 'WHITESPACE_ONLY',
+      // compilation_level: 'SIMPLE',
+      // debug: true,
+      // source_map_format: 'V3'
     }),
     (!PRODUCTION && serve({ open: true, contentBase: 'docs' })),
     (!PRODUCTION && livereload())
