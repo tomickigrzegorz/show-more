@@ -51,7 +51,7 @@ npm run prod
 ```
 
 ```js
-new ShowMore('.example-text', {
+new ShowMore('example-text', {
   more: ' → show more',
   less: ' ← less'
 });
@@ -66,7 +66,7 @@ new ShowMore('.example-text', {
 </ul>
 ```
 ```js
-new ShowMore('.example-list', {
+new ShowMore('example-list', {
   type: 'li',
   more: ' → show more',
   less: ' ← less'
@@ -82,7 +82,7 @@ new ShowMore('.example-list', {
 </div>
 ```
 ```js
-new ShowMore('.example-list-b', {
+new ShowMore('example-list-b', {
   more: ' → show more',
   less: ' ← less'
 });
@@ -97,7 +97,7 @@ new ShowMore('.example-list-b', {
 ```
 
 ```js
-new ShowMore('.example-table', {
+new ShowMore('example-table', {
   more: ' → show more',
   less: ' ← less'
 });
@@ -116,7 +116,7 @@ new ShowMore('.example-table', {
 ```javascript
 document.addEventListener('DOMContentLoaded', function() {
   // text, table, list, elelemnts
-  new ShowMore('.your-class', {
+  new ShowMore('your-class', {
     type: 'span', // [div, li, a, ...] parameter not required
     more: ' → show more', // text before expanding 
     less: ' ← less' // expanded text

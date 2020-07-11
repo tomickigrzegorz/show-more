@@ -15,7 +15,7 @@ class ShowMore {
   }
 
   render() {
-    const elements = document.querySelectorAll(this.className);
+    const elements = document.querySelectorAll(`.${this.className}`);
 
     for (let i = 0; i < elements.length; i++) {
       const dataLimit = elements[i].getAttribute('data-number');

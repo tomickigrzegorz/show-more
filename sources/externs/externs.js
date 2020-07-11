@@ -5,3 +5,4 @@ var less;
 var showMore;
 var showLess;
 var regex = {};
+var ShowMore;
