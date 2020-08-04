@@ -116,6 +116,13 @@ new ShowMore('example-table', {
 });
 ```
 
+### Only expandable 
+```js
+new ShowMore('example-c', {
+  more: ' → show more'
+});
+```
+
 | element | description |
 |--------------- |-------------|
 | `data-type` | we have three type after which it will be hidden [text, list or table] |
