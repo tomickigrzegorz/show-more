@@ -3,7 +3,7 @@ class ShowMore {
     this.className = className;
     this.typeElement = type || 'span';
     this.more = more;
-    this.less = less;
+    this.less = less || '';
     this.showMore = `<span class="show-more show-more-button" aria-label="expand" tabindex="0">${more}</span>`;
     this.showLess = `<span class="show-less show-more-button" aria-label="collapse" tabindex="0">${less}</span>`;
     this.regex = {
@@ -95,17 +95,16 @@ class ShowMore {
         type === 'table'
           ? currentTarget.previousElementSibling.getAttribute('aria-expanded')
           : currentTarget.getAttribute('aria-expanded');
+      let typeLogic;
 
       if (type === 'text') {
         if (target.classList.contains('show-more-button')) {
           element.innerHTML = '';
           element.innerHTML = ariaExpanded === 'false' ? originalText : truncatedText;
 
+          const typeLess = this.less ? this.showLess : '';
           const el = document.createElement(this.typeElement);
-          el.insertAdjacentHTML(
-            'beforeend',
-            ariaExpanded === 'false' ? this.showLess : this.showMore
-          );
+          el.insertAdjacentHTML('beforeend', ariaExpanded === 'false' ? typeLess : this.showMore);
 
           if (ariaExpanded === 'true') {
             this.dataExpanded(element, target, this.more, type, false);
@@ -123,14 +122,15 @@ class ShowMore {
           for (let i = 0; i < elements.length; i++) {
             if (ariaExpanded === 'false') {
               elements[i].classList.remove('hidden');
-              this.dataExpanded(element, target, this.less, type, true);
+              typeLogic = true;
             }
 
             if (ariaExpanded === 'true' && i >= limit && i < elements.length - 1) {
               elements[i].classList.add('hidden');
-              this.dataExpanded(element, target, this.more, type, false);
+              typeLogic = false;
             }
           }
+          this.dataExpanded(element, target, typeLogic ? this.less : this.more, type, typeLogic);
         }
       }
 
@@ -139,14 +139,15 @@ class ShowMore {
         if (ariaExpanded === 'false') {
           for (let i = 0; i < rows.length; i++) {
             rows[i].classList.remove('hidden');
+            typeLogic = true;
           }
-          this.dataExpanded(element, target, this.less, type, true);
         } else {
           for (let i = limit; i < rows.length; i++) {
             rows[i].classList.add('hidden');
+            typeLogic = false;
           }
-          this.dataExpanded(element, target, this.more, type, false);
         }
+        this.dataExpanded(element, target, typeLogic ? this.less : this.more, type, typeLogic);
       }
     });
   }
@@ -154,9 +155,13 @@ class ShowMore {
   dataExpanded(element, target, button, type, logic) {
     const ariaLabelText = type === 'table' ? type : `the ${type}`;
     const expandCollapse = logic ? 'collapse' : 'expand';
+    const lastChildElement = element.lastElementChild;
 
     element.setAttribute('aria-expanded', logic);
-    target.innerHTML = button;
+    target.innerHTML =
+      button || type === 'table'
+        ? target.parentNode.removeChild(target)
+        : lastChildElement.parentNode.removeChild(lastChildElement);
     target.setAttribute('aria-label', `${expandCollapse} ${ariaLabelText}`);
   }
 }

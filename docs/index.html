@@ -264,6 +264,38 @@ new ShowMore('example-6', {
         </div>
       </section>
 
+      <section id="example-element">
+        <h2>Only expandable</h2>
+        <div class="example-7 links-style" data-type="list" data-number="5">
+          <a href="#">Administracja biur,</a>
+          <a href="#">Badanie i uzdatnianie wody,</a>
+          <a href="#">Motele i zajazdy,</a>
+          <a href="#">Narzędziownie,</a>
+          <a href="#">Odchudzanie,</a>
+          <a href="#">Pamiątki i upominki,</a>
+          <a href="#">Silikon,</a>
+          <a href="#">Tapety,</a>
+          <a href="#">Żegluga</a>
+        </div>
+        <iv class="example">
+          <h5>Show html</h5>
+          <pre class="hidden">
+            <code class="language-html"></code>
+            </pre>
+        </iv>
+        <div class="example">
+          <h5>Show js</h5>
+          <pre class="hidden">
+            <code class="language-js">
+new ShowMore('example-7', {
+  type: 'div',
+  more: '&#8595; show more'
+})
+            </code>
+          </pre>
+        </div>
+      </section>
+
     </div>
     <script src="./showMore.min.js"></script>
     <script>hljs.initHighlightingOnLoad();</script>
@@ -301,6 +333,10 @@ new ShowMore('example-6', {
         new ShowMore('example-6', {
           more: '&#8595; show more',
           less: '&#8593; less'
+        })
+
+        new ShowMore('example-7', {
+          more: '&#8595; show more'
         })
       });
 
