@@ -1,6 +1,6 @@
-<h2 align="center">
+<h1 align="center">
   show More/Less
-</h2>
+</h1>
 
 <p align="center">
   JavaScript library that truncates text, list or table by chars, elements or row and shows/hides text blocks, elements or table row with Show More and Show Less.
