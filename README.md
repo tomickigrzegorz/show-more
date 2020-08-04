@@ -1,35 +1,48 @@
-## Show More/Less [live demo](https://tomik23.github.io/show-more/)
+<h3 align="center">
+  show More/Less
+</h3>
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+<p align="center">
+  JavaScript library that truncates text, list or table by chars, elements or row and shows/hides text blocks, elements or table row with Show More and Show Less.
+</p>
 
-JavaScript library that truncates text, list or table by chars, elements or row and shows/hides text blocks, elements or table row with Show More and Show Less.
+<p align="center">
+  <img src="https://img.shields.io/github/package-json/v/tomik23/show-more">
+  <a href="LICENSE">
+    <img src="https://img.shields.io/badge/License-MIT-green.svg">
+  </a>
+</p>
+
+<p align="center">
+  <img src="static/01.png">
+</p>
 
 ## Demo
-
-[https://tomik23.github.io/show-more/](https://tomik23.github.io/show-more/)
+See the demo - [example](https://tomik23.github.io/show-more/)
 
 ## Clone the repo and install dependencies
-```bash
+```js
 git clone
 cd show-more
+
 yarn
-# or
+// or
 npm i
 ```
 ## Watch/Build the app
 Watch the app, just call:
 
-```bash
+```js
 yarn dev
-# or
+// or
 npm run dev
 ```
 
 Build app:
 
-```bash
+```js
 yarn prod
-# or
+// or
 npm run prod
 ```
 
@@ -117,9 +130,17 @@ new ShowMore('example-table', {
 document.addEventListener('DOMContentLoaded', function() {
   // text, table, list, elelemnts
   new ShowMore('your-class', {
-    type: 'span', // [div, li, a, ...] parameter not required
-    more: ' → show more', // text before expanding 
-    less: ' ← less' // expanded text
+
+    // [div, li, a, ...] parameter not required
+    type: 'span',
+
+    // text before expanding 
+    more: ' → show more',
+
+    // expanded text is not required
+    // if it is not set, the element
+    // cannot be collapsed
+    less: ' ← less'
   });
 });
 ```
