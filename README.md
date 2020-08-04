@@ -116,7 +116,7 @@ new ShowMore('example-table', {
 });
 ```
 
-### Only expandable 
+### Only expandable → [live example](https://tomik23.github.io/show-more#onlyexpandable):
 ```js
 new ShowMore('example-c', {
   more: ' → show more'
