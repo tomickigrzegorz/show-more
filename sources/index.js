@@ -3,7 +3,7 @@ class ShowMore {
     this.className = className;
     this.typeElement = type || 'span';
     this.more = more;
-    this.less = less || '';
+    this.less = less || false;
     this.showMore = `<span class="show-more show-more-button" aria-label="expand" tabindex="0">${more}</span>`;
     this.showLess = `<span class="show-less show-more-button" aria-label="collapse" tabindex="0">${less}</span>`;
     this.regex = {
@@ -158,11 +158,17 @@ class ShowMore {
     const lastChildElement = element.lastElementChild;
 
     element.setAttribute('aria-expanded', logic);
-    target.innerHTML =
-      button || type === 'table'
-        ? target.parentNode.removeChild(target)
-        : lastChildElement.parentNode.removeChild(lastChildElement);
     target.setAttribute('aria-label', `${expandCollapse} ${ariaLabelText}`);
+
+    if (button) {
+      target.innerHTML = button;
+    }
+    if (!button && type === 'table') {
+      target.parentNode.removeChild(target);
+    }
+    if (!button && type === 'list') {
+      lastChildElement.parentNode.removeChild(lastChildElement);
+    }
   }
 }
 
