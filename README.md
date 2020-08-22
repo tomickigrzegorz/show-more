@@ -123,7 +123,7 @@ new ShowMore('example-c', {
 });
 ```
 
-### Only expandable → [live example](https://tomik23.github.io/show-more#show-number):
+### Show the number next to the button  → [live example](https://tomik23.github.io/show-more#show-number):
 ```js
 new ShowMore('example-4', {
   more: ' → show more',
