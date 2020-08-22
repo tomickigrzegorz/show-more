@@ -127,6 +127,7 @@ new ShowMore('example-c', {
 ```js
 new ShowMore('example-4', {
   more: ' → show more',
+  less: ' ← less',
   showNumber: true
 });
 ```
