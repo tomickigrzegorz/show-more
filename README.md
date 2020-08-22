@@ -123,6 +123,14 @@ new ShowMore('example-c', {
 });
 ```
 
+### Only expandable → [live example](https://tomik23.github.io/show-more#show-number):
+```js
+new ShowMore('example-4', {
+  more: ' → show more',
+  showNumber: true
+});
+```
+
 | element | description |
 |--------------- |-------------|
 | `data-type` | we have three type after which it will be hidden [text, list or table] |
@@ -147,7 +155,12 @@ document.addEventListener('DOMContentLoaded', function() {
     // expanded text is not required
     // if it is not set, the element
     // cannot be collapsed
-    less: ' ← less'
+    less: ' ← less',
+
+    // Adds a number of hidden items to 
+    // show more/less e.g. '-> show more 3'
+    // only works for list and table
+    showNumber: true
   });
 });
 ```
@@ -157,6 +170,7 @@ document.addEventListener('DOMContentLoaded', function() {
 | `your-class` | name of the class after which we want to add support for showing/hiding text, list or table |
 | `type` | on the parameter we will create an html element and put in the text `show more/less` |
 | `more/less` | is the text and chars that appears after the text, list or table e.g. `> show more` and  `< show less` |
+| `showNumber` | adds a number of hidden items to show more/less e.g. -> show more 3, only works for list and table |
 
 
 ## Browsers support
