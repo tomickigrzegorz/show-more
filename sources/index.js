@@ -92,7 +92,7 @@ class ShowMore {
     btn.className = `show-${elementClass} show-more-button`;
     btn.setAttribute('aria-label', aria);
     btn.setAttribute('tabindex', 0);
-    btn.innerHTML = this.showNumber ? type + this._getNumber(element) : type;
+    btn.innerHTML = this.showNumber ? type + this.getNumber(element) : type;
     return btn;
   }
 
@@ -159,7 +159,7 @@ class ShowMore {
   }
 
   // number of hidden items
-  _getNumber(element) {
+  getNumber(element) {
     const elementType = this.type === 'table' ? element.rows : element.children;
 
     const numbersElementHidden = [].slice
@@ -178,7 +178,7 @@ class ShowMore {
     target.setAttribute('aria-label', `${expandCollapse} ${ariaLabelText}`);
 
     if (button) {
-      target.innerHTML = this.showNumber ? button + this._getNumber(element) : button;
+      target.innerHTML = this.showNumber ? button + this.getNumber(element) : button;
     } else {
       if (this.type === 'table') {
         target.parentNode.removeChild(target);
