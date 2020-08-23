@@ -8,6 +8,7 @@
 
 <p align="center">
   <img src="https://img.shields.io/github/package-json/v/tomik23/show-more">
+  <img src="https://img.shields.io/github/size/tomik23/show-more/docs/showMore.min.js">
   <a href="LICENSE">
     <img src="https://img.shields.io/badge/License-MIT-green.svg">
   </a>
@@ -57,122 +58,73 @@ npm run prod
 ---
 ### For text → [live example](https://tomik23.github.io/show-more#example-text):
 ```html
-<div class="example-text" data-type="text" data-number="80" data-after="30">
+<div class="element" data-config="{ 'type': 'text', 'limit': 120, 'more': '→ show more', 'less': '← less' }">
   Lorem ipsum, dolor ...
   ...
 </div>
 ```
 
-```js
-new ShowMore('example-text', {
-  more: ' → show more',
-  less: ' ← less'
-});
-```
 ---
 ### For list → [live example](https://tomik23.github.io/show-more#example-list):
 ```html
-<ul class="example-list" data-type="list" data-number="5" data-after="3">
-  <li>Import item 1</li>
-  <li>Import item 2</li>
+<ul class="element" data-config="{ 'type': 'list', 'limit': 5, 'element': 'li', 'more': '↓ show more', 'less': '↑ less', 'number': true }">
+  <li>item 1</li>
+  <li>item 2</li>
   ...
 </ul>
-```
-```js
-new ShowMore('example-list', {
-  type: 'li',
-  more: ' → show more',
-  less: ' ← less'
-});
-```
----
-
-```html
-<div class="example-list-b" data-type="list" data-number="5" data-after="3">
-  <a href="#">item 1</a>
-  <a href="#">item 2</a>
-  ...
-</div>
-```
-```js
-new ShowMore('example-list-b', {
-  more: ' → show more',
-  less: ' ← less'
-});
 ```
 ---
 
 ### For table → [live example](https://tomik23.github.io/show-more#example-table):
 ```html
-<table class="example-table" data-type="table" data-number="2" data-after="3">
+<table class="element" data-config="{ 'type': 'table', 'limit': 4, 'more': '↓ show more', 'less': '↑ less', 'number': true }">
   ...
 </table>
 ```
-
-```js
-new ShowMore('example-table', {
-  more: ' → show more',
-  less: ' ← less'
-});
-```
+---
 
 ### Only `show more` button → [live example](https://tomik23.github.io/show-more#example-onlyexpandable):
-```js
-new ShowMore('example-c', {
-  more: ' → show more'
-});
+```html
+<div class="element links-style" data-config="{ 'type': 'list', 'limit': 5, 'more': '→ show more' }">
+  <a href="#">Administracja biur,</a>
+</div>
 ```
+---
 
 ### Show the number next to the button  → [live example](https://tomik23.github.io/show-more#show-number):
-```js
-new ShowMore('example-4', {
-  more: ' → show more',
-  less: ' ← less',
-  showNumber: true
-});
+```html
+<ul class="element display-inline" data-config="{ 'type': 'list', 'limit': 3, 'element': 'li', 'more': '→ show more', 'less': '← less', 'number': true }">
+  <li>Usługi murarskie i tynkarskie,</li>
+  ...
+</ul>
 ```
 
 | element | description |
 |--------------- |-------------|
-| `data-type` | we have three type after which it will be hidden [text, list or table] |
-| `data-number` | `text` after how many characters to hide the text and insert `show more/less`<br />`list` or `table` after how many elements/rows hide the rest and insert `show more/less` |
-| `data-after` | this parameter allows you to set how much text/elements/rows <br />should be after the `show more/less button`^. |
+| `your-class` | name of the class after which we want to add support for showing/hiding text, list or table |
+| `data-config` | embedding JSON in the html, the entire configuration of a particular element  |
+| `type` | we have three type after which it will be hidden [text, list or table] |
+| `limit` | `text` after how many characters to hide the text and insert `show more/less`<br />`list` or `table` after how many elements/rows hide the rest and insert `show more/less` |
+| `after` | this parameter allows you to set how much text/elements/rows <br />should be after the `show more/less button`^. |
+| `element` | on the parameter we will create an html element and put in the text `show more/less` |
+| `more/less` | is the text and chars that appears after the text, list or table e.g. `> show more` and  `< show less` |
+| `number` | number of hidden items to show more/less e.g. `-> show more 3`, only works for list and table |
 
-> ^ Let's say we have 20 records with text and we determine that the text is to be trimmed after 100 characters in each record, it may happen that in several records the text is very short and has 110 characters, so `show more/less` will appear after 100 characters and after clicking an additional 10 characters, it will look funny. To prevent this, we add the `data-after="50"` parameter, which means that the hidden text must be at least 50 characters. Otherwise, `show more/less` will not appear. The same `data-after` can be applied to lists, elements and table records
+
+> ^ Let's say we have 20 records with text and we determine that the text is to be trimmed after 100 characters in each record, it may happen that in several records the text is very short and has 110 characters, so `show more/less` will appear after 100 characters and after clicking an additional 10 characters, it will look funny. To prevent this, we add the `"after": 50` parameter, which means that the hidden text must be at least 50 characters. Otherwise, `show more/less` will not appear. The same `after` can be applied to lists, elements and table records
 
 > Number of records counted in the table `tr` based on all `tr` of `thead`, `tbody` and `tfoot`
 
+## Function call
+
 ```javascript
 document.addEventListener('DOMContentLoaded', function() {
-  // text, table, list, elelemnts
-  new ShowMore('your-class', {
+   // text, table, list, elelemnts
+   new ShowMore('.element');
 
-    // [div, li, a, ...] parameter not required
-    type: 'span',
-
-    // text before expanding 
-    more: ' → show more',
-
-    // expanded text is not required
-    // if it is not set, the element
-    // cannot be collapsed
-    less: ' ← less',
-
-    // Adds a number of hidden items to 
-    // show more/less e.g. '-> show more 3'
-    // only works for list and table
-    showNumber: true
   });
 });
 ```
-
-| element | description |
-|----------|-------------|
-| `your-class` | name of the class after which we want to add support for showing/hiding text, list or table |
-| `type` | on the parameter we will create an html element and put in the text `show more/less` |
-| `more/less` | is the text and chars that appears after the text, list or table e.g. `> show more` and  `< show less` |
-| `showNumber` | adds a number of hidden items to show more/less e.g. -> show more 3, only works for list and table |
-
 
 ## Browsers support
 

@@ -18,11 +18,12 @@
     <div class="container">
       <section>
         <h3>More text - without data-after, cut after 120 characters</h3>
-        <div class="example-1" data-type="text" data-number="120">
+        <div class="element"
+          data-config='{ "type": "text", "limit": 120, "more": "&#8594; show more", "less": "&#8592; less" }'>
           It is a long established fact that a reader will be distracted by the readable content of a page when looking
           at its layout.
         </div>
-        <div class="example">
+        <div class="example-html">
           <h5>Show html</h5>
           <pre class="hidden">
             <code code class="language-html"></code>
@@ -33,11 +34,12 @@
       </section>
       <section>
         <h3>More text - from data-after="50", prevent cutting after 120 characters</h3>
-        <div class="example-1" data-type="text" data-number="120" data-after="50">
+        <div class="element"
+          data-config='{ "type": "text", "limit": 120, "after": 50, "more": "&#8594; show more", "less": "&#8592; less" }'>
           It is a long established fact that a reader will be distracted by the readable content of a page when looking
           at its layout.
         </div>
-        <div class="example">
+        <div class="example-html">
           <h5>Show html</h5>
           <pre class="hidden">
           <code class="language-html"></code>
@@ -46,7 +48,8 @@
       </section>
       <section id="example-text">
         <h2>More text</h2>
-        <div class="example-1" data-type="text" data-number="120" data-after="50">
+        <div class="element"
+          data-config='{ "type": "text", "limit": 120, "after": 50, "more": "&#8594; show more", "less": "&#8592; less" }'>
           <strong>Contrary to popular belief, Lorem Ipsum is not simply random text</strong>. It has roots in
           a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin
           professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin
@@ -58,54 +61,34 @@
           ipsum dolor sit
           amet..", comes from a line in section 1.10.32.
         </div>
-        <div class="example">
+        <div class="example-html">
           <h5>Show html</h5>
           <pre class="hidden">
             <code class="language-html"></code>
           </pre>
         </div>
-        <div class="example">
-          <h5>Show js</h5>
-          <pre class="hidden">
-            <code class="language-js">
-new ShowMore('example-1', {
-  more: ' &#8594; show more',
-  less: ' &#8592; less'
-});
-            </code>
-          </pre>
-        </div>
       </section>
+
       <section>
         <h2>More text, "show more" new line</h2>
-        <div class="example-2" data-type="text" data-number="90" data-after="50">
+        <div class="element"
+          data-config='{ "type": "text", "limit": 90, "element": "div", "after": 50, "more": "&#8595; show more", "less": "&#8593; less" }'>
           It is a long established fact that a reader will be distracted by the readable content of a page when looking
           at its layout. The point of using
           Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here,
           content here', making it
         </div>
-        <div class="example">
+        <div class="example-html">
           <h5>Show html</h5>
           <pre class="hidden">
               <code class="language-html"></code>
             </pre>
         </div>
-        <div class="example">
-          <h5>Show js</h5>
-          <pre class="hidden">
-            <code class="language-js">
-new ShowMore('example-2', {
-  type: 'div',
-  more: '&#8595; show more',
-  less: '&#8593; less'
-});
-            </code>
-          </pre>
-        </div>
       </section>
       <section id="example-list">
         <h2>Element list</h2>
-        <ul class="example-3" data-type="list" data-number="5">
+        <ul class="element"
+          data-config='{ "type": "list", "limit": 5, "element": "li", "more": "&#8595; show more", "less": "&#8593; less", "number": true }'>
           <li>Elektronika</li>
           <li>Import win</li>
           <li>Informacja o produktach, handlu i usługach</li>
@@ -118,30 +101,18 @@ new ShowMore('example-2', {
           <li>Żłobki publiczne</li>
         </ul>
 
-        <div class="example">
+        <div class="example-html">
           <h5>Show html</h5>
           <pre class="hidden">
               <code class="language-html"></code>
             </pre>
         </div>
-        <div class="example">
-          <h5>Show js</h5>
-          <pre class="hidden">
-            <code class="language-js">
-new ShowMore('example-3', {
-  type: 'li',
-  more: '&#8595; show more',
-  less: '&#8593; less',
-  showNumber: true
-})
-            </code>
-          </pre>
-        </div>
       </section>
 
       <section id="show-number">
         <h2>Element list display-inline</h2>
-        <ul class="example-4 display-inline" data-type="list" data-number="3">
+        <ul class="element display-inline"
+          data-config='{ "type": "list", "limit": 3, "element": "li", "more": "&#8594; show more", "less": "&#8592; less", "number": true }'>
           <li>Usługi murarskie i tynkarskie,</li>
           <li>Wydobycie i sprzedaż soli,</li>
           <li>Modemy i mobilny internet,</li>
@@ -149,30 +120,19 @@ new ShowMore('example-3', {
           <li>Ogrzewanie podłogowe,</li>
           <li>Hurtownie elektryczne</li>
         </ul>
-        <div class="example">
+        <div class="example-html">
           <h5>Show html</h5>
           <pre class="hidden">
             <code class="language-html"></code>
             </pre>
         </div>
-        <div class="example">
-          <h5>Show js</h5>
-          <pre class="hidden">
-            <code class="language-js">
-new ShowMore('example-4', {
-  type: 'li',
-  more: '&#8594; show more',
-  less: '&#8592; less',
-  showNumber: true
-})
-            </code>
-          </pre>
-        </div>
       </section>
 
       <section id="example-element">
         <h2>Element inline</h2>
-        <div class="example-5 links-style" data-type="list" data-number="5">
+        <div class="element links-style"
+          data-config='{ "type": "list", "limit": 5, "element": "div", "more": "&#8595; show more", "less": "&#8593; less" }'
+          }'>
           <a href="#">Administracja biur,</a>
           <a href="#">Badanie i uzdatnianie wody,</a>
           <a href="#">Motele i zajazdy,</a>
@@ -183,29 +143,18 @@ new ShowMore('example-4', {
           <a href="#">Tapety,</a>
           <a href="#">Żegluga</a>
         </div>
-        <iv class="example">
+        <iv class="example-html">
           <h5>Show html</h5>
           <pre class="hidden">
             <code class="language-html"></code>
             </pre>
         </iv>
-        <div class="example">
-          <h5>Show js</h5>
-          <pre class="hidden">
-            <code class="language-js">
-new ShowMore('example-5', {
-  type: 'div',
-  more: '&#8595; show more',
-  less: '&#8593; less'
-})
-            </code>
-          </pre>
-        </div>
       </section>
 
       <section id="example-table">
         <h2>Table more/less rows</h2>
-        <table class="example-6" data-type="table" data-number="4">
+        <table class="element"
+          data-config='{ "type": "table", "limit": 4, "more": "&#8595; show more", "less": "&#8593; less", "number": true }'>
           <thead>
             <tr>
               <th>ONE</th>
@@ -248,29 +197,17 @@ new ShowMore('example-5', {
             </tr>
           </tfoot>
         </table>
-        <div class="example">
+        <div class="example-html">
           <h5>Show html</h5>
           <pre class="hidden">
             <code class="language-html"></code>
-          </pre>
-        </div>
-        <div class="example">
-          <h5>Show js</h5>
-          <pre class="hidden">
-            <code class="language-js">
-new ShowMore('example-6', {
-  more: '&#8595; show more',
-  less: '&#8593; less',
-  showNumber: true
-})
-            </code>
           </pre>
         </div>
       </section>
 
       <section id="example-onlyexpandable">
         <h2>Only expandable</h2>
-        <div class="example-7 links-style" data-type="list" data-number="5">
+        <div class="element links-style" data-config='{ "type": "list", "limit": 5, "more": "&#8594; show more" }'>
           <a href="#">Administracja biur,</a>
           <a href="#">Badanie i uzdatnianie wody,</a>
           <a href="#">Motele i zajazdy,</a>
@@ -281,22 +218,11 @@ new ShowMore('example-6', {
           <a href="#">Tapety,</a>
           <a href="#">Żegluga</a>
         </div>
-        <div class="example">
+        <div class="example-html">
           <h5>Show html</h5>
           <pre class="hidden">
             <code class="language-html"></code>
             </pre>
-        </div>
-        <div class="example">
-          <h5>Show js</h5>
-          <pre class="hidden">
-            <code class="language-js">
-new ShowMore('example-7', {
-  type: 'div',
-  more: '&#8595; show more'
-})
-            </code>
-          </pre>
         </div>
       </section>
 
@@ -304,46 +230,8 @@ new ShowMore('example-7', {
     <script src="./showMore.min.js"></script>
     <script>hljs.initHighlightingOnLoad();</script>
     <script>
-      document.addEventListener('DOMContentLoaded', () => {
-        new ShowMore('example-1', {
-          more: ' &#8594; show more',
-          less: ' &#8592; less'
-        })
-
-        new ShowMore('example-2', {
-          type: 'div',
-          more: '&#8595; show more',
-          less: '&#8593; less'
-        })
-
-        new ShowMore('example-3', {
-          type: 'li',
-          more: '&#8595; show more',
-          less: '&#8593; less'
-        })
-
-        new ShowMore('example-4', {
-          type: 'li',
-          more: '&#8594; show more',
-          less: '&#8592; less',
-          showNumber: true
-        })
-
-        new ShowMore('example-5', {
-          type: 'div',
-          more: '&#8595; show more',
-          less: '&#8593; less'
-        })
-
-        new ShowMore('example-6', {
-          more: '&#8595; show more',
-          less: '&#8593; less',
-          showNumber: true
-        })
-
-        new ShowMore('example-7', {
-          more: '&#8595; show more'
-        })
+      document.addEventListener('DOMContentLoaded', function () {
+        new ShowMore('.element');
       });
 
       if (navigator.userAgent.indexOf('MSIE') !== -1 || navigator.appVersion.indexOf('Trident/') > -1) {
@@ -351,7 +239,7 @@ new ShowMore('example-7', {
         doc.setAttribute('data-useragent', 'IE');
       }
 
-      var examples = document.querySelectorAll('.example');
+      var examples = document.querySelectorAll('.example-html');
       for (var i = 0; i < examples.length; i++) {
         examples[i].addEventListener('click', function (e) {
           e.target.parentNode.classList.toggle('open');
@@ -363,7 +251,7 @@ new ShowMore('example-7', {
         var element = sections[i].children;
         var htmlCode = element[1].cloneNode(true).outerHTML.replace(/^\s{1,8}/gm, '');
 
-        var htmlConverter = htmlCode.replace(/[\u00A0-\u9999<>\\&]/gim, function (i) {
+        var htmlConverter = htmlCode.replace(/&quot;/gim, "'").replace(/[\u00A0-\u9999<>\\&]/gim, function (i) {
           return `&#${i.charCodeAt(0)};`;
         });
         var htmlShow = element[2].lastElementChild.lastElementChild;
