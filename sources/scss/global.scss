@@ -59,7 +59,7 @@ tfoot th {
   text-align: left;
 }
 
-html[data-useragent*="IE"] .example {
+html[data-useragent*="IE"] .example-html {
   display: none;
 }
 
@@ -107,6 +107,10 @@ html[data-useragent*="IE"] .example {
   position: relative;
   display: block;
   margin: 10px auto;
+
+  &-html {
+    cursor: pointer;
+  }
 
   h5 {
     position: relative;

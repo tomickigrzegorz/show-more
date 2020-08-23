@@ -1,10 +1,6 @@
 class ShowMore {
-  constructor(className, { type, more, less, showNumber }) {
-    this.className = className;
-    this.typeElement = type || 'span';
-    this.more = more;
-    this.less = less || false;
-    this.showNumber = showNumber || false;
+  constructor(className) {
+    this.elements = document.querySelectorAll(className);
     this.regex = {
       newLine: /[^\x20-\x7E]/gm,
       space: /\s{2,}/gm,
@@ -14,19 +10,36 @@ class ShowMore {
   }
 
   initial() {
-    const elements = document.querySelectorAll(`.${this.className}`);
+    for (let i = 0; i < this.elements.length; i++) {
+      const { type, limit, element, after, more, less, number } = JSON.parse(
+        this.elements[i].getAttribute('data-config')
+      );
 
-    for (let i = 0; i < elements.length; i++) {
-      this.limit = +elements[i].getAttribute('data-number');
-      this.limitAfter = +elements[i].getAttribute('data-after');
-      this.type = elements[i].getAttribute('data-type');
-      this.render(elements[i]);
+      this.type = type;
+      this.limit = +limit;
+      this.typeElement = element || 'span';
+      this.more = more;
+      this.less = less || false;
+      this.number = number || false;
+      this.after = +after || 0;
+
+      this.render(this.elements[i]);
     }
   }
 
   render(element) {
     element.setAttribute('aria-expanded', 'false');
-    const limitCounts = this.limit + this.limitAfter;
+    const limitCounts = this.limit + this.after;
+
+    const object = {
+      element,
+      type: this.type,
+      limit: this.limit,
+      typeElement: this.typeElement,
+      less: this.less,
+      more: this.more,
+      number: this.number,
+    };
 
     if (this.type === 'text') {
       let truncatedText = '';
@@ -50,10 +63,11 @@ class ShowMore {
         );
 
         element.innerHTML = truncatedText;
-        this.addButton(element);
+
+        this.addButton({ ...object, element });
         element.addEventListener(
           'click',
-          this.handleEvent.bind(this, { element, originalText, truncatedText })
+          this.handleEvent.bind(this, { ...object, originalText, truncatedText })
         );
       }
     }
@@ -64,8 +78,8 @@ class ShowMore {
         for (let i = this.limit; i < items.length; i++) {
           items[i].classList.add('hidden');
         }
-        this.addButton(element);
-        element.addEventListener('click', this.handleEvent.bind(this, { element }));
+        this.addButton({ ...object, element });
+        element.addEventListener('click', this.handleEvent.bind(this, object));
       }
     }
 
@@ -75,92 +89,96 @@ class ShowMore {
         for (let i = this.limit; i < rows.length; i++) {
           rows[i].classList.add('hidden');
         }
-        element.insertAdjacentElement('afterend', this.createButton('more', 'collapse', element));
-
-        element.nextElementSibling.addEventListener(
-          'click',
-          this.handleEvent.bind(this, { element })
+        element.insertAdjacentElement(
+          'afterend',
+          this.createButton({ ...object, elementClass: 'more', aria: 'collapse', element })
         );
+
+        element.nextElementSibling.addEventListener('click', this.handleEvent.bind(this, object));
       }
     }
   }
 
-  createButton(elementClass, aria, element) {
-    const type = aria === 'collapse' ? this.more : this.less;
+  createButton({ elementClass, type, aria, more, less, element, number }) {
+    const typeAria = aria === 'collapse' ? more : less;
 
     const btn = document.createElement('span');
     btn.className = `show-${elementClass} show-more-button`;
     btn.setAttribute('aria-label', aria);
     btn.setAttribute('tabindex', 0);
-    btn.innerHTML = this.showNumber ? type + this.getNumber(element) : type;
+    btn.innerHTML = number ? typeAria + this.getNumber(element, type) : typeAria;
     return btn;
   }
 
   handleEvent(elements, event) {
-    const { element, originalText, truncatedText } = elements;
+    const { element, type, limit, typeElement, originalText, truncatedText } = elements;
     const { currentTarget, target } = event;
 
     const ariaExpanded = element.getAttribute('aria-expanded');
     this.logic = ariaExpanded === 'false';
 
     // text
-    if (this.type === 'text' && target.classList.contains('show-more-button')) {
+    if (type === 'text' && target.classList.contains('show-more-button')) {
       element.innerHTML = '';
       element.innerHTML = ariaExpanded === 'false' ? originalText : truncatedText;
 
       const typeLess =
         ariaExpanded === 'false'
-          ? this.createButton('less', 'expand', element)
-          : this.createButton('more', 'collapse', element);
+          ? this.createButton({ ...elements, elementClass: 'less', aria: 'expand', element })
+          : this.createButton({ ...elements, elementClass: 'more', aria: 'collapse', element });
 
-      const el = document.createElement(this.typeElement);
+      const el = document.createElement(typeElement);
       el.insertAdjacentElement('beforeend', typeLess);
 
-      this.setExpand(element, target);
+      this.setExpand({ ...elements, target });
 
       element.appendChild(el);
     }
 
     // list
-    if (this.type === 'list' && target.classList.contains('show-more-button')) {
+    if (type === 'list' && target.classList.contains('show-more-button')) {
+      // console.log('ok');
       const items = [].slice.call(currentTarget.children);
       for (let i = 0; i < items.length; i++) {
         if (ariaExpanded === 'false') {
           items[i].classList.remove('hidden');
         }
 
-        if (ariaExpanded === 'true' && i >= this.limit && i < items.length - 1) {
+        if (ariaExpanded === 'true' && i >= limit && i < items.length - 1) {
           items[i].classList.add('hidden');
         }
       }
-      this.setExpand(element, target);
+      this.setExpand({ ...elements, target });
     }
 
     // table
-    if (this.type === 'table') {
+    if (type === 'table') {
       const { rows } = element;
       if (ariaExpanded === 'false') {
         for (let i = 0; i < rows.length; i++) {
           rows[i].classList.remove('hidden');
         }
       } else {
-        for (let i = this.limit; i < rows.length; i++) {
+        for (let i = limit; i < rows.length; i++) {
           rows[i].classList.add('hidden');
         }
       }
-      this.setExpand(element, target);
+      this.setExpand({ ...elements, target });
     }
   }
 
-  addButton(element) {
-    const el = document.createElement(this.typeElement);
-    el.appendChild(this.createButton('more', 'collapse', element));
+  addButton(object) {
+    const { element, typeElement } = object;
+    const el = document.createElement(typeElement);
+    el.appendChild(
+      this.createButton({ ...object, elementClass: 'more', aria: 'collapse', element })
+    );
     element.appendChild(el);
   }
 
   // number of hidden items
-  getNumber(element) {
-    const elementType = this.type === 'table' ? element.rows : element.children;
+  getNumber(element, type) {
+    const elementType = type === 'table' ? element.rows : element.children;
 
     const numbersElementHidden = [].slice
       .call(elementType)
@@ -168,17 +186,19 @@ class ShowMore {
     return numbersElementHidden !== 0 ? ` ${numbersElementHidden}` : '';
   }
 
-  setExpand(element, target) {
-    const button = this.logic ? this.less : this.more;
+  setExpand({ element, type, less, more, number, target }) {
+    const button = this.logic ? less : more;
     const ariaLabelText = this.type === 'table' ? this.type : `the ${this.type}`;
     const expandCollapse = this.logic ? 'collapse' : 'expand';
     const lastChildElement = element.lastElementChild;
+
+    element.getAttribute('aria-expanded');
 
     element.setAttribute('aria-expanded', this.logic);
     target.setAttribute('aria-label', `${expandCollapse} ${ariaLabelText}`);
 
     if (button) {
-      target.innerHTML = this.showNumber ? button + this.getNumber(element) : button;
+      target.innerHTML = number ? button + this.getNumber(element, type) : button;
     } else {
       if (this.type === 'table') {
         target.parentNode.removeChild(target);
