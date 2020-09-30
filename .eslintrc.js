@@ -7,6 +7,7 @@ module.exports = {
         "airbnb-base",
         "prettier"
     ],
+    "parser": "@babel/eslint-parser",
     "plugins": ["prettier"],
     "globals": {
         "Atomics": "readonly",
