@@ -6,179 +6,173 @@ class ShowMore {
       space: /\s{2,}/gm,
       br: /<\s*\/?br\s*[/]?>/gm,
     };
-    this.initial();
-  }
 
-  initial() {
     for (let i = 0; i < this.elements.length; i++) {
       const { type, limit, element, after, more, less, number } = JSON.parse(
         this.elements[i].getAttribute('data-config')
       );
 
-      this.type = type;
-      this.limit = +limit;
-      this.typeElement = element || 'span';
-      this.more = more;
-      this.less = less || false;
-      this.number = number || false;
-      this.after = +after || 0;
+      this.object = {
+        element: this.elements[i],
+        type,
+        limit,
+        typeElement: element || 'span',
+        more,
+        less: less || false,
+        number: number || false,
+        after: after || 0,
+      };
 
-      this.render(this.elements[i]);
+      this.initial();
     }
   }
 
-  render(element) {
+  initial = () => {
+    const { element, after, limit, type } = this.object;
+
+    // set default aria-expande to false
     element.setAttribute('aria-expanded', 'false');
-    const limitCounts = this.limit + this.after;
+    const limitCounts = limit + after;
 
-    const object = {
-      element,
-      type: this.type,
-      limit: this.limit,
-      typeElement: this.typeElement,
-      less: this.less,
-      more: this.more,
-      number: this.number,
-    };
-
-    if (this.type === 'text') {
+    if (type === 'text') {
       let truncatedText = '';
       const originalText = element.innerHTML;
+
+      const orgTexReg = originalText
+        .replace(this.regex.newLine, '')
+        .replace(this.regex.space, ' ')
+        .replace(this.regex.br, '');
+
       const differenceBetweenHTMLaTEXT =
-        originalText
-          .replace(this.regex.newLine, '')
-          .replace(this.regex.space, ' ')
-          .replace(this.regex.br, '').length -
+        orgTexReg.length -
         element.innerText.replace(this.regex.newLine, '').length;
 
       if (element.innerText.length > limitCounts) {
-        truncatedText = originalText
-          .replace(this.regex.newLine, '')
-          .replace(this.regex.space, ' ')
-          .replace(this.regex.br, '')
-          .substr(0, this.limit + differenceBetweenHTMLaTEXT);
+        truncatedText = orgTexReg.substr(0, limit + differenceBetweenHTMLaTEXT);
         truncatedText = truncatedText.substr(
           0,
           Math.min(truncatedText.length, truncatedText.lastIndexOf(' '))
         );
-
         element.innerHTML = truncatedText;
 
-        this.addButton({ ...object, element });
-        element.addEventListener(
-          'click',
-          this.handleEvent.bind(this, { ...object, originalText, truncatedText })
-        );
+        this.addBtn(this.object);
+
+        this.clickEvent(element, {
+          ...this.object,
+          originalText,
+          truncatedText,
+        });
       }
     }
 
-    if (this.type === 'list') {
-      const items = [].slice.call(element.children);
+    if (type === 'list' || type === 'table') {
+      const items =
+        type === 'list' ? [].slice.call(element.children) : element.rows;
+
       if (items.length > limitCounts) {
-        for (let i = this.limit; i < items.length; i++) {
-          items[i].classList.add('hidden');
+        for (let i = limit; i < items.length; i++) {
+          this.addRemClass(items[i], true);
         }
-        this.addButton({ ...object, element });
-        element.addEventListener('click', this.handleEvent.bind(this, object));
-      }
-    }
 
-    if (this.type === 'table') {
-      const { rows } = element;
-      if (rows.length > limitCounts) {
-        for (let i = this.limit; i < rows.length; i++) {
-          rows[i].classList.add('hidden');
-        }
-        element.insertAdjacentElement(
-          'afterend',
-          this.createButton({ ...object, elementClass: 'more', aria: 'collapse', element })
+        // add button to the list and table
+        this.addBtn(this.object);
+
+        // add event click
+        this.clickEvent(
+          type === 'list' ? element : element.nextElementSibling,
+          this.object
         );
-
-        element.nextElementSibling.addEventListener('click', this.handleEvent.bind(this, object));
       }
     }
   }
 
-  createButton({ elementClass, type, aria, more, less, element, number }) {
-    const typeAria = aria === 'collapse' ? more : less;
+  clickEvent = (element, object) => {
+    element.addEventListener('click', this.handleEvent.bind(this, object));
+  }
+
+  createBtn = ({ element, number, less, more, type }) => {
+    const typeAria = this.checkExp ? less : more;
+    const aria = this.checkExp ? 'collapse' : 'expand';
 
     const btn = document.createElement('span');
-    btn.className = `show-${elementClass} show-more-button`;
+    btn.className = 'show-more-btn';
     btn.setAttribute('aria-label', aria);
     btn.setAttribute('tabindex', 0);
-    btn.innerHTML = number ? typeAria + this.getNumber(element, type) : typeAria;
+    btn.innerHTML = number
+      ? typeAria + this.getNumber(element, type)
+      : typeAria;
     return btn;
   }
 
-  handleEvent(elements, event) {
-    const { element, type, limit, typeElement, originalText, truncatedText } = elements;
+  addRemClass = (element, type) => {
+    element.classList[type ? 'add' : 'remove']('hidden');
+  }
+
+  handleEvent = (object, event) => {
+    const {
+      element,
+      type,
+      limit,
+      typeElement,
+      originalText,
+      truncatedText,
+    } = object;
     const { currentTarget, target } = event;
 
+    const checkContainsClass = target.classList.contains('show-more-btn');
     const ariaExpanded = element.getAttribute('aria-expanded');
-    this.logic = ariaExpanded === 'false';
+    this.checkExp = ariaExpanded === 'false';
 
     // text
-    if (type === 'text' && target.classList.contains('show-more-button')) {
+    if (type === 'text' && checkContainsClass) {
       element.innerHTML = '';
-      element.innerHTML = ariaExpanded === 'false' ? originalText : truncatedText;
-
-      const typeLess =
-        ariaExpanded === 'false'
-          ? this.createButton({ ...elements, elementClass: 'less', aria: 'expand', element })
-          : this.createButton({ ...elements, elementClass: 'more', aria: 'collapse', element });
+      element.innerHTML = this.checkExp ? originalText : truncatedText;
 
       const el = document.createElement(typeElement);
-      el.insertAdjacentElement('beforeend', typeLess);
-
-      this.setExpand({ ...elements, target });
-
+      el.insertAdjacentElement('beforeend', this.createBtn(object));
       element.appendChild(el);
     }
 
-    // list
-    if (type === 'list' && target.classList.contains('show-more-button')) {
-      // console.log('ok');
-      const items = [].slice.call(currentTarget.children);
-      for (let i = 0; i < items.length; i++) {
-        if (ariaExpanded === 'false') {
-          items[i].classList.remove('hidden');
-        }
+    // list and table
+    if ((type === 'list' && checkContainsClass) || type === 'table') {
+      const items =
+        type === 'list' ? [].slice.call(currentTarget.children) : element.rows;
 
-        if (ariaExpanded === 'true' && i >= limit && i < items.length - 1) {
-          items[i].classList.add('hidden');
+      for (let i = 0; i < items.length; i++) {
+        const typeRemove =
+          type === 'list' ? i >= limit && i < items.length - 1 : i >= limit;
+
+        if (ariaExpanded === 'false') {
+          this.addRemClass(items[i], false);
+        } else if (typeRemove) {
+          this.addRemClass(items[i], true);
         }
       }
-      this.setExpand({ ...elements, target });
     }
 
-    // table
-    if (type === 'table') {
-      const { rows } = element;
-      if (ariaExpanded === 'false') {
-        for (let i = 0; i < rows.length; i++) {
-          rows[i].classList.remove('hidden');
-        }
-      } else {
-        for (let i = limit; i < rows.length; i++) {
-          rows[i].classList.add('hidden');
-        }
-      }
-      this.setExpand({ ...elements, target });
+    if (
+      type === 'table' ||
+      ((type === 'list' || type === 'text') && checkContainsClass)
+    ) {
+      this.setExpand({ ...object, target });
     }
   }
 
-  addButton(object) {
-    const { element, typeElement } = object;
-    const el = document.createElement(typeElement);
-    el.appendChild(
-      this.createButton({ ...object, elementClass: 'more', aria: 'collapse', element })
-    );
-    element.appendChild(el);
+  addBtn = (object) => {
+    const { type, element, typeElement } = object;
+    if (type === 'table') {
+      element.insertAdjacentElement('afterend', this.createBtn(object));
+    } else {
+      const el = document.createElement(typeElement);
+      el.appendChild(this.createBtn(object));
+      element.appendChild(el);
+    }
   }
 
   // number of hidden items
-  getNumber(element, type) {
-    const elementType = type === 'table' ? element.rows : element.children;
+  getNumber = (element, type) => {
+    const { rows, children } = element;
+    const elementType = type === 'table' ? rows : children;
 
     const numbersElementHidden = [].slice
       .call(elementType)
@@ -186,26 +180,23 @@ class ShowMore {
     return numbersElementHidden !== 0 ? ` ${numbersElementHidden}` : '';
   }
 
-  setExpand({ element, type, less, more, number, target }) {
-    const button = this.logic ? less : more;
-    const ariaLabelText = this.type === 'table' ? this.type : `the ${this.type}`;
-    const expandCollapse = this.logic ? 'collapse' : 'expand';
-    const lastChildElement = element.lastElementChild;
+  setExpand = ({ element, type, less, more, number, target }) => {
+    const typeAria = this.checkExp ? less : more;
+    const aria = this.checkExp ? 'collapse' : 'expand';
+    const ariaText = type === 'table' ? type : `the ${type}`;
+    const lastChild = element.lastElementChild;
 
-    element.getAttribute('aria-expanded');
+    element.setAttribute('aria-expanded', this.checkExp);
+    target.setAttribute('aria-label', `${aria} ${ariaText}`);
 
-    element.setAttribute('aria-expanded', this.logic);
-    target.setAttribute('aria-label', `${expandCollapse} ${ariaLabelText}`);
-
-    if (button) {
-      target.innerHTML = number ? button + this.getNumber(element, type) : button;
-    } else {
-      if (this.type === 'table') {
-        target.parentNode.removeChild(target);
-      }
-      if (this.type === 'list') {
-        lastChildElement.parentNode.removeChild(lastChildElement);
-      }
+    if (typeAria) {
+      target.innerHTML = number
+        ? typeAria + this.getNumber(element, type)
+        : typeAria;
+    } else if (this.object.type === 'table') {
+      target.parentNode.removeChild(target);
+    } else if (this.object.type === 'list') {
+      lastChild.parentNode.removeChild(lastChild);
     }
   }
 }
