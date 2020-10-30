@@ -55,6 +55,13 @@ npm run prod
 <link rel="stylesheet" href="style.css">
 <script src="showMore.min.js"></script>
 ```
+<img src="https://cdn.jsdelivr.net/www.jsdelivr.com/4a8e863f4c627929f243db3360393a7eed05238c/img/logo-horizontal.svg">
+
+```html
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/tomik23/show-more@master/docs/style.css">
+<script src="https://cdn.jsdelivr.net/gh/tomik23/show-more@master/docs/showMore.min.js"></script>
+```
+
 ---
 ### For text → [live example](https://tomik23.github.io/show-more#example-text):
 ```html
