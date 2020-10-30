@@ -1,46 +1,30 @@
 module.exports = {
-    "env": {
-        "browser": true,
-        "es6": true
+    env: {
+        browser: true,
+        node: true,
+        es6: true,
     },
-    "extends": [
-        "airbnb-base",
-        "prettier"
-    ],
-    "parser": "@babel/eslint-parser",
-    "plugins": ["prettier"],
-    "globals": {
-        "Atomics": "readonly",
-        "SharedArrayBuffer": "readonly"
-    },
-    "parserOptions": {
-        "ecmaVersion": 2018,
-        "sourceType": "module"
-    },
-    "rules": {
-        "prettier/prettier": [
-            "error",
+    extends: ['eslint:recommended'],
+    plugins: ['prettier'],
+    rules: {
+        'prettier/prettier': [
+            'warn',
             {
-                "endOfLine": "auto"
-            }
+                semi: true,
+                singleQuote: true,
+                tabWidth: 2,
+                endOfLine: 'auto',
+                printWidth: 80,
+            },
         ],
-        "class-methods-use-this": "off",
-        "quotes": [
-            "error",
-            "single"
-        ],
-        "linebreak-style": ["error", "windows"],
-        "no-param-reassign": [
+        'comma-dangle': ['error', 'only-multiline'],
+        'linebreak-style': ['error', 'windows'],
+        'no-param-reassign': [
             2,
             {
-                "props": false
-            }
+                props: false,
+            },
         ],
-        "no-plusplus": [
-            "error",
-            {
-                "allowForLoopAfterthoughts": true
-            }
-        ]
-    }
+    },
+    parser: '@babel/eslint-parser',
 };
