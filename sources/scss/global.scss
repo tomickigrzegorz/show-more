@@ -111,30 +111,31 @@ html[data-useragent*="IE"] .example-html {
   &-html {
     cursor: pointer;
   }
+}
 
-  h5 {
-    position: relative;
-    cursor: pointer;
-    padding: 2px 2px 2px 25px;
-    margin: 0;
+pre {
+  overflow: auto;
+  margin: -20px auto -60px auto;
+  padding: 0;
 
-    &:before {
-      position: absolute;
-      content: "\27A4";
-      left: 0;
-      top: 1px;
-      transition: transform 0.2s ease-in-out;
-    }
+  code {
+    line-height: 130%;
   }
+}
 
-  pre {
-    overflow: auto;
-    margin: -20px auto -60px auto;
-    padding: 0;
 
-    code {
-      line-height: 130%;
-    }
+h5 {
+  position: relative;
+  cursor: pointer;
+  padding: 20px 2px 2px 25px;
+  margin: 0;
+
+  &:before {
+    position: absolute;
+    content: "\27A4";
+    left: 0;
+    top: 19px;
+    transition: transform 0.2s ease-in-out;
   }
 }
 
