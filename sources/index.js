@@ -23,13 +23,11 @@ class ShowMore {
         after: after || 0,
       };
 
-      this.initial();
+      this.initial(this.object);
     }
   }
 
-  initial = () => {
-    const { element, after, limit, type } = this.object;
-
+  initial = ({ element, after, limit, type }) => {
     // set default aria-expande to false
     element.setAttribute('aria-expanded', 'false');
     const limitCounts = limit + after;
@@ -49,11 +47,11 @@ class ShowMore {
 
       if (element.innerText.length > limitCounts) {
         truncatedText = orgTexReg.substr(0, limit + differenceBetweenHTMLaTEXT);
-        truncatedText = truncatedText.substr(
-          0,
-          Math.min(truncatedText.length, truncatedText.lastIndexOf(' '))
+        const minText = Math.min(
+          truncatedText.length,
+          truncatedText.lastIndexOf(' ')
         );
-        element.innerHTML = truncatedText;
+        element.innerHTML = truncatedText.substr(0, minText);
 
         this.addBtn(this.object);
 
@@ -84,11 +82,11 @@ class ShowMore {
         );
       }
     }
-  }
+  };
 
   clickEvent = (element, object) => {
     element.addEventListener('click', this.handleEvent.bind(this, object));
-  }
+  };
 
   createBtn = ({ element, number, less, more, type }) => {
     const typeAria = this.checkExp ? less : more;
@@ -102,11 +100,11 @@ class ShowMore {
       ? typeAria + this.getNumber(element, type)
       : typeAria;
     return btn;
-  }
+  };
 
   addRemClass = (element, type) => {
     element.classList[type ? 'add' : 'remove']('hidden');
-  }
+  };
 
   handleEvent = (object, event) => {
     const {
@@ -156,7 +154,7 @@ class ShowMore {
     ) {
       this.setExpand({ ...object, target });
     }
-  }
+  };
 
   addBtn = (object) => {
     const { type, element, typeElement } = object;
@@ -167,18 +165,17 @@ class ShowMore {
       el.appendChild(this.createBtn(object));
       element.appendChild(el);
     }
-  }
+  };
 
   // number of hidden items
-  getNumber = (element, type) => {
-    const { rows, children } = element;
+  getNumber = ({ rows, children }, type) => {
     const elementType = type === 'table' ? rows : children;
 
     const numbersElementHidden = [].slice
       .call(elementType)
       .filter((el) => el.className === 'hidden').length;
     return numbersElementHidden !== 0 ? ` ${numbersElementHidden}` : '';
-  }
+  };
 
   setExpand = ({ element, type, less, more, number, target }) => {
     const typeAria = this.checkExp ? less : more;
@@ -198,7 +195,7 @@ class ShowMore {
     } else if (this.object.type === 'list') {
       lastChild.parentNode.removeChild(lastChild);
     }
-  }
+  };
 }
 
 export default ShowMore;
