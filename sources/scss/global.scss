@@ -1,3 +1,5 @@
+@import "./modules/table";
+
 *,
 *:after,
 *:before {
@@ -16,6 +18,7 @@ body {
   font-family: "Lato", sans-serif;
   font-size: 18px;
   line-height: 150%;
+  counter-reset: section;
 }
 
 a {
@@ -24,16 +27,39 @@ a {
 }
 
 ul {
-  padding: 0;
+  padding: 0 0 0 22px;
   margin: 0;
-  list-style-position: inside;
 }
 
 section {
   padding: 30px 0 0;
 
-  &+section {
-    border-top: 1px solid #dbdbdb;
+  h2 {
+    position: relative;
+    color: #583131;
+    padding-bottom: 10px;
+  }
+
+  h2::before {
+    position: absolute;
+    counter-increment: section;
+    content: counters(section, " ", decimal-leading-zero) ". ";
+    color: #b152ff;
+    margin-left: -45px;
+  }
+
+  h2::after {
+    position: absolute;
+    bottom: 0;
+    content: "";
+    width: calc(100% + 45px);
+    left: -45px;
+    border-bottom: 1px solid #ead1ff;
+  }
+
+  & + section {
+    border-top: 1px solid #edd7ff;
+    margin-top: 20px;
   }
 }
 
@@ -45,7 +71,7 @@ table {
 thead th,
 td {
   padding: 10px;
-  border: 1px solid #ccc;
+  border: 1px solid #c8b0ca;
   width: 33.33%;
   text-align: left;
 }
@@ -68,6 +94,7 @@ html[data-useragent*="IE"] .example-html {
   width: 100%;
   min-height: 100%;
   padding: 0 20px;
+  margin-bottom: 50px;
 }
 
 .display-inline {
@@ -75,6 +102,7 @@ html[data-useragent*="IE"] .example-html {
   flex-direction: row;
   flex-wrap: wrap;
   list-style: none;
+  padding: 0;
 
   li {
     margin-right: 10px;
@@ -85,6 +113,7 @@ html[data-useragent*="IE"] .example-html {
   a {
     text-decoration: none;
     margin-right: 5px;
+    color: #681bcc;
 
     &:after {
       content: "";
@@ -98,7 +127,7 @@ html[data-useragent*="IE"] .example-html {
 
     &:hover:after {
       width: 100%;
-      background-color: #e50000;
+      background-color: #681bcc;
     }
   }
 }
@@ -123,7 +152,6 @@ pre {
   }
 }
 
-
 h5 {
   position: relative;
   cursor: pointer;
@@ -135,6 +163,7 @@ h5 {
     content: "\27A4";
     left: 0;
     top: 19px;
+    color: #b152ff;
     transition: transform 0.2s ease-in-out;
   }
 }

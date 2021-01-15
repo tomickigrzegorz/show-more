@@ -65,7 +65,7 @@ npm run prod
 ---
 ### For text → [live example](https://tomik23.github.io/show-more#example-text):
 ```html
-<div class="element" data-config="{ 'type': 'text', 'limit': 120, 'more': '→ show more', 'less': '← less' }">
+<div class="element" data-config='{ "type": "text", "limit": 120, "more": "→ show more", "less": "← less" }'>
   Lorem ipsum, dolor ...
   ...
 </div>
@@ -74,7 +74,7 @@ npm run prod
 ---
 ### For list → [live example](https://tomik23.github.io/show-more#example-list):
 ```html
-<ul class="element" data-config="{ 'type': 'list', 'limit': 5, 'element': 'li', 'more': '↓ show more', 'less': '↑ less', 'number': true }">
+<ul class="element" data-config='{ "type": "list", "limit": 5, "element": "li", "more": "↓ show more", "less": "↑ less", "number": true }'>
   <li>item 1</li>
   <li>item 2</li>
   ...
@@ -84,7 +84,7 @@ npm run prod
 
 ### For table → [live example](https://tomik23.github.io/show-more#example-table):
 ```html
-<table class="element" data-config="{ 'type': 'table', 'limit': 4, 'more': '↓ show more', 'less': '↑ less', 'number': true }">
+<table class="element" data-config='{ "type": "table", "limit": 4, "more": "↓ show more", "less": "↑ less", "number": true }'>
   ...
 </table>
 ```
@@ -92,15 +92,24 @@ npm run prod
 
 ### Only `show more` button → [live example](https://tomik23.github.io/show-more#example-onlyexpandable):
 ```html
-<div class="element links-style" data-config="{ 'type': 'list', 'limit': 5, 'more': '→ show more' }">
+<div class="element links-style" data-config='{ "type": "list", "limit": 5, "more": "→ show more" }'>
   <a href="#">Administracja biur,</a>
+</div>
+```
+---
+
+### Only ellipsis → [live example](https://tomik23.github.io/show-more#ellipsis):
+```html
+<div class="element" data-config='{ "type": "text", "limit": 100, "ellipsis": " ..." }'>
+  It is a long established fact that a reader will be distracted by the readable content of a page when looking
+  at its layout.
 </div>
 ```
 ---
 
 ### Show the number next to the button  → [live example](https://tomik23.github.io/show-more#show-number):
 ```html
-<ul class="element display-inline" data-config="{ 'type': 'list', 'limit': 3, 'element': 'li', 'more': '→ show more', 'less': '← less', 'number': true }">
+<ul class="element display-inline" data-config='{ "type": "list", "limit": 3, "element": "li", "more": "→ show more", "less": "← less", "number": true }'>
   <li>Usługi murarskie i tynkarskie,</li>
   ...
 </ul>
@@ -116,6 +125,7 @@ npm run prod
 | `element` | on the parameter we will create an html element and put in the text `show more/less` |
 | `more/less` | is the text and chars that appears after the text, list or table e.g. `> show more` and  `< show less` |
 | `number` | number of hidden items to show more/less e.g. `-> show more 3`, only works for list and table |
+| `ellipsis` | show only the ellipsis |
 
 
 > ^ Let's say we have 20 records with text and we determine that the text is to be trimmed after 100 characters in each record, it may happen that in several records the text is very short and has 110 characters, so `show more/less` will appear after 100 characters and after clicking an additional 10 characters, it will look funny. To prevent this, we add the `"after": 50` parameter, which means that the hidden text must be at least 50 characters. Otherwise, `show more/less` will not appear. The same `after` can be applied to lists, elements and table records

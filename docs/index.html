@@ -16,8 +16,9 @@
 
   <body>
     <div class="container">
+      <!-- More text -->
       <section>
-        <h3>More text - without 'after', cut after 120 characters</h3>
+        <h2>More text - without 'after', cut after 120 characters</h2>
         <div class="element"
           data-config='{ "type": "text", "limit": 120, "more": "&#8594; show more", "less": "&#8592; less" }'>
           It is a long established fact that a reader will be distracted by the readable content of a page when looking
@@ -32,8 +33,10 @@
         <small>If the text is too short, then we have a problem, <b>data-after</b> should prevent this. See the next
           example.</small>
       </section>
+
+      <!-- More text, prevent cutting -->
       <section>
-        <h3>More text - from 'after': 50, prevent cutting after 120 characters</h3>
+        <h2>More text - from 'after': 50, prevent cutting after 120 characters</h2>
         <div class="element"
           data-config='{ "type": "text", "limit": 120, "after": 50, "more": "&#8594; show more", "less": "&#8592; less" }'>
           It is a long established fact that a reader will be distracted by the readable content of a page when looking
@@ -46,6 +49,8 @@
         </pre>
         </div>
       </section>
+
+      <!-- More text -->
       <section id="example-text">
         <h2>More text</h2>
         <div class="element"
@@ -69,6 +74,7 @@
         </div>
       </section>
 
+      <!-- More text, "show more" new line -->
       <section>
         <h2>More text, "show more" new line</h2>
         <div class="element"
@@ -85,6 +91,8 @@
             </pre>
         </div>
       </section>
+
+      <!-- Element list -->
       <section id="example-list">
         <h2>Element list</h2>
         <ul class="element"
@@ -109,6 +117,7 @@
         </div>
       </section>
 
+      <!-- Element list display-inline + number of hidden/shown elements -->
       <section id="show-number">
         <h2>Element list display-inline</h2>
         <ul class="element display-inline"
@@ -128,6 +137,7 @@
         </div>
       </section>
 
+      <!-- Element inline -->
       <section id="example-element">
         <h2>Element inline</h2>
         <div class="element links-style"
@@ -151,9 +161,10 @@
         </iv>
       </section>
 
+      <!-- Table more/less rows -->
       <section id="example-table">
         <h2>Table more/less rows</h2>
-        <table class="element"
+        <table class="element styled-table"
           data-config='{ "type": "table", "limit": 4, "more": "&#8595; show more", "less": "&#8593; less", "number": true }'>
           <thead>
             <tr>
@@ -205,6 +216,7 @@
         </div>
       </section>
 
+      <!-- Only expandable -->
       <section id="example-onlyexpandable">
         <h2>Only expandable</h2>
         <div class="element links-style" data-config='{ "type": "list", "limit": 5, "more": "&#8594; show more" }'>
@@ -223,6 +235,21 @@
           <pre class="hidden">
             <code class="language-html"></code>
             </pre>
+        </div>
+      </section>
+
+      <!-- ellipsis -->
+      <section id="ellipsis">
+        <h2>Only the ellipsis</h2>
+        <div class="element" data-config='{ "type": "text", "limit": 100, "ellipsis": " ..." }'>
+          It is a long established fact that a reader will be distracted by the readable content of a page when looking
+          at its layout.
+        </div>
+        <div class="example-html">
+          <h5>Show html</h5>
+          <pre class="hidden">
+            <code code class="language-html"></code>
+          </pre>
         </div>
       </section>
 
