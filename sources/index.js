@@ -8,16 +8,24 @@ class ShowMore {
     };
 
     for (let i = 0; i < this.elements.length; i++) {
-      const { type, limit, element, after, more, less, number } = JSON.parse(
-        this.elements[i].getAttribute('data-config')
-      );
+      const {
+        type,
+        limit,
+        element,
+        after,
+        more,
+        less,
+        number,
+        ellipsis,
+      } = JSON.parse(this.elements[i].getAttribute('data-config'));
 
       this.object = {
         element: this.elements[i],
         type,
         limit,
+        ellipsis: ellipsis || false,
         typeElement: element || 'span',
-        more,
+        more: more || false,
         less: less || false,
         number: number || false,
         after: after || 0,
@@ -89,7 +97,7 @@ class ShowMore {
   };
 
   createBtn = ({ element, number, less, more, type }) => {
-    const typeAria = this.checkExp ? less : more;
+    const typeAria = this.checkExp ? less : more || '';
     const aria = this.checkExp ? 'collapse' : 'expand';
 
     const btn = document.createElement('span');
@@ -157,7 +165,19 @@ class ShowMore {
   };
 
   addBtn = (object) => {
-    const { type, element, typeElement } = object;
+    const { type, element, more, ellipsis, typeElement } = object;
+
+    if (type !== 'table' && !more && ellipsis) {
+      const el = document.createElement('span');
+      el.insertAdjacentHTML('afterbegin', ellipsis);
+      element.appendChild(el);
+      return;
+    }
+
+    if (!more) {
+      return;
+    }
+
     if (type === 'table') {
       element.insertAdjacentElement('afterend', this.createBtn(object));
     } else {
