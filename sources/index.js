@@ -97,7 +97,7 @@ class ShowMore {
   };
 
   createBtn = ({ element, number, less, more, type }) => {
-    const typeAria = this.checkExp ? less : more || '';
+    const typeAria = this.checkExp ? less || '' : more || '';
     const aria = this.checkExp ? 'collapse' : 'expand';
 
     const btn = document.createElement('span');
@@ -119,6 +119,7 @@ class ShowMore {
       element,
       type,
       limit,
+      less,
       typeElement,
       originalText,
       truncatedText,
@@ -134,9 +135,11 @@ class ShowMore {
       element.innerHTML = '';
       element.innerHTML = this.checkExp ? originalText : truncatedText;
 
-      const el = document.createElement(typeElement);
-      el.insertAdjacentElement('beforeend', this.createBtn(object));
-      element.appendChild(el);
+      if (less) {
+        const el = document.createElement(typeElement);
+        el.insertAdjacentElement('beforeend', this.createBtn(object));
+        element.appendChild(el);
+      }
     }
 
     // list and table
@@ -210,9 +213,9 @@ class ShowMore {
       target.innerHTML = number
         ? typeAria + this.getNumber(element, type)
         : typeAria;
-    } else if (this.object.type === 'table') {
+    } else if (type === 'table') {
       target.parentNode.removeChild(target);
-    } else if (this.object.type === 'list') {
+    } else if (type === 'list') {
       lastChild.parentNode.removeChild(lastChild);
     }
   };
