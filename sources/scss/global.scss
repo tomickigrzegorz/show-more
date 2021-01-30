@@ -6,6 +6,10 @@
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body,
 html {
   margin: 0;
@@ -18,7 +22,12 @@ body {
   font-family: "Lato", sans-serif;
   font-size: 18px;
   line-height: 150%;
-  counter-reset: section;
+}
+
+h2,
+h3 {
+  padding: 0;
+  margin: 0;
 }
 
 a {
@@ -32,34 +41,43 @@ ul {
 }
 
 section {
-  padding: 30px 0 0;
+  position: relative;
+  padding: 30px 0;
+  border-bottom: 1px solid #edd7ff;
+  margin-top: 20px;
 
   h2 {
     position: relative;
     color: #583131;
-    padding-bottom: 10px;
+    padding: 0 10px 0 25px;
+    line-height: 1.2;
+    font-weight: 700;
+    margin-bottom: 15px;
+
+    @media (max-width: 700px) {
+      font-size: 1.2em;
+      padding: 0 10px 10px 15px;
+    }
   }
 
   h2::before {
     position: absolute;
-    counter-increment: section;
-    content: counters(section, " ", decimal-leading-zero) ". ";
-    color: #b152ff;
-    margin-left: -45px;
-  }
-
-  h2::after {
-    position: absolute;
-    bottom: 0;
     content: "";
-    width: calc(100% + 45px);
-    left: -45px;
-    border-bottom: 1px solid #ead1ff;
+    width: 5px;
+    height: 100%;
+    background: #ea00ff;
+    border-radius: 10px;
+    left: 0;
   }
 
-  & + section {
-    border-top: 1px solid #edd7ff;
-    margin-top: 20px;
+  // & + section {
+  //   border-top: 1px solid #edd7ff;
+  //   margin-top: 20px;
+  // }
+
+  h3 {
+    font-weight: normal;
+    margin-bottom: 10px;
   }
 }
 
@@ -136,19 +154,17 @@ html[data-useragent*="IE"] .example-html {
   position: relative;
   display: block;
   margin: 10px auto;
-
-  &-html {
-    cursor: pointer;
-  }
 }
 
 pre {
   overflow: auto;
-  margin: -20px auto -60px auto;
+  margin: 0px auto -50px;
   padding: 0;
 
   code {
     line-height: 130%;
+    border-radius: 4px;
+    // margin: 20px 0;
   }
 }
 
@@ -181,5 +197,24 @@ h5 {
 
   pre {
     display: block;
+  }
+}
+
+.top-button {
+  position: absolute;
+  bottom: -12px;
+  right: 0;
+  background: #fff;
+  text-decoration: none;
+  font-size: 0.8em;
+  padding: 0 5px 0 20px;
+  &:after {
+    position: absolute;
+    top: -1px;
+    right: -3px;
+    content: "↑";
+  }
+  &:hover {
+    color: red;
   }
 }
