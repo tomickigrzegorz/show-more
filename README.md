@@ -133,7 +133,7 @@ npm run prod
 
 > Number of records counted in the table `tr` based on all `tr` of `thead`, `tbody` and `tfoot`
 
-## Function call
+## Callback function
 
 ```javascript
 document.addEventListener('DOMContentLoaded', function() {
@@ -141,7 +141,7 @@ document.addEventListener('DOMContentLoaded', function() {
   new ShowMore('.element', {
     onAction: (type, object) => {
       // type = less/more and full object
-      console.log(typeAria, object);
+      console.log(type, object);
     }
   });
 });
