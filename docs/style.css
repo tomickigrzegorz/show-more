@@ -1,1 +1,1 @@
-.show-more-btn{margin:auto;cursor:pointer;color:#0095e5;white-space:nowrap}.show-more-btn:hover{color:red}.hidden{display:none}
+.show-more-btn{margin:auto;cursor:pointer;color:#0095e5;white-space:nowrap;transition:color 200ms ease-in-out}.show-more-btn:hover{color:red}.hidden{display:none}
