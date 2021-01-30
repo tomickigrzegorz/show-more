@@ -1,12 +1,12 @@
 class ShowMore {
-  constructor(className) {
+  constructor(className, { onMoreLess = () => { } }) {
     this.elements = document.querySelectorAll(className);
+    this.onMoreLess = onMoreLess;
     this.regex = {
       newLine: /[^\x20-\x7E]/gm,
       space: /\s{2,}/gm,
       br: /<\s*\/?br\s*[/]?>/gm,
     };
-
     for (let i = 0; i < this.elements.length; i++) {
       const {
         type,
@@ -20,9 +20,11 @@ class ShowMore {
       } = JSON.parse(this.elements[i].getAttribute('data-config'));
 
       this.object = {
+        index: i,
         element: this.elements[i],
         type,
         limit,
+        classArray: this.elements[i].classList,
         ellipsis: ellipsis || false,
         typeElement: element || 'span',
         more: more || false,
@@ -30,7 +32,6 @@ class ShowMore {
         number: number || false,
         after: after || 0,
       };
-
       this.initial(this.object);
     }
   }
@@ -55,11 +56,11 @@ class ShowMore {
 
       if (element.innerText.length > limitCounts) {
         truncatedText = orgTexReg.substr(0, limit + differenceBetweenHTMLaTEXT);
-        const minText = Math.min(
-          truncatedText.length,
-          truncatedText.lastIndexOf(' ')
+        truncatedText = truncatedText.substr(
+          0,
+          Math.min(truncatedText.length, truncatedText.lastIndexOf(' '))
         );
-        element.innerHTML = truncatedText.substr(0, minText);
+        element.innerHTML = truncatedText;
 
         this.addBtn(this.object);
 
@@ -200,14 +201,18 @@ class ShowMore {
     return numbersElementHidden !== 0 ? ` ${numbersElementHidden}` : '';
   };
 
-  setExpand = ({ element, type, less, more, number, target }) => {
+  setExpand = (object) => {
+    const { element, type, less, more, number, target } = object;
     const typeAria = this.checkExp ? less : more;
-    const aria = this.checkExp ? 'collapse' : 'expand';
+    const aria = this.checkExp ? 'expand' : 'collapse';
     const ariaText = type === 'table' ? type : `the ${type}`;
     const lastChild = element.lastElementChild;
 
     element.setAttribute('aria-expanded', this.checkExp);
     target.setAttribute('aria-label', `${aria} ${ariaText}`);
+
+    // callback function on more/less
+    this.onMoreLess(aria, object);
 
     if (typeAria) {
       target.innerHTML = number

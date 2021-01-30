@@ -3,6 +3,7 @@
   cursor: pointer;
   color: #0095e5;
   white-space: nowrap;
+  transition: color 200ms ease-in-out;
 
   &:hover {
     color: red;

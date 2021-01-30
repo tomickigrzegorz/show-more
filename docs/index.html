@@ -7,30 +7,47 @@
     <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
     <title>ShowMoreLess</title>
     <link rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/atom-one-dark.min.css">
+      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/atom-one-dark-reasonable.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
-    <script src="./github-corner.js"></script>
     <link rel="stylesheet" href="global.css">
     <link rel="stylesheet" href="style.css">
   </head>
 
   <body>
     <div class="container">
+
+      <!-- More text -->
+      <section>
+        <h2>Configuration</h2>
+        <p>Simple configuration, just add configuration json to html</p>
+        <div class="example-html">
+          <pre>
+            <code code class="language-html">&lt;div class=&quot;element&quot; data-config='{ &quot;type&quot;: &quot;text&quot;, &quot;limit&quot;: 120, &quot;more&quot;: &quot;&amp;#8594; show more&quot;, &quot;less&quot;: &quot;&amp;#8592; less&quot; }'&gt;
+  Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse, quos qui. Recusandae minima esse qui dicta iusto quod quam exercitationem.
+&lt;/div&gt;</code>
+          </pre>
+        </div>
+      </section>
+
       <!-- More text -->
       <section>
         <h2>More text - without 'after', cut after 120 characters</h2>
         <div class="element"
           data-config='{ "type": "text", "limit": 120, "more": "&#8594; show more", "less": "&#8592; less" }'>
-          It is a long established fact that a reader will be distracted by the readable content of a page when looking
-          at its layout.
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officia illo temporibus voluptate veritatis porro,
+          dignissimos dolore debitis!
         </div>
         <div class="example-html">
-          <h5>Show html</h5>
-          <pre class="hidden">
-            <code code class="language-html"></code>
+          <pre>
+            <code code class="language-json">{
+  "type": "text",
+  "limit": 120, // show makx chars
+  "more": "&#8594; show more",
+  "less": "&#8592; less"
+}</code>
           </pre>
         </div>
-        <small>If the text is too short, then we have a problem, <b>data-after</b> should prevent this. See the next
+        <small>If the text is too short, then we have a problem, <b>after</b> should prevent this. See the next
           example.</small>
       </section>
 
@@ -39,14 +56,19 @@
         <h2>More text - from 'after': 50, prevent cutting after 120 characters</h2>
         <div class="element"
           data-config='{ "type": "text", "limit": 120, "after": 50, "more": "&#8594; show more", "less": "&#8592; less" }'>
-          It is a long established fact that a reader will be distracted by the readable content of a page when looking
-          at its layout.
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officia illo temporibus voluptate veritatis porro,
+          dignissimos dolore debitis!
         </div>
         <div class="example-html">
-          <h5>Show html</h5>
-          <pre class="hidden">
-          <code class="language-html"></code>
-        </pre>
+          <pre>
+            <code class="language-json">{
+  "type": "text",
+  "limit": 120,
+  "after": 50, // prevent cutting after 120 characters
+  "more": "&#8594; show more",
+  "less": "&#8592; less"
+}</code>
+          </pre>
         </div>
       </section>
 
@@ -67,9 +89,14 @@
           amet..", comes from a line in section 1.10.32.
         </div>
         <div class="example-html">
-          <h5>Show html</h5>
-          <pre class="hidden">
-            <code class="language-html"></code>
+          <pre>
+            <code class="language-json">{
+  "type": "text",
+  "limit": 120,
+  "after": 50,
+  "more": "&#8594; show more",
+  "less": "&#8592; less"
+}</code>
           </pre>
         </div>
       </section>
@@ -85,9 +112,15 @@
           content here', making it
         </div>
         <div class="example-html">
-          <h5>Show html</h5>
-          <pre class="hidden">
-              <code class="language-html"></code>
+          <pre>
+              <code class="language-json">{
+  "type": "text",
+  "limit": 90,
+  "element": "div", // adds a 'div' on a new line
+  "after": 50,
+  "more": "&#8595; show more",
+  "less": "&#8593; less"
+}</code>
             </pre>
         </div>
       </section>
@@ -110,9 +143,15 @@
         </ul>
 
         <div class="example-html">
-          <h5>Show html</h5>
-          <pre class="hidden">
-              <code class="language-html"></code>
+          <pre>
+              <code class="language-json">{
+  "type": "list",
+  "limit": 5,
+  "element": "li",
+  "more": "&#8595; show more",
+  "less": "&#8593; less",
+  "number": true // adds the number of items to the button
+}</code>
             </pre>
         </div>
       </section>
@@ -130,9 +169,15 @@
           <li>Hurtownie elektryczne</li>
         </ul>
         <div class="example-html">
-          <h5>Show html</h5>
-          <pre class="hidden">
-            <code class="language-html"></code>
+          <pre>
+            <code class="language-json">{
+  "type": "list",
+  "limit": 3,
+  "element": "li",
+  "more": "&#8594; show more",
+  "less": "&#8592; less",
+  "number": true
+}</code>
             </pre>
         </div>
       </section>
@@ -153,9 +198,14 @@
           <a href="#">Żegluga</a>
         </div>
         <iv class="example-html">
-          <h5>Show html</h5>
-          <pre class="hidden">
-            <code class="language-html"></code>
+          <pre>
+            <code class="language-json">{
+  "type": "list",
+  "limit": 5,
+  "element": "div",
+  "more": "&#8595; show more",
+  "less": "&#8593; less"
+}</code>
             </pre>
         </iv>
       </section>
@@ -208,16 +258,21 @@
           </tfoot>
         </table>
         <div class="example-html">
-          <h5>Show html</h5>
-          <pre class="hidden">
-            <code class="language-html"></code>
+          <pre>
+            <code class="language-json">{
+  "type": "table",
+  "limit": 4,
+  "more": "&#8595; show more",
+  "less": "&#8593; less",
+  "number": true
+}</code>
           </pre>
         </div>
       </section>
 
       <!-- Only expandable -->
       <section id="example-onlyexpandable">
-        <h2>Only expandable</h2>
+        <h2>Only "show more"</h2>
         <div class="element links-style" data-config='{ "type": "list", "limit": 5, "more": "&#8594; show more" }'>
           <a href="#">Administracja biur,</a>
           <a href="#">Badanie i uzdatnianie wody,</a>
@@ -230,9 +285,12 @@
           <a href="#">Żegluga</a>
         </div>
         <div class="example-html">
-          <h5>Show html</h5>
-          <pre class="hidden">
-            <code class="language-html"></code>
+          <pre>
+            <code class="language-json">{
+  "type": "list",
+  "limit": 5,
+  "more": "&#8594; show more" // only the 'show more' button
+}</code>
             </pre>
         </div>
       </section>
@@ -245,45 +303,71 @@
           at its layout.
         </div>
         <div class="example-html">
-          <h5>Show html</h5>
-          <pre class="hidden">
-            <code code class="language-html"></code>
+          <pre>
+            <code code class="language-json">{ 
+  "type": "text",
+  "limit": 100,
+  "ellipsis": " ..." // we add an ellipsis 
+}</code>
+          </pre>
+        </div>
+      </section>
+
+      <!-- Callback text -->
+      <section>
+        <h2>Callback function</h2>
+        <div class="element"
+          data-config='{ "type": "text", "limit": 120, "more": " &#8594; show more", "less": " &#8592; less" }'>
+          With the callback function you can, for example, change the color of elements on the page. Click on 'show
+          more' to see what happens.
+        </div>
+        <div class="example-html">
+          <pre>
+            <code code class="language-js">new ShowMore('.element', {
+  onMoreLess: (type, object) => {
+    const index = object.index;
+    const h2 = object.element.parentElement.firstElementChild;
+
+    if (index == 10) {
+      if (type === 'expand') {
+        h2.setAttribute('style', 'color: #eb00ff;');
+        console.log(object);
+      } else {
+        h2.removeAttribute('style');
+        console.log(object);
+      }
+    }
+  }
+});</code>
           </pre>
         </div>
       </section>
 
     </div>
     <script src="./showMore.min.js"></script>
-    <script>hljs.initHighlightingOnLoad();</script>
     <script>
       document.addEventListener('DOMContentLoaded', function () {
-        new ShowMore('.element');
+        new ShowMore('.element', {
+          onMoreLess: (type, object) => {
+            const index = object.index;
+            const h2 = object.element.parentElement.firstElementChild;
+
+            if (index == 10) {
+              if (type === 'expand') {
+                h2.setAttribute('style', 'color: #eb00ff;');
+                console.log(object);
+              } else {
+                h2.removeAttribute('style');
+                console.log(object);
+              }
+            }
+          }
+        });
       });
 
-      if (navigator.userAgent.indexOf('MSIE') !== -1 || navigator.appVersion.indexOf('Trident/') > -1) {
-        var doc = document.documentElement;
-        doc.setAttribute('data-useragent', 'IE');
-      }
-
-      var examples = document.querySelectorAll('.example-html');
-      for (var i = 0; i < examples.length; i++) {
-        examples[i].addEventListener('click', function (e) {
-          e.target.parentNode.classList.toggle('open');
-        });
-      }
-
-      var sections = document.querySelectorAll('section');
-      for (var i = 0; i < sections.length; i++) {
-        var element = sections[i].children;
-        var htmlCode = element[1].cloneNode(true).outerHTML.replace(/^\s{1,8}/gm, '');
-
-        var htmlConverter = htmlCode.replace(/&quot;/gim, "'").replace(/[\u00A0-\u9999<>\\&]/gim, function (i) {
-          return `&#${i.charCodeAt(0)};`;
-        });
-        var htmlShow = element[2].lastElementChild.lastElementChild;
-        htmlShow.insertAdjacentHTML('beforeend', htmlConverter);
-      }
     </script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script src="./github-corner.js"></script>
   </body>
 
 </html>
