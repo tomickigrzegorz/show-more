@@ -30,6 +30,12 @@
         <p>And run the function</p>
         <div class="example-html">
           <pre>
+            <code code class="language-js">new ShowMore('.element');</code>
+          </pre>
+        </div>
+        <p>You can also use the callback function, see last example</p>
+        <div class="example-html">
+          <pre>
             <code code class="language-js">new ShowMore('.element', {
   onMoreLess: (type, object) => {
     console.log(type, object);
