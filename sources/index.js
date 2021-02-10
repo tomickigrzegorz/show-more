@@ -99,11 +99,14 @@ class ShowMore {
 
   createBtn = ({ element, number, less, more, type }) => {
     const typeAria = this.checkExp ? less || '' : more || '';
-    const aria = this.checkExp ? 'collapse' : 'expand';
+    const label = this.checkExp ? 'collapse' : 'expand';
+    const expanded = this.checkExp ? true : false;
 
-    const btn = document.createElement('span');
+    const btn = document.createElement('button');
     btn.className = 'show-more-btn';
-    btn.setAttribute('aria-label', aria);
+    btn.setAttribute('type', 'button');
+    btn.setAttribute('aria-expanded', expanded);
+    btn.setAttribute('aria-label', label);
     btn.setAttribute('tabindex', 0);
     btn.innerHTML = number
       ? typeAria + this.getNumber(element, type)
