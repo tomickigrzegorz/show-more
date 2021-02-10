@@ -104,7 +104,6 @@ class ShowMore {
 
     const btn = document.createElement('button');
     btn.className = 'show-more-btn';
-    btn.setAttribute('type', 'button');
     btn.setAttribute('aria-expanded', expanded);
     btn.setAttribute('aria-label', label);
     btn.setAttribute('tabindex', 0);
