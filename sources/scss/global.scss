@@ -70,15 +70,15 @@ section {
     left: 0;
   }
 
-  // & + section {
-  //   border-top: 1px solid #edd7ff;
-  //   margin-top: 20px;
-  // }
-
   h3 {
     font-weight: normal;
     margin-bottom: 10px;
   }
+}
+
+img {
+  width: 100%;
+  height: auto;
 }
 
 table {

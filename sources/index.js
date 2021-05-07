@@ -3,9 +3,12 @@ class ShowMore {
     this.elements = document.querySelectorAll(className);
     this.onMoreLess = onMoreLess;
     this.regex = {
-      newLine: /[^\x20-\x7E]/gm,
-      space: /\s{2,}/gm,
-      br: /<\s*\/?br\s*[/]?>/gm,
+      global: /[\W+|\w+]|[\u3040-\u309F]|[\u30A0-\u30FF]|[\u4E00-\u9FFF\uF900-\uFAFF\u3400-\u4DBF]|[\u3131-\uD79D]/gi,
+      newLine: /(\r\n|\n|\r)/gi,
+      space: /\s{2,}/gi,
+      img: /<img([\w\W]+?)[/]?>/gi,
+      html: /(<([^>]+)>)/gi,
+      br: /<\s*\/?br\s*[/]?>/gi,
     };
     for (let i = 0; i < this.elements.length; i++) {
       const {
@@ -44,22 +47,22 @@ class ShowMore {
     if (type === 'text') {
       let truncatedText = '';
       const originalText = element.innerHTML;
+      let elementText = element.innerText;
 
       const orgTexReg = originalText
         .replace(this.regex.newLine, '')
         .replace(this.regex.space, ' ')
+        .replace(this.regex.img, '')
+        // .replace(this.regex.html, '')
         .replace(this.regex.br, '');
 
-      const differenceBetweenHTMLaTEXT =
-        orgTexReg.length -
-        element.innerText.replace(this.regex.newLine, '').length;
+      let lengthText = elementText.trim().match(this.regex.global);
 
-      if (element.innerText.length > limitCounts) {
+      const differenceBetweenHTMLaTEXT = orgTexReg.length - lengthText.length;
+
+      if (elementText.length > limitCounts) {
         truncatedText = orgTexReg.substr(0, limit + differenceBetweenHTMLaTEXT);
-        truncatedText = truncatedText.substr(
-          0,
-          Math.min(truncatedText.length, truncatedText.lastIndexOf(' '))
-        );
+        truncatedText = truncatedText.substr(0, Math.min(truncatedText.length, truncatedText.lastIndexOf(' ')));
         element.innerHTML = truncatedText;
 
         this.addBtn(this.object);
