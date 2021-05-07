@@ -126,7 +126,7 @@ npm run prod
 | `more/less` | is the text and chars that appears after the text, list or table e.g. `> show more` and  `< show less` |
 | `number` | number of hidden items to show more/less e.g. `-> show more 3`, only works for list and table |
 | `ellipsis` | show only the ellipsis |
-| `onAction` | callback function |
+| `onMoreLess` | callback function |
 
 
 > ^ Let's say we have 20 records with text and we determine that the text is to be trimmed after 100 characters in each record, it may happen that in several records the text is very short and has 110 characters, so `show more/less` will appear after 100 characters and after clicking an additional 10 characters, it will look funny. To prevent this, we add the `"after": 50` parameter, which means that the hidden text must be at least 50 characters. Otherwise, `show more/less` will not appear. The same `after` can be applied to lists, elements and table records
@@ -139,7 +139,7 @@ npm run prod
 document.addEventListener('DOMContentLoaded', function() {
   // text, table, list, elelemnts
   new ShowMore('.element', {
-    onAction: (type, object) => {
+    onMoreLess: (type, object) => {
       // type = less/more and full object
       console.log(type, object);
     }
