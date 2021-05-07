@@ -6,7 +6,7 @@ class ShowMore {
     this.regex = {
       global: /[\W|\w\p{L}|\p{N}]/gu,
       newLine: /(\r\n|\n|\r)/gi,
-      space: /\s{2,}/gi,
+      space: /\s\s+/g,
       img: /<img([\w\W]+?)[/]?>/gi,
       html: /(<([^>]+)>)/gi,
       br: /<\s*\/?br\s*[/]?>/gi,
@@ -51,11 +51,11 @@ class ShowMore {
       let elementText = element.innerText;
 
       const orgTexReg = originalText
-        .replace(this.regex.newLine, '')
-        .replace(this.regex.space, '')
+        .replace(this.regex.newLine, ' ')
+        .replace(this.regex.space, ' ')
         // .replace(this.regex.img, '')
         // .replace(this.regex.html, '')
-        .replace(this.regex.br, '');
+        .replace(this.regex.br, ' ');
 
       let lengthText = elementText.match(this.regex.global);
 
@@ -63,7 +63,7 @@ class ShowMore {
 
       if (elementText.length > limitCounts) {
         truncatedText = orgTexReg.substr(0, limit + differenceBetweenHTMLaTEXT);
-        truncatedText = truncatedText.substr(0, Math.min(truncatedText.length, truncatedText.lastIndexOf('')));
+        truncatedText = truncatedText.substr(0, truncatedText.length);
 
         element.innerHTML = truncatedText;
 
