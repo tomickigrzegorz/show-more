@@ -2,8 +2,9 @@ class ShowMore {
   constructor(className, { onMoreLess = () => { } }) {
     this.elements = document.querySelectorAll(className);
     this.onMoreLess = onMoreLess;
+
     this.regex = {
-      global: /[\W+|\w+]|[\u3040-\u309F]|[\u30A0-\u30FF]|[\u4E00-\u9FFF\uF900-\uFAFF\u3400-\u4DBF]|[\u3131-\uD79D]/gi,
+      global: /[\W|\w\p{L}|\p{N}]/gu,
       newLine: /(\r\n|\n|\r)/gi,
       space: /\s{2,}/gi,
       img: /<img([\w\W]+?)[/]?>/gi,
@@ -51,18 +52,19 @@ class ShowMore {
 
       const orgTexReg = originalText
         .replace(this.regex.newLine, '')
-        .replace(this.regex.space, ' ')
-        .replace(this.regex.img, '')
+        .replace(this.regex.space, '')
+        // .replace(this.regex.img, '')
         // .replace(this.regex.html, '')
         .replace(this.regex.br, '');
 
-      let lengthText = elementText.trim().match(this.regex.global);
+      let lengthText = elementText.match(this.regex.global);
 
       const differenceBetweenHTMLaTEXT = orgTexReg.length - lengthText.length;
 
       if (elementText.length > limitCounts) {
         truncatedText = orgTexReg.substr(0, limit + differenceBetweenHTMLaTEXT);
-        truncatedText = truncatedText.substr(0, Math.min(truncatedText.length, truncatedText.lastIndexOf(' ')));
+        truncatedText = truncatedText.substr(0, Math.min(truncatedText.length, truncatedText.lastIndexOf('')));
+
         element.innerHTML = truncatedText;
 
         this.addBtn(this.object);
