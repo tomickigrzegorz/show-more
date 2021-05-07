@@ -1,6 +1,6 @@
 {
   "name": "show-more-read",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "main": "docs/showMore.min.js",
   "description": "JavaScript library that truncates text, list or table by chars, elements or rows",
   "author": "Grzegorz Tomicki",
