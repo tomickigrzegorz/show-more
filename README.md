@@ -98,15 +98,6 @@ npm run prod
 ```
 ---
 
-### Only ellipsis → [live example](https://tomik23.github.io/show-more#ellipsis):
-```html
-<div class="element" data-config='{ "type": "text", "limit": 100, "ellipsis": " ..." }'>
-  It is a long established fact that a reader will be distracted by the readable content of a page when looking
-  at its layout.
-</div>
-```
----
-
 ### Show the number next to the button  → [live example](https://tomik23.github.io/show-more#show-number):
 ```html
 <ul class="element display-inline" data-config='{ "type": "list", "limit": 3, "element": "li", "more": "→ show more", "less": "← less", "number": true }'>
@@ -115,18 +106,27 @@ npm run prod
 </ul>
 ```
 
-| element | description |
-|--------------- |-------------|
-| `your-class` | name of the class after which we want to add support for showing/hiding text, list or table |
-| `data-config` | embedding JSON in the html, the entire configuration of a particular element  |
-| `type` | we have three type after which it will be hidden [text, list or table] |
-| `limit` | `text` after how many characters to hide the text and insert `show more/less`<br />`list` or `table` after how many elements/rows hide the rest and insert `show more/less` |
-| `after` | this parameter checks how much text is after the trimmed text the `limit` parameter, if the text is less than the `after` parameter does not add a more/less button`^. |
-| `element` | on the parameter we will create an html element and put in the text `show more/less` |
-| `more/less` | is the text and chars that appears after the text, list or table e.g. `> show more` and  `< show less` |
-| `number` | number of hidden items to show more/less e.g. `-> show more 3`, only works for list and table |
-| `ellipsis` | show only the ellipsis |
-| `onMoreLess` | callback function |
+### Only the ellipsis → [live example](https://tomik23.github.io/show-more#ellipsis):
+```html
+<div class="element" data-config='{ "type": "text", "limit": 100 }'>
+  It is a long established fact that a reader will be distracted by the readable content of a page when looking
+  at its layout.
+</div>
+```
+---
+
+| element | require | description |
+|--------------- | :-------------: |-------------|
+| `your-class` | ✔ | name of the class after which we want to add support for showing/hiding text, list or table |
+| `data-config` | ✔ | embedding JSON in the html, the entire configuration of a particular element  |
+| `type` | ✔ | we have three type after which it will be hidden [text, list or table] |
+| `limit` | ✔ |`text` after how many characters to hide the text and insert `show more/less`<br />`list` or `table` after how many elements/rows hide the rest and insert `show more/less` |
+| `after` |  | this parameter checks how much text is after the trimmed text the `limit` parameter, if the text is less than the `after` parameter does not add a more/less button`^. |
+| `element` |  | on the parameter we will create an html element and put in the text `show more/less` |
+| `more/less` |  | is the text and chars that appears after the text, list or table e.g. `> show more` and  `< show less` |
+| `number` |  | number of hidden items to show more/less e.g. `-> show more 3`, only works for list and table |
+| `ellipsis` |  | By default, adding an ellipsis to shortened text can be turned off by setting 'ellipsis': false |
+| `onMoreLess` |  | callback function |
 
 
 > ^ Let's say we have 20 records with text and we determine that the text is to be trimmed after 100 characters in each record, it may happen that in several records the text is very short and has 110 characters, so `show more/less` will appear after 100 characters and after clicking an additional 10 characters, it will look funny. To prevent this, we add the `"after": 50` parameter, which means that the hidden text must be at least 50 characters. Otherwise, `show more/less` will not appear. The same `after` can be applied to lists, elements and table records
