@@ -4,12 +4,8 @@ class ShowMore {
     this.onMoreLess = onMoreLess;
 
     this.regex = {
-      global: /[\W|\w\p{L}|\p{N}]/gu,
       newLine: /(\r\n|\n|\r)/gi,
       space: /\s\s+/g,
-      img: /<img([\w\W]+?)[/]?>/gi,
-      html: /(<([^>]+)>)/gi,
-      br: /<\s*\/?br\s*[/]?>/gi,
     };
     for (let i = 0; i < this.elements.length; i++) {
       const {
@@ -29,7 +25,7 @@ class ShowMore {
         type,
         limit,
         classArray: this.elements[i].classList,
-        ellipsis: ellipsis || false,
+        ellipsis,
         typeElement: element || 'span',
         more: more || false,
         less: less || false,
@@ -40,10 +36,11 @@ class ShowMore {
     }
   }
 
-  initial = ({ element, after, limit, type }) => {
+  initial = ({ element, after, ellipsis, limit, type }) => {
     // set default aria-expande to false
     element.setAttribute('aria-expanded', 'false');
     const limitCounts = limit + after;
+    const ellips = ellipsis === false ? '' : '...';
 
     if (type === 'text') {
       let truncatedText = '';
@@ -53,17 +50,12 @@ class ShowMore {
       const orgTexReg = originalText
         .replace(this.regex.newLine, ' ')
         .replace(this.regex.space, ' ')
-        // .replace(this.regex.img, '')
-        // .replace(this.regex.html, '')
-        .replace(this.regex.br, ' ');
 
-      let lengthText = elementText.match(this.regex.global);
-
-      const differenceBetweenHTMLaTEXT = orgTexReg.length - lengthText.length;
+      const differenceBetweenHTMLaTEXT = orgTexReg.length - elementText.length;
 
       if (elementText.length > limitCounts) {
         truncatedText = orgTexReg.substr(0, limit + differenceBetweenHTMLaTEXT);
-        truncatedText = truncatedText.substr(0, truncatedText.length);
+        truncatedText = truncatedText.substr(0, Math.min(truncatedText.length, truncatedText.lastIndexOf(' '))).concat(ellips);
 
         element.innerHTML = truncatedText;
 
@@ -176,14 +168,7 @@ class ShowMore {
   };
 
   addBtn = (object) => {
-    const { type, element, more, ellipsis, typeElement } = object;
-
-    if (type !== 'table' && !more && ellipsis) {
-      const el = document.createElement('span');
-      el.insertAdjacentHTML('afterbegin', ellipsis);
-      element.appendChild(el);
-      return;
-    }
+    const { type, element, more, typeElement } = object;
 
     if (!more) {
       return;
