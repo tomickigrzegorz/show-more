@@ -72,14 +72,16 @@
         <h2>More text - from 'after': 50, prevent cutting after 120 characters</h2>
         <div class="element"
           data-config='{ "type": "text", "limit": 120, "after": 50, "more": "&#8594; show more", "less": "&#8592; less" }'>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officia illo temporibus voluptate veritatis porro, dignissimos dolore debitis!
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officia illo temporibus voluptate veritatis porro,
+          dignissimos dolore debitis!
         </div>
         <div class="example-html">
           <pre>
             <code class="language-json">{
   "type": "text",
   "limit": 120,
-  "after": 50, // prevent cutting after 120 characters
+  // prevent cutting after 120 characters
+  "after": 50,
   "more": "&#8594; show more",
   "less": "&#8592; less"
 }</code>
@@ -92,7 +94,14 @@
         <h2>More text</h2>
         <div class="element"
           data-config='{ "type": "text", "limit": 120, "after": 50, "more": "&#8594; read more", "less": "&#8592; read less" }'>
-          <strong>Contrary to popular belief, Lorem Ipsum is not simply random text</strong>. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (<b>The Extremes of Good and Evil</b>) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.
+          <b>Contrary to popular belief</b>, Lorem Ipsum is not simply random text. It has roots in a piece of classical
+          Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at
+          Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem
+          Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable
+          source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The
+          Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics,
+          very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from
+          a line in section 1.10.32.
         </div>
         <div class="example-html">
           <pre>
@@ -112,14 +121,21 @@
         <h2>More text, "show more" new line</h2>
         <div class="element"
           data-config='{ "type": "text", "limit": 90, "element": "div", "after": 50, "more": "&#8595; read more", "less": "&#8593; read less" }'>
-          <b>Lorem Ipsum</b> - це текст-"риба", що використовується в друкарстві та дизайні. Lorem Ipsum є, фактично, стандартною "рибою" аж з XVI сторіччя, коли невідомий друкар взяв шрифтову гранку та склав на ній підбірку зразків шрифтів. "Риба" не тільки успішно пережила п'ять століть, але й прижилася в електронному верстуванні, залишаючись по суті незмінною. Вона популяризувалась в 60-их роках минулого сторіччя завдяки виданню зразків шрифтів Letraset, які містили уривки з Lorem Ipsum, і вдруге - нещодавно завдяки програмам комп'ютерного верстування на кшталт Aldus Pagemaker, які використовували різні версії Lorem Ipsum.
+          <b>Lorem Ipsum</b> - це текст-"риба", що використовується в друкарстві та дизайні. Lorem Ipsum є,
+          фактично,
+          стандартною "рибою" аж з XVI сторіччя, коли невідомий друкар взяв шрифтову гранку та склав на ній підбірку
+          зразків шрифтів. "Риба" не тільки успішно пережила п'ять століть, але й прижилася в електронному верстуванні,
+          залишаючись по суті незмінною. Вона популяризувалась в 60-их роках минулого сторіччя завдяки виданню зразків
+          шрифтів Letraset, які містили уривки з Lorem Ipsum, і вдруге - нещодавно завдяки програмам комп'ютерного
+          верстування на кшталт Aldus Pagemaker, які використовували різні версії Lorem Ipsum.
         </div>
         <div class="example-html">
           <pre>
               <code class="language-json">{
   "type": "text",
   "limit": 90,
-  "element": "div", // adds a 'div' on a new line
+  // adds a 'div' on a new line
+  "element": "div",
   "after": 50,
   "more": "&#8595; show more",
   "less": "&#8593; less"
@@ -153,7 +169,8 @@
   "element": "li",
   "more": "&#8595; show more",
   "less": "&#8593; less",
-  "number": true // adds the number of items to the button
+  // adds the number of items to the button
+  "number": true
 }</code>
             </pre>
         </div>
@@ -292,7 +309,8 @@
             <code class="language-json">{
   "type": "list",
   "limit": 5,
-  "more": "&#8594; show more" // only the 'show more' button
+  // only the 'show more' button
+  "more": "&#8594; show more"
 }</code>
             </pre>
         </div>
@@ -301,7 +319,7 @@
       <!-- ellipsis -->
       <section id="ellipsis">
         <h2>Only the ellipsis</h2>
-        <div class="element" data-config='{ "type": "text", "limit": 100, "ellipsis": " ..." }'>
+        <div class="element" data-config='{ "type": "text", "limit": 100 }'>
           It is a long established fact that a reader will be distracted by the readable content of a page when looking
           at its layout.
         </div>
@@ -309,8 +327,9 @@
           <pre>
             <code code class="language-json">{ 
   "type": "text",
-  "limit": 100,
-  "ellipsis": " ..." // we add an ellipsis 
+  // cropping the text after 100 characters
+  // and adding an ellipse
+  "limit": 100
 }</code>
           </pre>
         </div>
