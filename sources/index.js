@@ -4,8 +4,8 @@ class ShowMore {
     this.onMoreLess = onMoreLess;
 
     this.regex = {
-      newLine: /(\r\n|\n|\r)/gi,
-      space: /\s\s+/g,
+      newLine: /(\r\n|\n|\r)/gm,
+      space: /\s\s+/gm,
     };
     for (let i = 0; i < this.elements.length; i++) {
       const {
@@ -44,8 +44,8 @@ class ShowMore {
 
     if (type === 'text') {
       let truncatedText = '';
-      const originalText = element.innerHTML;
-      let elementText = element.innerText;
+      const originalText = element.innerHTML.trim();
+      let elementText = element.innerText.trim();
 
       const orgTexReg = originalText
         .replace(this.regex.newLine, ' ')
@@ -54,8 +54,8 @@ class ShowMore {
       const differenceBetweenHTMLaTEXT = orgTexReg.length - elementText.length;
 
       if (elementText.length > limitCounts) {
-        truncatedText = orgTexReg.substr(0, limit + differenceBetweenHTMLaTEXT);
-        truncatedText = truncatedText.substr(0, Math.min(truncatedText.length, truncatedText.lastIndexOf(' '))).concat(ellips);
+        truncatedText = orgTexReg.substr(0, limit + differenceBetweenHTMLaTEXT).concat(ellips);
+        // console.log(truncatedText.substr(0, Math.max(truncatedText.length, truncatedText.lastIndexOf(' ')))).concat(ellips);
 
         element.innerHTML = truncatedText;
 
