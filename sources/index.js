@@ -1,5 +1,5 @@
 class ShowMore {
-  constructor(className, { onMoreLess = () => { } }) {
+  constructor(className, { onMoreLess = () => { } } = {}) {
     this.elements = document.querySelectorAll(className);
     this.onMoreLess = onMoreLess;
 
