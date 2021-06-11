@@ -3,7 +3,7 @@
 </h1>
 
 <p align="center">
-  JavaScript library that truncates text, list or table by chars, elements or row and shows/hides text blocks, elements or table row with Show More and Show Less.
+  JavaScript library that truncates text (html experimentally), list or table by chars, elements or row and shows/hides text blocks, elements or table row with Show More and Show Less.
 </p>
 
 <p align="center">
@@ -113,6 +113,33 @@ npm run prod
   at its layout.
 </div>
 ```
+
+### HTML tags (experimentally) → [live example](https://tomik23.github.io/show-more#html-experimentally):
+```html
+<div class="element" data-config='{ "type": "text", "limit": 100, "more": "→ show more", "less": "← less" }'>
+  <b>Lorem ipsum dolor sit</b>, amet consectetur adipisicing elit. Libero deserunt dignissimos blanditiis animi esse veritatis, quasi, ab, commodi itaque quisquam delectus inventore perspiciatis corrupti!
+  <table>
+    <thead>
+      <th>one</th>
+      <th>two</th>
+      <th>three</th>
+    </thead>
+    <tr>
+      <td>a</td>
+      <td>b</td>
+      <td>c</td>
+    </tr>
+    <tr>
+      <td>d</td>
+      <td>e</td>
+      <td>f</td>
+    </tr>
+  </table>
+  Sequi debitis suscipit molestias, eligendi ab odit ullam. Vero eius debitis quis corporis, possimus veniam sit fugit aliquid.  <img src="https://grzegorztomicki.pl/images/maroko/1200/IMG_0738.jpg"> Fuga, libero eaque consequuntur ipsa esse omnis, ad eius laboriosam reprehenderit iste quaerat vitae quis corrupti saepe veniam, ullam placeat voluptatum sint dolore sunt quo. Voluptate fugit quo architecto laboriosam <i>ipsam pariatur delectus iusto consectetur provident</i> odio amet tempora veniam velit at deleniti sint soluta
+  accusamus, praesentium necessitatibus maxime.<br><br> Aliquam necessitatibus porro dolores atque aliquid itaque, ad maiores!
+</div>
+```
+
 ---
 
 | element | require | description |
