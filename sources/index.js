@@ -6,6 +6,9 @@ class ShowMore {
     this.regex = {
       newLine: /(\r\n|\n|\r)/gm,
       space: /\s\s+/gm,
+      br: /<br\s*\/?>/gim,
+      html: /(<((?!b|\/b|!strong|\/strong)[^>]+)>)/ig,
+      // img: /<img([\w\W]+?)[/]?>/g,
     };
     for (let i = 0; i < this.elements.length; i++) {
       const {
@@ -36,6 +39,38 @@ class ShowMore {
     }
   }
 
+  // https://stackoverflow.com/questions/6003271/substring-text-with-html-tags-in-javascript
+  htmlSubstr = (str, count) => {
+    var div = document.createElement('div');
+    div.innerHTML = str;
+
+    walk(div, track);
+
+    function track(el) {
+      if (count > 0) {
+        var len = el.data.length;
+        count -= len;
+        if (count <= 0) {
+          el.data = el.substringData(0, el.data.length + count);
+        }
+      } else {
+        el.data = '';
+      }
+    }
+
+    function walk(el, fn) {
+      var node = el.firstChild;
+      do {
+        if (node.nodeType === 3) {
+          fn(node);
+        } else if (node.nodeType === 1 && node.childNodes && node.childNodes[0]) {
+          walk(node, fn);
+        }
+      } while (node = node.nextSibling);
+    }
+    return div.innerHTML;
+  }
+
   initial = ({ element, after, ellipsis, limit, type }) => {
     // set default aria-expande to false
     element.setAttribute('aria-expanded', 'false');
@@ -45,17 +80,17 @@ class ShowMore {
     if (type === 'text') {
       let truncatedText = '';
       const originalText = element.innerHTML.trim();
-      let elementText = element.innerText.trim();
+      let elementText = element.textContent.trim();
 
       const orgTexReg = originalText
-        .replace(this.regex.newLine, ' ')
+        .replace(this.regex.br, '')
+        .replace(this.regex.newLine, '')
         .replace(this.regex.space, ' ')
-
-      const differenceBetweenHTMLaTEXT = orgTexReg.length - elementText.length;
+        .replace(this.regex.html, '')
+      // .replace(this.regex.img, '')
 
       if (elementText.length > limitCounts) {
-        truncatedText = orgTexReg.substr(0, limit + differenceBetweenHTMLaTEXT).concat(ellips);
-        // console.log(truncatedText.substr(0, Math.max(truncatedText.length, truncatedText.lastIndexOf(' ')))).concat(ellips);
+        truncatedText = this.htmlSubstr(orgTexReg, limit).concat(ellips);
 
         element.innerHTML = truncatedText;
 

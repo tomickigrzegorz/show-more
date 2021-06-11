@@ -49,25 +49,13 @@ section {
   h2 {
     position: relative;
     color: #583131;
-    padding: 0 10px 0 25px;
     line-height: 1.2;
-    font-weight: 700;
     margin-bottom: 15px;
 
     @media (max-width: 700px) {
       font-size: 1.2em;
-      padding: 0 10px 10px 15px;
+      padding: 0;
     }
-  }
-
-  h2::before {
-    position: absolute;
-    content: "";
-    width: 5px;
-    height: 100%;
-    background: #ea00ff;
-    border-radius: 10px;
-    left: 0;
   }
 
   h3 {
@@ -225,4 +213,24 @@ p {
 
 .hljs {
   padding: 1em;
+}
+
+.explanation {
+  font-size: 80%;
+  line-height: 1.2;
+  margin-bottom: 20px;
+
+  code {
+    color: #c7254e;
+    background: #f9f2f4;
+    padding: 2px 4px;
+    border-radius: 4px;
+  }
+}
+
+.element {
+  table,
+  img {
+    margin: 20px 0;
+  }
 }
