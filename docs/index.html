@@ -94,13 +94,18 @@
         <h2>More text</h2>
         <div class="element"
           data-config='{ "type": "text", "limit": 120, "after": 50, "more": "&#8594; read more", "less": "&#8592; read less" }'>
-          <b>Contrary to popular belief</b>, Lorem Ipsum is not simply random text. It has roots in a piece of classical
-          Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at
-          Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem
-          Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable
-          source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The
-          Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics,
-          very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from
+          <b>Contrary to popular belief</b>, Lorem Ipsum is not simply random text. It has roots in a piece of
+          classical
+          Latin literature from 45 BC, making it over 2000 years old. <i>Richard McClintock, a Latin professor at
+            Hampden-Sydney College in Virginia</i>, looked up one of the more obscure Latin words, consectetur, from a
+          Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the
+          undoubtable
+          source. <strong>Lorem Ipsum comes from sections</strong> 1.10.32 and 1.10.33 of "de <sup>Finibus Bonorum
+            et
+            Malorum"</sup> (The
+          Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of
+          ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..",
+          comes from
           a line in section 1.10.32.
         </div>
         <div class="example-html">
@@ -121,11 +126,14 @@
         <h2>More text, "show more" new line</h2>
         <div class="element"
           data-config='{ "type": "text", "limit": 90, "element": "div", "after": 50, "more": "&#8595; read more", "less": "&#8593; read less" }'>
-          <b>Lorem Ipsum</b> - це текст-"риба", що використовується в друкарстві та дизайні. Lorem Ipsum є,
-          фактично,
-          стандартною "рибою" аж з XVI сторіччя, коли невідомий друкар взяв шрифтову гранку та склав на ній підбірку
+          <b>Lorem Ipsum</b> - це текст-"риба", що використовується в
+          друкарстві та дизайні. Lorem <strong>Ipsum є, фактично, стандартною "рибою" аж з XVI сторіччя, коли
+            невідомий
+            друкар</strong>
+          взяв шрифтову гранку та склав на ній підбірку
           зразків шрифтів. "Риба" не тільки успішно пережила п'ять століть, але й прижилася в електронному верстуванні,
-          залишаючись по суті незмінною. Вона популяризувалась в 60-их роках минулого сторіччя завдяки виданню зразків
+          залишаючись по суті незмінною. <strong>Вона популяризувалась в 60-их</strong> роках минулого сторіччя завдяки
+          виданню зразків
           шрифтів Letraset, які містили уривки з Lorem Ipsum, і вдруге - нещодавно завдяки програмам комп'ютерного
           верстування на кшталт Aldus Pagemaker, які використовували різні версії Lorem Ipsum.
         </div>
@@ -361,6 +369,62 @@
     }
   }
 });</code>
+          </pre>
+        </div>
+      </section>
+
+
+      <!-- html tags -->
+      <section id="html-experimentally">
+        <h2>HTML tags (experimentally)</h2>
+        <div class="explanation">It should be remembered that html elements other than
+          <code>&lt;strong&gt;&lt;/strong&gt;</code> and
+          <code>&lt;b&gt;&lt;/b&gt;</code> should
+          be
+          placed outside
+          the visible shortened element.
+        </div>
+        <div class="element"
+          data-config='{ "type": "text", "limit": 100, "more": " &#8594; read more", "less": " &#8592; read less" }'>
+          <b>Lorem ipsum dolor sit</b>, amet consectetur adipisicing elit. Libero deserunt dignissimos blanditiis animi
+          esse veritatis, quasi, ab, commodi itaque quisquam delectus inventore perspiciatis corrupti!
+          <table>
+            <thead>
+              <th>one</th>
+              <th>two</th>
+              <th>three</th>
+            </thead>
+            <tr>
+              <td>a</td>
+              <td>b</td>
+              <td>c</td>
+            </tr>
+            <tr>
+              <td>d</td>
+              <td>e</td>
+              <td>f</td>
+            </tr>
+          </table>
+          Sequi debitis suscipit
+          molestias, eligendi ab odit ullam. Vero eius debitis quis corporis, possimus veniam sit fugit aliquid. <img
+            src="https://grzegorztomicki.pl/images/maroko/1200/IMG_0738.jpg">
+          Fuga,
+          libero eaque consequuntur ipsa esse omnis, ad eius laboriosam reprehenderit iste quaerat vitae quis corrupti
+          saepe veniam, ullam placeat voluptatum sint dolore sunt quo. Voluptate fugit quo architecto laboriosam
+          <i>ipsam
+            pariatur delectus iusto consectetur provident</i> odio amet tempora veniam velit at deleniti sint soluta
+          accusamus, praesentium necessitatibus maxime.<br><br> Aliquam necessitatibus porro dolores atque aliquid
+          itaque, ad
+          maiores!
+        </div>
+        <div class="example-html">
+          <pre>
+            <code code class="language-json">{ 
+  "type": "text",
+  "limit": 100,
+  "more": "&#8594; read more",
+  "less": "&#8592; read less"
+}</code>
           </pre>
         </div>
       </section>
