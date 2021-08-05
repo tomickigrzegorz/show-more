@@ -20,6 +20,8 @@ class ShowMore {
         less,
         number,
         ellipsis,
+        btnClass,
+        btnClassAppend,
       } = JSON.parse(this.elements[i].getAttribute('data-config'));
 
       this.object = {
@@ -34,6 +36,8 @@ class ShowMore {
         less: less || false,
         number: number || false,
         after: after || 0,
+        btnClass: btnClass || 'show-more-btn',
+        btnClassAppend: btnClassAppend || null,
       };
       this.initial(this.object);
     }
@@ -129,13 +133,13 @@ class ShowMore {
     element.addEventListener('click', this.handleEvent.bind(this, object));
   };
 
-  createBtn = ({ element, number, less, more, type }) => {
+  createBtn = ({ element, number, less, more, type, btnClass, btnClassAppend }) => {
     const typeAria = this.checkExp ? less || '' : more || '';
     const label = this.checkExp ? 'collapse' : 'expand';
     const expanded = this.checkExp ? true : false;
 
     const btn = document.createElement('button');
-    btn.className = 'show-more-btn';
+    btn.className = btnClassAppend == null ? btnClass : btnClass + ' ' + btnClassAppend;
     btn.setAttribute('aria-expanded', expanded);
     btn.setAttribute('aria-label', label);
     btn.setAttribute('tabindex', 0);
@@ -158,10 +162,11 @@ class ShowMore {
       typeElement,
       originalText,
       truncatedText,
+      btnClass,
     } = object;
     const { currentTarget, target } = event;
 
-    const checkContainsClass = target.classList.contains('show-more-btn');
+    const checkContainsClass = target.classList.contains(btnClass);
     const ariaExpanded = element.getAttribute('aria-expanded');
     this.checkExp = ariaExpanded === 'false';
 
