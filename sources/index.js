@@ -1,15 +1,28 @@
 class ShowMore {
-  constructor(className, { onMoreLess = () => { } } = {}) {
+  constructor(className, { onMoreLess = () => { }, regex = {} } = {}) {
     this.elements = document.querySelectorAll(className);
     this.onMoreLess = onMoreLess;
 
-    this.regex = {
-      newLine: /(\r\n|\n|\r)/gm,
-      space: /\s\s+/gm,
-      br: /<br\s*\/?>/gim,
-      html: /(<((?!b|\/b|!strong|\/strong)[^>]+)>)/ig,
+    this.regex = Object.assign({
+      newLine: {
+        match: /(\r\n|\n|\r)/gm,
+        replace: ''
+      },
+      space:{
+        match: /\s\s+/gm,
+        replace: ' '
+      },
+      br:{
+        match: /<br\s*\/?>/gim,
+        replace: ''
+      },
+      html:{
+        match: /(<((?!b|\/b|!strong|\/strong)[^>]+)>)/ig,
+        replace: ''
+      }
       // img: /<img([\w\W]+?)[/]?>/g,
-    };
+    }, regex);
+
     for (let i = 0; i < this.elements.length; i++) {
       const {
         type,
@@ -86,11 +99,11 @@ class ShowMore {
       const originalText = element.innerHTML.trim();
       let elementText = element.textContent.trim();
 
-      const orgTexReg = originalText
-        .replace(this.regex.br, '')
-        .replace(this.regex.newLine, '')
-        .replace(this.regex.space, ' ')
-        .replace(this.regex.html, '')
+      let orgTexReg = originalText
+      if(this.regex.br && this.regex.br.match) orgTexReg = orgTexReg.replace(this.regex.br.match, this.regex.br.replace)
+      if(this.regex.newLine && this.regex.newLine.match) orgTexReg = orgTexReg.replace(this.regex.newLine.match, this.regex.newLine.replace)
+      if(this.regex.space && this.regex.space.match) orgTexReg = orgTexReg.replace(this.regex.space.match, this.regex.space.replace)
+      if(this.regex.html && this.regex.html.match) orgTexReg = orgTexReg.replace(this.regex.html.match, this.regex.html.replace)
       // .replace(this.regex.img, '')
 
       if (elementText.length > limitCounts) {
