@@ -154,7 +154,8 @@ npm run prod
 | `number` |  | number of hidden items to show more/less e.g. `-> show more 3`, only works for list and table |
 | `ellipsis` |  | By default, adding an ellipsis to shortened text can be turned off by setting 'ellipsis': false |
 | `onMoreLess` |  | callback function |
-| `btnClass` |  | Button class name. Default: show-more-btn |
+| `regex` |  | adding your own regular expressions. It is an object with two parameters `match` and `replace`, see example below |
+| `btnClass` |  | Button class name. Default: `show-more-btn` |
 | `btnClassAppend` |  | Opportunity to add additional classes to the button |
 
 
@@ -171,6 +172,23 @@ document.addEventListener('DOMContentLoaded', function() {
     onMoreLess: (type, object) => {
       // type = less/more and full object
       console.log(type, object);
+    },
+  });
+});
+```
+
+## Own regular expressions
+
+```javascript
+document.addEventListener('DOMContentLoaded', function() {
+  new ShowMore('.element', {
+    // you can also add your own regular expression,
+    // it will only apply to text elements.
+    regex: {
+      image: {
+        match: /<img([\w\W]+?)[/]?>/g,
+        replace: ''
+      }
     }
   });
 });
