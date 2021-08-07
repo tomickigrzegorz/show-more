@@ -1,15 +1,27 @@
 class ShowMore {
-  constructor(className, { onMoreLess = () => { } } = {}) {
+  constructor(className, { onMoreLess = () => { }, regex = {} } = {}) {
     this.elements = document.querySelectorAll(className);
     this.onMoreLess = onMoreLess;
 
-    this.regex = {
-      newLine: /(\r\n|\n|\r)/gm,
-      space: /\s\s+/gm,
-      br: /<br\s*\/?>/gim,
-      html: /(<((?!b|\/b|!strong|\/strong)[^>]+)>)/ig,
-      // img: /<img([\w\W]+?)[/]?>/g,
-    };
+    this.regex = Object.assign({
+      newLine: {
+        match: /(\r\n|\n|\r)/gm,
+        replace: ''
+      },
+      space: {
+        match: /\s\s+/gm,
+        replace: ' '
+      },
+      br: {
+        match: /<br\s*\/?>/gim,
+        replace: ''
+      },
+      html: {
+        match: /(<((?!b|\/b|!strong|\/strong)[^>]+)>)/ig,
+        replace: ''
+      }
+    }, regex);
+
     for (let i = 0; i < this.elements.length; i++) {
       const {
         type,
@@ -20,6 +32,8 @@ class ShowMore {
         less,
         number,
         ellipsis,
+        btnClass,
+        btnClassAppend,
       } = JSON.parse(this.elements[i].getAttribute('data-config'));
 
       this.object = {
@@ -34,6 +48,8 @@ class ShowMore {
         less: less || false,
         number: number || false,
         after: after || 0,
+        btnClass: btnClass || 'show-more-btn',
+        btnClassAppend: btnClassAppend || null,
       };
       this.initial(this.object);
     }
@@ -82,12 +98,11 @@ class ShowMore {
       const originalText = element.innerHTML.trim();
       let elementText = element.textContent.trim();
 
-      const orgTexReg = originalText
-        .replace(this.regex.br, '')
-        .replace(this.regex.newLine, '')
-        .replace(this.regex.space, ' ')
-        .replace(this.regex.html, '')
-      // .replace(this.regex.img, '')
+      let orgTexReg = originalText;
+      for (let key in this.regex) {
+        const { match, replace } = this.regex[key];
+        if (key && match) orgTexReg = orgTexReg.replace(match, replace);
+      }
 
       if (elementText.length > limitCounts) {
         truncatedText = this.htmlSubstr(orgTexReg, limit).concat(ellips);
@@ -129,13 +144,13 @@ class ShowMore {
     element.addEventListener('click', this.handleEvent.bind(this, object));
   };
 
-  createBtn = ({ element, number, less, more, type }) => {
+  createBtn = ({ element, number, less, more, type, btnClass, btnClassAppend }) => {
     const typeAria = this.checkExp ? less || '' : more || '';
     const label = this.checkExp ? 'collapse' : 'expand';
     const expanded = this.checkExp ? true : false;
 
     const btn = document.createElement('button');
-    btn.className = 'show-more-btn';
+    btn.className = btnClassAppend == null ? btnClass : btnClass + ' ' + btnClassAppend;
     btn.setAttribute('aria-expanded', expanded);
     btn.setAttribute('aria-label', label);
     btn.setAttribute('tabindex', 0);
@@ -158,10 +173,11 @@ class ShowMore {
       typeElement,
       originalText,
       truncatedText,
+      btnClass,
     } = object;
     const { currentTarget, target } = event;
 
-    const checkContainsClass = target.classList.contains('show-more-btn');
+    const checkContainsClass = target.classList.contains(btnClass);
     const ariaExpanded = element.getAttribute('aria-expanded');
     this.checkExp = ariaExpanded === 'false';
 
