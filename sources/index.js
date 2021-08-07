@@ -99,12 +99,11 @@ class ShowMore {
       const originalText = element.innerHTML.trim();
       let elementText = element.textContent.trim();
 
-      let orgTexReg = originalText
-      if(this.regex.br && this.regex.br.match) orgTexReg = orgTexReg.replace(this.regex.br.match, this.regex.br.replace)
-      if(this.regex.newLine && this.regex.newLine.match) orgTexReg = orgTexReg.replace(this.regex.newLine.match, this.regex.newLine.replace)
-      if(this.regex.space && this.regex.space.match) orgTexReg = orgTexReg.replace(this.regex.space.match, this.regex.space.replace)
-      if(this.regex.html && this.regex.html.match) orgTexReg = orgTexReg.replace(this.regex.html.match, this.regex.html.replace)
-      // .replace(this.regex.img, '')
+      let orgTexReg = originalText;
+      for (let key in this.regex) {
+        const {match, replace} = this.regex[key];
+        if(key && match) orgTexReg = orgTexReg.replace(match, replace);
+      }
 
       if (elementText.length > limitCounts) {
         truncatedText = this.htmlSubstr(orgTexReg, limit).concat(ellips);
