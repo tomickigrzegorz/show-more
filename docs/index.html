@@ -42,7 +42,19 @@
   }
 });</code>
           </pre>
-        </div>
+          <p>You can add your own regular expression</p>
+          <div class="example-html">
+            <pre>
+            <code code class="language-js">new ShowMore('.element', {
+  regex: {
+    image: {
+      match: /&lt;img([\w\W]+?)[/]?&gt;/g,
+      replace: ''
+    }
+  }
+});</code>
+          </pre>
+          </div>
       </section>
 
       <!-- More text -->

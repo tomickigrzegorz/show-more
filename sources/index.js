@@ -8,19 +8,18 @@ class ShowMore {
         match: /(\r\n|\n|\r)/gm,
         replace: ''
       },
-      space:{
+      space: {
         match: /\s\s+/gm,
         replace: ' '
       },
-      br:{
+      br: {
         match: /<br\s*\/?>/gim,
         replace: ''
       },
-      html:{
+      html: {
         match: /(<((?!b|\/b|!strong|\/strong)[^>]+)>)/ig,
         replace: ''
       }
-      // img: /<img([\w\W]+?)[/]?>/g,
     }, regex);
 
     for (let i = 0; i < this.elements.length; i++) {
@@ -101,8 +100,8 @@ class ShowMore {
 
       let orgTexReg = originalText;
       for (let key in this.regex) {
-        const {match, replace} = this.regex[key];
-        if(key && match) orgTexReg = orgTexReg.replace(match, replace);
+        const { match, replace } = this.regex[key];
+        if (key && match) orgTexReg = orgTexReg.replace(match, replace);
       }
 
       if (elementText.length > limitCounts) {
