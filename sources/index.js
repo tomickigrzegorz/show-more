@@ -1,26 +1,29 @@
 class ShowMore {
-  constructor(className, { onMoreLess = () => { }, regex = {} } = {}) {
+  constructor(className, { onMoreLess = () => {}, regex = {} } = {}) {
     this.elements = document.querySelectorAll(className);
     this.onMoreLess = onMoreLess;
 
-    this.regex = Object.assign({
-      newLine: {
-        match: /(\r\n|\n|\r)/gm,
-        replace: ''
+    this.regex = Object.assign(
+      {
+        newLine: {
+          match: /(\r\n|\n|\r)/gm,
+          replace: '',
+        },
+        space: {
+          match: /\s\s+/gm,
+          replace: ' ',
+        },
+        br: {
+          match: /<br\s*\/?>/gim,
+          replace: '',
+        },
+        html: {
+          match: /(<((?!b|\/b|!strong|\/strong)[^>]+)>)/gi,
+          replace: '',
+        },
       },
-      space: {
-        match: /\s\s+/gm,
-        replace: ' '
-      },
-      br: {
-        match: /<br\s*\/?>/gim,
-        replace: ''
-      },
-      html: {
-        match: /(<((?!b|\/b|!strong|\/strong)[^>]+)>)/ig,
-        replace: ''
-      }
-    }, regex);
+      regex
+    );
 
     for (let i = 0; i < this.elements.length; i++) {
       const {
@@ -79,13 +82,17 @@ class ShowMore {
       do {
         if (node.nodeType === 3) {
           fn(node);
-        } else if (node.nodeType === 1 && node.childNodes && node.childNodes[0]) {
+        } else if (
+          node.nodeType === 1 &&
+          node.childNodes &&
+          node.childNodes[0]
+        ) {
           walk(node, fn);
         }
-      } while (node = node.nextSibling);
+      } while ((node = node.nextSibling));
     }
     return div.innerHTML;
-  }
+  };
 
   initial = ({ element, after, ellipsis, limit, type }) => {
     // set default aria-expande to false
@@ -144,13 +151,22 @@ class ShowMore {
     element.addEventListener('click', this.handleEvent.bind(this, object));
   };
 
-  createBtn = ({ element, number, less, more, type, btnClass, btnClassAppend }) => {
+  createBtn = ({
+    element,
+    number,
+    less,
+    more,
+    type,
+    btnClass,
+    btnClassAppend,
+  }) => {
     const typeAria = this.checkExp ? less || '' : more || '';
     const label = this.checkExp ? 'collapse' : 'expand';
     const expanded = this.checkExp ? true : false;
 
     const btn = document.createElement('button');
-    btn.className = btnClassAppend == null ? btnClass : btnClass + ' ' + btnClassAppend;
+    btn.className =
+      btnClassAppend == null ? btnClass : btnClass + ' ' + btnClassAppend;
     btn.setAttribute('aria-expanded', expanded);
     btn.setAttribute('aria-label', label);
     btn.setAttribute('tabindex', 0);

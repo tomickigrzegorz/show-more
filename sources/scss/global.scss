@@ -1,4 +1,4 @@
-@import "./modules/table";
+@import './modules/table';
 
 *,
 *:after,
@@ -19,7 +19,7 @@ html {
 body {
   display: flex;
   justify-content: center;
-  font-family: "Lato", sans-serif;
+  font-family: 'Lato', sans-serif;
   font-size: 18px;
   line-height: 150%;
 }
@@ -91,7 +91,7 @@ tfoot th {
   text-align: left;
 }
 
-html[data-useragent*="IE"] .example-html {
+html[data-useragent*='IE'] .example-html {
   display: none;
 }
 
@@ -122,7 +122,7 @@ html[data-useragent*="IE"] .example-html {
     color: #681bcc;
 
     &:after {
-      content: "";
+      content: '';
       display: block;
       margin: auto;
       height: 2px;
@@ -164,7 +164,7 @@ h5 {
 
   &:before {
     position: absolute;
-    content: "\27A4";
+    content: '\27A4';
     left: 0;
     top: 19px;
     color: #b152ff;
@@ -200,7 +200,7 @@ h5 {
     position: absolute;
     top: -1px;
     right: -1px;
-    content: "↑";
+    content: '↑';
   }
   &:hover {
     color: red;
@@ -233,4 +233,41 @@ p {
   img {
     margin: 20px 0;
   }
+}
+
+.hidden {
+  display: none;
+}
+
+.extending {
+  margin-top: 5px;
+  padding: 7px 23px 7px;
+  outline: 0;
+  border: 1px solid #000;
+  cursor: pointer;
+  position: relative;
+  color: #000;
+  background-color: #fff;
+
+  &::after {
+    content: '';
+    background-color: #ffe54c;
+    width: 100%;
+    z-index: -1;
+    position: absolute;
+    height: 100%;
+    top: 7px;
+    left: 7px;
+    transition: 0.2s;
+  }
+
+  &:hover::after {
+    top: 0px;
+    left: 0px;
+  }
+}
+
+#example-list .element li:last-of-type {
+  list-style: none;
+  margin-left: -25px;
 }

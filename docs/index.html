@@ -9,8 +9,8 @@
     <link rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/atom-one-dark-reasonable.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
-    <link rel="stylesheet" href="global.css">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="./global.css">
+    <link rel="stylesheet" href="./show-more.css">
   </head>
 
   <body>
@@ -355,6 +355,32 @@
         </div>
       </section>
 
+      <!-- ellipsis -->
+      <section id="extending-button">
+        <h2>Individual button appearance more/less</h2>
+        <div class="explanation">Additional classes to control the appearance of the more/less button
+          <code>btnClass</code> and
+          <code>btnClassAppend</code>
+        </div>
+        <div class="element"
+          data-config='{ "btnClass": "extending", "element": "div", "type": "text", "limit": 100, "more": "&#8594; read more", "less": "&#8592; read less" }'>
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptate laborum eligendi ipsa quam accusantium sit
+          nisi. Numquam soluta molestias id, ullam officia atque. Architecto assumenda dicta voluptatum voluptatem, iste
+          distinctio.
+        </div>
+        <div class="example-html">
+          <pre>
+            <code code class="language-json">{ 
+  // class that overrides the default
+  // appearance of the button
+  "btnClass": "extending",
+  "type": "text",
+  "limit": 100
+}</code>
+          </pre>
+        </div>
+      </section>
+
       <!-- Callback text -->
       <section>
         <h2>Callback function</h2>
@@ -387,8 +413,8 @@
 
 
       <!-- html tags -->
-      <section id="html-experimentally">
-        <h2>HTML tags (experimentally)</h2>
+      <section id="html">
+        <h2>HTML tags</h2>
         <div class="explanation">It should be remembered that html elements other than
           <code>&lt;strong&gt;&lt;/strong&gt;</code> and
           <code>&lt;b&gt;&lt;/b&gt;</code> should
@@ -450,7 +476,7 @@
             const index = object.index;
             const h2 = object.element.parentElement.firstElementChild;
 
-            if (index == 10) {
+            if (index == 11) {
               if (type === 'expand') {
                 h2.setAttribute('style', 'color: #eb00ff;');
                 console.log(object);
