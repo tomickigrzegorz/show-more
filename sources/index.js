@@ -1,5 +1,5 @@
 class ShowMore {
-  constructor(className, { onMoreLess = () => {}, regex = {} } = {}) {
+  constructor(className, { onMoreLess = () => {}, regex = {}, config } = {}) {
     this.elements = document.querySelectorAll(className);
     this.onMoreLess = onMoreLess;
 
@@ -37,7 +37,7 @@ class ShowMore {
         ellipsis,
         btnClass,
         btnClassAppend,
-      } = JSON.parse(this.elements[i].getAttribute('data-config'));
+      } = JSON.parse(this.elements[i].getAttribute('data-config')) || config;
 
       this.object = {
         index: i,
