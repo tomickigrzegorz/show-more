@@ -55,6 +55,31 @@
 });</code>
           </pre>
           </div>
+          <h3>Global config</h3>
+          <p>If you have one type of items that you want to shorten, you can add global configuration, you don't need to
+            add <strong>data-config</strong> to each item. Below is an example:</p>
+          <div class="example-html">
+            <pre>
+              <code code class="language-js">new ShowMore('.element', {
+  config: {
+    type: "text",
+    limit: 120,
+    more: "&#8594; read more",
+    less: "&#8592; read less"
+  }
+});</code>
+</pre>
+          </div>
+          <br><br>
+          <div>
+            You can also mix, <strong>global configuration</strong> + <strong>data-config</strong>. In these cases,
+            'data-config' takes
+            precedence
+            over 'global configuration'. <br>For example, we have 10 texts to shorten, then we add the global
+            configuration, but we also have a table
+            that we want to
+            shorten, in this case we add 'data-config' to table - <a href="#example-global">see global configuration</a>
+          </div>
       </section>
 
       <!-- More text -->
@@ -467,11 +492,39 @@
         </div>
       </section>
 
+
+      <!-- More text -->
+      <section id="example-global">
+        <h2>Global configuration</h2>
+        <div class="element">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officia illo temporibus voluptate veritatis porro,
+          dignissimos dolore debitis!
+        </div>
+        <div class="example-html">
+          <pre>
+            <code code class="language-js">new ShowMore('.element', {
+  config: {
+    type: "text",
+    limit: 20,
+    more: "&#8594; read more",
+    less: "&#8592; read less"
+  }
+});</code>
+          </pre>
+        </div>
+      </section>
+
     </div>
     <script src="./showMore.min.js"></script>
     <script>
       document.addEventListener('DOMContentLoaded', function () {
         new ShowMore('.element', {
+          config: {
+            type: "text",
+            limit: 20,
+            more: "&#8594; read more",
+            less: "&#8592; read less"
+          },
           onMoreLess: (type, object) => {
             const index = object.index;
             const h2 = object.element.parentElement.firstElementChild;
