@@ -3,11 +3,11 @@ module.exports = {
     [
       '@babel/preset-env',
       {
-        // "debug": true,
+        // debug: true,
         useBuiltIns: 'entry',
         corejs: 3,
+        loose: true,
       },
     ],
   ],
-  plugins: ['@babel/proposal-class-properties'],
 };
