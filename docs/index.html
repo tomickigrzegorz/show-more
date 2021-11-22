@@ -470,7 +470,7 @@
           </table>
           Sequi debitis suscipit
           molestias, eligendi ab odit ullam. Vero eius debitis quis corporis, possimus veniam sit fugit aliquid. <img
-            src="https://grzegorztomicki.pl/images/maroko/1200/IMG_0738.jpg">
+            src="https://grzegorztomicki.pl/images/maroko/1200/IMG_0738.jpg" title="Morocco">
           Fuga,
           libero eaque consequuntur ipsa esse omnis, ad eius laboriosam reprehenderit iste quaerat vitae quis corrupti
           saepe veniam, ullam placeat voluptatum sint dolore sunt quo. Voluptate fugit quo architecto laboriosam
@@ -493,7 +493,7 @@
       </section>
 
 
-      <!-- More text -->
+      <!-- Global configuration -->
       <section id="example-global">
         <h2>Global configuration</h2>
         <div class="element">
@@ -525,17 +525,15 @@
             more: "&#8594; read more",
             less: "&#8592; read less"
           },
-          onMoreLess: (type, object) => {
+          onMoreLess: function (type, object) {
             const index = object.index;
             const h2 = object.element.parentElement.firstElementChild;
 
             if (index == 11) {
               if (type === 'expand') {
                 h2.setAttribute('style', 'color: #eb00ff;');
-                console.log(object);
               } else {
                 h2.removeAttribute('style');
-                console.log(object);
               }
             }
           }
