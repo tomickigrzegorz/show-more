@@ -64,12 +64,12 @@ npm run prod
 
 HTML 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/tomik23/show-more@1.1.0/dist/js/showMore.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/tomik23/show-more@1.1.1/dist/js/showMore.min.js"></script>
 ```
 
 CSS
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/tomik23/show-more@1.1.0/dist/css/showMore.min.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/tomik23/show-more@1.1.1/dist/css/showMore.min.css" />
 ```
 
 -- OR --
@@ -94,6 +94,9 @@ CSS
 }
 .show-more-btn:hover {
   color: red;
+}
+.hidden {
+  display: none;
 }
 ```
 
@@ -266,30 +269,25 @@ For example, we have 10 texts to shorten, then we add the global configuration, 
 
 > Number of records counted in the table `tr` based on all `tr` of `thead`, `tbody` and `tfoot`
 
-## Browsers support
+## Browser support
 
-| [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png" alt="Edge" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br/>Edge | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png" alt="Firefox" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br/>Firefox | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png" alt="Chrome" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br/>Chrome | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/opera/opera_48x48.png" alt="Opera" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br/>Opera | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/vivaldi/vivaldi_48x48.png" alt="Vivaldi" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br/>Vivaldi |
-| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Edge                                                                                                                                                                                                     | last 2 versions                                                                                                                                                                                                   | last 2 versions                                                                                                                                                                                               | last 2 versions                                                                                                                                                                                           | last 2 versions                                                                                                                                                                                                   |
+show-more supports all major browsers including IE 10 and above
 
-> \* If you want the code to be supported in IE11 you need replace a few lines in `package.json`. Below what needs to be changed in the code and compile.
+Configuration for IE:
 
-Replace
+### local files
+- dist/js/showMore.ie.min.js
 
-```json
-"production": [
-  "defaults",
-  "not IE 11",
-  "maintained node versions"
-]
-```
+### cdn
 
-To this
+- https://cdn.jsdelivr.net/gh/tomik23/show-more@1.1.1/dist/js/showMore.min.js
 
-```json
-"production": [
-  ">0.2%",
-  "not dead",
-  "not op_mini all"
-]
-```
+### cdn polyfill from npm
+
+- https://polyfill.io/v3/polyfill.min.js?features=Object.assign
+
+> IE demo: docs/ie.html
+
+## License
+
+This project is available under the [MIT](https://opensource.org/licenses/mit-license.php) license.
