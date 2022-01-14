@@ -63,7 +63,7 @@ export default class ShowMore {
    */
   initial({ element, after, ellipsis, limit, type }) {
     // set default aria-expande to false
-    element.setAttribute('aria-expanded', 'false');
+    element.ariaExpanded = false;
 
     const limitCounts = limit + after;
     const ellips = ellipsis === false ? '' : '...';
@@ -141,9 +141,9 @@ export default class ShowMore {
     const btn = document.createElement('button');
     btn.className =
       btnClassAppend == null ? btnClass : btnClass + ' ' + btnClassAppend;
-    btn.setAttribute('aria-expanded', expanded);
-    btn.setAttribute('aria-label', label);
-    btn.setAttribute('tabindex', 0);
+    btn.ariaExpanded = expanded;
+    btn.ariaLabel = label;
+    btn.tabindex = 0;
     btn.innerHTML = number ? typeAria + getNumber(element, type) : typeAria;
     return btn;
   }
@@ -246,9 +246,9 @@ export default class ShowMore {
     const ariaText = type === 'table' ? type : `the ${type}`;
     const lastChild = element.lastElementChild;
 
-    element.setAttribute('aria-expanded', check);
-    target.setAttribute('aria-expanded', check);
-    target.setAttribute('aria-label', `${aria} ${ariaText}`);
+    element.ariaExpanded = check;
+    target.ariaExpanded = check;
+    target.ariaLabel = `${aria} ${ariaText}`;
 
     // callback function on more/less
     this.onMoreLess(aria, object);
