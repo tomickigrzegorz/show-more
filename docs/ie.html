@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=Object.assign"></script>
+    <title>IE - example</title>
+    <link rel="stylesheet" href="../docs/global.css">
+    <link rel="stylesheet" href="../dist/css/show-more.min.css">
+  </head>
+
+  <body>
+    <div class="container">
+      <section>
+        <div class="element"
+          data-config='{ "type": "text", "limit": 120, "after": 50, "more": "&#8594; read more", "less": "&#8592; read less" }'>
+          <b>Contrary to popular belief</b>, Lorem Ipsum is not simply random text. It has roots in a piece of
+          classical
+          Latin literature from 45 BC, making it over 2000 years old. <i>Richard McClintock, a Latin professor at
+            Hampden-Sydney College in Virginia</i>, looked up one of the more obscure Latin words, consectetur, from a
+          Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the
+          undoubtable
+          source. <strong>Lorem Ipsum comes from sections</strong> 1.10.32 and 1.10.33 of "de <sup>Finibus Bonorum
+            et
+            Malorum"</sup> (The
+          Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of
+          ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..",
+          comes from
+          a line in section 1.10.32.
+        </div>
+      </section>
+      <section>
+        <ul class="element"
+          data-config='{ "type": "list", "limit": 5, "element": "li", "more": "&#8595; show more", "less": "&#8593; less", "number": true }'>
+          <li>Elektronika</li>
+          <li>Import win</li>
+          <li>Informacja o produktach, handlu i usługach</li>
+          <li>Glazura i terakota</li>
+          <li>Lekarze medycyny sądowej</li>
+          <li>Maszyny przemysłowe</li>
+          <li>Oprawa obrazów</li>
+          <li>Siatki ogrodzeniowe</li>
+          <li>Termodruk</li>
+          <li>Żłobki publiczne</li>
+        </ul>
+      </section>
+    </div>
+    <script src="../dist/js/showMore.ie.min.js"></script>
+    <script>
+      new ShowMore('.element');
+    </script>
+  </body>
+
+</html>
