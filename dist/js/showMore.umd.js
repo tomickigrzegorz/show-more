@@ -115,7 +115,7 @@
         limit,
         type
       } = _ref;
-      element.ariaExpanded = false;
+      element.setAttribute('aria-expanded', 'false');
       const limitCounts = limit + after;
       const ellips = ellipsis === false ? '' : '...';
       if (type === 'text') {
@@ -169,9 +169,9 @@
       const expanded = this.checkExp ? true : false;
       const btn = document.createElement('button');
       btn.className = btnClassAppend == null ? btnClass : btnClass + ' ' + btnClassAppend;
-      btn.ariaExpanded = expanded;
-      btn.ariaLabel = label;
-      btn.tabindex = 0;
+      btn.setAttribute('aria-expanded', expanded);
+      btn.setAttribute('aria-label', label);
+      btn.setAttribute('tabindex', 0);
       btn.innerHTML = number ? typeAria + getNumber(element, type) : typeAria;
       return btn;
     }
@@ -193,7 +193,6 @@
       const checkContainsClass = target.classList.contains(btnClass);
       if (!checkContainsClass) return;
       const ariaExpanded = element.getAttribute('aria-expanded');
-      console.log(ariaExpanded);
       this.checkExp = ariaExpanded === 'false';
       if (type === 'text' && checkContainsClass) {
         element.innerHTML = '';
@@ -251,9 +250,9 @@
       const aria = check ? 'expand' : 'collapse';
       const ariaText = type === 'table' ? type : "the " + type;
       const lastChild = element.lastElementChild;
-      element.ariaExpanded = check;
-      target.ariaExpanded = check;
-      target.ariaLabel = aria + " " + ariaText;
+      element.setAttribute('aria-expanded', check);
+      target.setAttribute('aria-expanded', check);
+      target.setAttribute('aria-label', aria + " " + ariaText);
       this.onMoreLess(aria, object);
       if (typeAria) {
         target.innerHTML = number ? typeAria + getNumber(element, type) : typeAria;
