@@ -8,7 +8,7 @@
 
 <p align="center">
   <img src="https://img.shields.io/github/package-json/v/tomik23/show-more">
-  <img src="https://img.shields.io/github/size/tomik23/show-more/docs/showMore.min.js">
+  <img src="https://img.shields.io/github/size/tomik23/show-more/dist/js/showMore.min.js">
   <a href="LICENSE">
     <img src="https://img.shields.io/badge/License-MIT-green.svg">
   </a>
@@ -64,12 +64,12 @@ npm run prod
 
 HTML 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/tomik23/show-more@1.1.1/dist/js/showMore.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/tomik23/show-more@1.1.2/dist/js/showMore.min.js"></script>
 ```
 
 CSS
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/tomik23/show-more@1.1.1/dist/css/showMore.min.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/tomik23/show-more@1.1.2/dist/css/showMore.min.css" />
 ```
 
 -- OR --
@@ -280,7 +280,7 @@ Configuration for IE:
 
 ### cdn
 
-- https://cdn.jsdelivr.net/gh/tomik23/show-more@1.1.1/dist/js/showMore.min.js
+- https://cdn.jsdelivr.net/gh/tomik23/show-more@1.1.2/dist/js/showMore.min.js
 
 ### cdn polyfill from npm
 
