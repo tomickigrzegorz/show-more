@@ -1,5 +1,12 @@
-import { addRemoveClass, getNumber, htmlSubstr } from './utils/function';
-import defaultRegex from './utils/regex';
+import {
+  addRemoveClass,
+  createElement,
+  getNumber,
+  htmlSubstr,
+  setAttributes,
+} from "./utils/function";
+import defaultRegex from "./utils/regex";
+import defaultOptions from "./utils/defaults";
 
 /**
  * @class ShowMore
@@ -13,47 +20,31 @@ export default class ShowMore {
    */
   constructor(className, { onMoreLess = () => {}, regex = {}, config } = {}) {
     // all html elements
-    const elements = document.querySelectorAll(className);
+    const elements = [].slice.call(document.querySelectorAll(className));
 
     // colback function
-    this.onMoreLess = onMoreLess;
+    this._onMoreLess = onMoreLess;
 
     // global regex
-    this.regex = Object.assign(defaultRegex, regex);
+    this._regex = { ...defaultRegex, ...regex };
 
-    for (let i = 0; i < elements.length; i++) {
-      const {
-        type,
-        limit,
-        element,
-        after,
-        more,
-        less,
-        number,
-        ellipsis,
-        btnClass,
-        btnClassAppend,
-      } = JSON.parse(elements[i].getAttribute('data-config')) || config;
+    elements.map((item, index) => {
+      const configData = JSON.parse(item.getAttribute("data-config"));
+      const configGlobal = config;
 
-      // create global object
-      this.object = {
-        index: i,
-        element: elements[i],
-        type,
-        limit,
-        classArray: elements[i].classList,
-        ellipsis,
-        typeElement: element || 'span',
-        more: more || false,
-        less: less || false,
-        number: number || false,
-        after: after || 0,
-        btnClass: btnClass || 'show-more-btn',
-        btnClassAppend: btnClassAppend || null,
+      const configDataAndGlobal = { ...configGlobal, ...configData };
+
+      this._object = {
+        index,
+        classArray: item.classList,
+        ...defaultOptions,
+        ...configDataAndGlobal,
+        typeElement: configDataAndGlobal.element || "span",
+        element: item,
       };
 
-      this.initial(this.object);
-    }
+      this._initial();
+    });
   }
 
   /**
@@ -61,61 +52,66 @@ export default class ShowMore {
    *
    * @param {Object} object
    */
-  initial({ element, after, ellipsis, limit, type }) {
+  _initial = () => {
+    const { element, after, ellipsis, nobutton, limit, type } = this._object;
     // set default aria-expande to false
-    element.setAttribute('aria-expanded', 'false');
+    setAttributes(element, { "aria-expanded": "false" });
 
     const limitCounts = limit + after;
-    const ellips = ellipsis === false ? '' : '...';
+    const ellips = ellipsis === false ? "" : "...";
+
+    console.log(nobutton);
 
     // text
-    if (type === 'text') {
-      let truncatedText = '';
+    if (type === "text") {
       const originalText = element.innerHTML.trim();
-      let elementText = element.textContent.trim();
-
-      let orgTexReg = originalText;
-      for (let key in this.regex) {
-        const { match, replace } = this.regex[key];
-        if (key && match) orgTexReg = orgTexReg.replace(match, replace);
-      }
+      const elementText = element.textContent.trim();
 
       if (elementText.length > limitCounts) {
-        truncatedText = htmlSubstr(orgTexReg, limit).concat(ellips);
+        let orgTexReg = originalText;
 
-        element.innerHTML = truncatedText;
+        for (let key in this._regex) {
+          const { match, replace } = this._regex[key];
+          if (key && match) orgTexReg = orgTexReg.replace(match, replace);
+        }
 
-        this.addBtn(this.object);
+        const truncatedText = htmlSubstr(orgTexReg, limit - 1).concat(ellips);
 
-        this.clickEvent(element, {
-          ...this.object,
+        element.textContent = "";
+        element.insertAdjacentHTML("beforeend", truncatedText);
+
+        this._clickEvent(element, {
+          ...this._object,
           originalText,
           truncatedText,
         });
+
+        if (nobutton) return;
+        this._addBtn(this._object);
       }
     }
 
     // list and table
-    if (type === 'list' || type === 'table') {
-      const items =
-        type === 'list' ? [].slice.call(element.children) : element.rows;
+    if (type === "list" || type === "table") {
+      const items = this._getNumberCount(element, type);
 
       if (items.length > limitCounts) {
         for (let i = limit; i < items.length; i++) {
           addRemoveClass(items[i], true);
         }
 
-        // add button to the list and table
-        this.addBtn(this.object);
-
         // add event click
-        this.clickEvent(
-          type === 'list' ? element : element.nextElementSibling,
-          this.object
+        this._clickEvent(
+          type === "list" ? element : element.nextElementSibling,
+          this._object
         );
+
+        if (nobutton) return;
+        // add button to the list and table
+        this._addBtn(this._object);
       }
     }
-  }
+  };
 
   /**
    * Event click
@@ -123,9 +119,8 @@ export default class ShowMore {
    * @param {HTMLElement} element
    * @param {Object} object
    */
-  clickEvent(element, object) {
-    element.addEventListener('click', this.handleEvent.bind(this, object));
-  }
+  _clickEvent = (element, object) =>
+    element.addEventListener("click", this._handleEvent.bind(this, object));
 
   /**
    * Create button
@@ -133,20 +128,34 @@ export default class ShowMore {
    * @param {Object} object
    * @returns HTMLElement
    */
-  createBtn({ element, number, less, more, type, btnClass, btnClassAppend }) {
-    const typeAria = this.checkExp ? less || '' : more || '';
-    const label = this.checkExp ? 'collapse' : 'expand';
-    const expanded = this.checkExp ? true : false;
+  _createBtn = ({
+    element,
+    number,
+    less,
+    more,
+    type,
+    btnClass,
+    btnClassAppend,
+  }) => {
+    const typeAria = this._checkExp ? less || "" : more || "";
+    const label = this._checkExp ? "collapse" : "expand";
+    const expanded = this._checkExp ? true : false;
 
-    const btn = document.createElement('button');
-    btn.className =
-      btnClassAppend == null ? btnClass : btnClass + ' ' + btnClassAppend;
-    btn.setAttribute('aria-expanded', expanded);
-    btn.setAttribute('aria-label', label);
-    btn.setAttribute('tabindex', 0);
-    btn.innerHTML = number ? typeAria + getNumber(element, type) : typeAria;
-    return btn;
-  }
+    const button = createElement("button");
+    button.className =
+      btnClassAppend == null ? btnClass : btnClass + " " + btnClassAppend;
+    setAttributes(button, {
+      "aria-expanded": expanded,
+      "aria-label": label,
+      tabindex: 0,
+    });
+
+    button.insertAdjacentHTML(
+      "beforeend",
+      number ? typeAria + getNumber(element, type) : typeAria
+    );
+    return button;
+  };
 
   /**
    * Event handler
@@ -154,7 +163,7 @@ export default class ShowMore {
    * @param {Object} object
    * @param {Event} event
    */
-  handleEvent(object, { currentTarget, target }) {
+  _handleEvent = (object, { target }) => {
     const {
       element,
       type,
@@ -171,33 +180,37 @@ export default class ShowMore {
 
     if (!checkContainsClass) return;
 
-    const ariaExpanded = element.getAttribute('aria-expanded');
-    this.checkExp = ariaExpanded === 'false';
+    const ariaExpanded = element.getAttribute("aria-expanded");
+    this._checkExp = ariaExpanded === "false";
 
     // --------------------------------------------------
     // text
-    if (type === 'text' && checkContainsClass) {
-      element.innerHTML = '';
-      element.innerHTML = this.checkExp ? originalText : truncatedText;
+    if (type === "text" && checkContainsClass) {
+      element.textContent = "";
+
+      element.insertAdjacentHTML(
+        "beforeend",
+        this._checkExp ? originalText : truncatedText
+      );
 
       if (less) {
-        const el = document.createElement(typeElement);
-        el.insertAdjacentElement('beforeend', this.createBtn(object));
+        const el = createElement(typeElement);
+        el.classList.add("show-more-wrapper");
+        el.insertAdjacentElement("beforeend", this._createBtn(object));
         element.appendChild(el);
       }
     }
 
     // --------------------------------------------------
     // list and table
-    if (type === 'list' || type === 'table') {
-      const items =
-        type === 'list' ? [].slice.call(currentTarget.children) : element.rows;
+    if (type === "list" || type === "table") {
+      const items = this._getNumberCount(element, type);
 
       for (let i = 0; i < items.length; i++) {
         const typeRemove =
-          type === 'list' ? i >= limit && i < items.length - 1 : i >= limit;
+          type === "list" ? i >= limit && i < items.length - 1 : i >= limit;
 
-        if (ariaExpanded === 'false') {
+        if (ariaExpanded === "false") {
           addRemoveClass(items[i]);
         } else if (typeRemove) {
           addRemoveClass(items[i], true);
@@ -206,60 +219,65 @@ export default class ShowMore {
     }
 
     // set aria-expanded
-    if (type === 'table' || type === 'list' || type === 'text') {
-      this.setExpand({ ...object, target });
+    if (type) {
+      this._setExpand({ ...object, target });
     }
-  }
+  };
+
+  _getNumberCount = (element, type) => {
+    return type === "list" ? [].slice.call(element.children) : element.rows;
+  };
 
   /**
    * Add button
    *
    * @param {Object} object
    */
-  addBtn(object) {
+  _addBtn = (object) => {
     const { type, element, more, typeElement } = object;
 
     if (!more) return;
 
-    if (type === 'table') {
-      element.insertAdjacentElement('afterend', this.createBtn(object));
+    if (type === "table") {
+      element.insertAdjacentElement("afterend", this._createBtn(object));
     } else {
-      const el = document.createElement(typeElement);
-      el.appendChild(this.createBtn(object));
+      const el = createElement(typeElement);
+      el.classList.add("show-more-wrapper");
+      el.appendChild(this._createBtn(object));
       element.appendChild(el);
     }
-  }
+  };
 
   /**
    * Set aria-expanded
    *
    * @param {Object} object
    */
-  setExpand(object) {
+  _setExpand = (object) => {
     const { element, type, less, more, number, target } = object;
 
-    const check = this.checkExp;
-
-    const typeAria = check ? less : more;
-    const aria = check ? 'expand' : 'collapse';
-    const ariaText = type === 'table' ? type : `the ${type}`;
+    const typeAria = this._checkExp ? less : more;
+    const aria = this._checkExp ? "expand" : "collapse";
+    const ariaText = type === "table" ? type : `the ${type}`;
     const lastChild = element.lastElementChild;
 
-    element.setAttribute('aria-expanded', check);
-    target.setAttribute('aria-expanded', check);
-    target.setAttribute('aria-label', `${aria} ${ariaText}`);
+    setAttributes(element, { "aria-expanded": this._checkExp });
+    setAttributes(target, {
+      "aria-expanded": this._checkExp,
+      "aria-label": `${aria} ${ariaText}`,
+    });
 
     // callback function on more/less
-    this.onMoreLess(aria, object);
+    this._onMoreLess(aria, object);
 
     if (typeAria) {
       target.innerHTML = number
         ? typeAria + getNumber(element, type)
         : typeAria;
-    } else if (type === 'table') {
+    } else if (type === "table") {
       target.parentNode.removeChild(target);
-    } else if (type === 'list') {
+    } else if (type === "list") {
       lastChild.parentNode.removeChild(lastChild);
     }
-  }
+  };
 }

@@ -4,19 +4,19 @@
 const defaultRegex = {
   newLine: {
     match: /(\r\n|\n|\r)/gm,
-    replace: '',
+    replace: "",
   },
   space: {
     match: /\s\s+/gm,
-    replace: ' ',
+    replace: " ",
   },
   br: {
     match: /<br\s*\/?>/gim,
-    replace: '',
+    replace: "",
   },
   html: {
     match: /(<((?!b|\/b|!strong|\/strong)[^>]+)>)/gi,
-    replace: '',
+    replace: "",
   },
 };
 
