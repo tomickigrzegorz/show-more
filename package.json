@@ -1,6 +1,6 @@
 {
   "name": "show-more-read",
-  "version": "1.1.2",
+  "version": "1.1.3",
   "main": "dist/js/showMore.js",
   "description": "JavaScript library that truncates text, list or table by chars, elements or rows",
   "author": "Grzegorz Tomicki",
@@ -14,14 +14,15 @@
     "url": "https://github.com/tomik23/show-more.git"
   },
   "scripts": {
-    "dev": "concurrently \"yarn sass:dev\"  \"yarn sass:prod\" \"yarn watch\"",
-    "prod": "yarn build && yarn sass:prod  && yarn postcss && yarn postcss:prod",
+    "dev": "concurrently \"yarn sass:dev\" \"yarn sass:prod\" \"yarn watch\"",
+    "prod": "yarn build && yarn sass:prod && yarn postcss && yarn postcss:prod && yarn lib:version",
     "build": "rollup -c --environment PRODUCTION",
     "watch": "rollup -c -w",
     "sass:prod": "sass --no-source-map sources/scss:docs",
     "sass:dev": "sass --watch sources/scss:docs",
     "postcss": "postcss docs/**/*.css --dir docs",
-    "postcss:prod": "postcss --ext min.css docs/show-more.css --dir dist/css"
+    "postcss:prod": "postcss --ext min.css docs/show-more.css --dir dist/css",
+    "lib:version": "node ./scripts/version.js"
   },
   "keywords": [
     "show-more/less",
