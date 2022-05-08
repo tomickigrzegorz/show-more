@@ -1,36 +1,36 @@
-import { babel } from '@rollup/plugin-babel';
-import { terser } from 'rollup-plugin-terser';
-import serve from 'rollup-plugin-serve';
-import livereload from 'rollup-plugin-livereload';
-import cleanup from 'rollup-plugin-cleanup';
+import { babel } from "@rollup/plugin-babel";
+import { terser } from "rollup-plugin-terser";
+import serve from "rollup-plugin-serve";
+import livereload from "rollup-plugin-livereload";
+import cleanup from "rollup-plugin-cleanup";
 
-import pkg from './package.json';
+import pkg from "./package.json";
 
 const { PRODUCTION } = process.env;
-const input = 'sources/index.js';
+const input = "sources/index.js";
 
 const targets = {
   targets: {
-    browsers: ['defaults', 'not IE 11', 'maintained node versions'],
+    browsers: ["defaults", "not IE 11", "maintained node versions"],
   },
 };
 
 const targetsIE = {
   targets: {
-    browsers: ['>0.2%', 'not dead', 'not op_mini all'],
+    browsers: [">0.2%", "not dead", "not op_mini all"],
   },
 };
 
 const pluginsConfig = (target) => [
   babel({
-    babelHelpers: 'bundled',
+    babelHelpers: "bundled",
     presets: [
       [
-        '@babel/preset-env',
+        "@babel/preset-env",
         {
           // debug: true,
           // useBuiltIns: 'usage',
-          useBuiltIns: 'entry',
+          useBuiltIns: "entry",
           corejs: 3,
           loose: true,
           ...target,
@@ -41,14 +41,22 @@ const pluginsConfig = (target) => [
   cleanup(),
 ];
 
+const terserConfig = {
+  mangle: {
+    properties: {
+      regex: /^_/,
+    },
+  },
+};
+
 export default [
   {
     input,
     plugins: pluginsConfig(targets),
     watch: false,
     output: {
-      name: 'ShowMore',
-      format: 'iife',
+      name: "ShowMore",
+      format: "iife",
       file: pkg.main,
       sourcemap: true,
     },
@@ -58,28 +66,27 @@ export default [
     plugins: pluginsConfig(targets),
     watch: false,
     output: {
-      name: 'ShowMore',
-      format: 'iife',
+      name: "ShowMore",
+      format: "iife",
       sourcemap: false,
-      file: 'dist/js/showMore.min.js',
-      plugins: [terser()],
+      file: "dist/js/showMore.min.js",
+      plugins: [terser({ ...terserConfig })],
     },
   },
   {
     input,
     plugins: pluginsConfig(targets),
     output: {
-      name: 'ShowMore',
-      format: 'iife',
+      name: "ShowMore",
+      format: "iife",
       sourcemap: true,
-      file: 'docs/showMore.min.js',
+      file: "docs/showMore.min.js",
       plugins: [
         PRODUCTION &&
           terser({
-            mangle: true,
-            compress: { drop_console: true, drop_debugger: true },
+            ...terserConfig,
           }),
-        !PRODUCTION && serve({ open: true, contentBase: ['docs'] }),
+        !PRODUCTION && serve({ open: true, contentBase: ["docs"] }),
         !PRODUCTION && livereload(),
       ],
     },
@@ -90,19 +97,19 @@ export default [
     watch: false,
     output: [
       {
-        name: 'ShowMore',
-        format: 'umd',
+        name: "ShowMore",
+        format: "umd",
         sourcemap: true,
-        file: 'dist/js/showMore.umd.js',
+        file: "dist/js/showMore.umd.js",
       },
       {
-        name: 'ShowMore',
-        format: 'umd',
+        name: "ShowMore",
+        format: "umd",
         sourcemap: false,
-        file: 'dist/js/showMore.umd.min.js',
+        file: "dist/js/showMore.umd.min.js",
         plugins: [
           terser({
-            mangle: true,
+            ...terserConfig,
             compress: { drop_console: true, drop_debugger: true },
           }),
         ],
@@ -115,19 +122,19 @@ export default [
     watch: false,
     output: [
       {
-        name: 'ShowMore',
-        format: 'es',
+        name: "ShowMore",
+        format: "es",
         sourcemap: true,
-        file: 'dist/js/showMore.esm.js',
+        file: "dist/js/showMore.esm.js",
       },
       {
-        name: 'ShowMore',
-        format: 'es',
+        name: "ShowMore",
+        format: "es",
         sourcemap: false,
-        file: 'dist/js/showMore.esm.min.js',
+        file: "dist/js/showMore.esm.min.js",
         plugins: [
           terser({
-            mangle: true,
+            ...terserConfig,
             compress: { drop_console: true, drop_debugger: true },
           }),
         ],
@@ -140,13 +147,13 @@ export default [
     watch: false,
     output: [
       {
-        name: 'ShowMore',
-        format: 'iife',
+        name: "ShowMore",
+        format: "iife",
         sourcemap: false,
-        file: 'dist/js/showMore.ie.min.js',
+        file: "dist/js/showMore.ie.min.js",
         plugins: [
           terser({
-            mangle: true,
+            ...terserConfig,
             compress: { drop_console: true, drop_debugger: true },
           }),
         ],
