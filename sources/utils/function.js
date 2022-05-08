@@ -5,14 +5,14 @@
  * @param {String} type - type of element table | div
  * @returns
  */
-function getNumber({ rows, children }, type) {
-  const elementType = type === 'table' ? rows : children;
+const getNumber = ({ rows, children }, type) => {
+  const elementType = type === "table" ? rows : children;
 
   const numbersElementHidden = [].slice
     .call(elementType)
-    .filter((el) => el.className === 'hidden').length;
-  return numbersElementHidden !== 0 ? ` ${numbersElementHidden}` : '';
-}
+    .filter((el) => el.className === "hidden").length;
+  return numbersElementHidden !== 0 ? ` ${numbersElementHidden}` : "";
+};
 
 // https://stackoverflow.com/questions/6003271/substring-text-with-html-tags-in-javascript
 /**
@@ -22,9 +22,9 @@ function getNumber({ rows, children }, type) {
  * @param {String} count - limit of characters
  * @returns
  */
-function htmlSubstr(originalText, count) {
-  let div = document.createElement('div');
-  div.innerHTML = originalText;
+const htmlSubstr = (originalText, count) => {
+  let div = createElement("div");
+  div.insertAdjacentHTML("afterbegin", originalText);
 
   walk(div, track);
 
@@ -36,7 +36,7 @@ function htmlSubstr(originalText, count) {
         el.data = el.substringData(0, el.data.length + count);
       }
     } else {
-      el.data = '';
+      el.data = "";
     }
   }
 
@@ -51,7 +51,7 @@ function htmlSubstr(originalText, count) {
     } while ((node = node.nextSibling));
   }
   return div.innerHTML;
-}
+};
 
 /**
  * Add/remove class 'hidden' to element
@@ -59,8 +59,28 @@ function htmlSubstr(originalText, count) {
  * @param {HTMLElement} element
  * @param {String} type - type of element add or remove
  */
-function addRemoveClass(element, type = false) {
-  element.classList[type ? 'add' : 'remove']('hidden');
-}
+const addRemoveClass = (element, type = false) => {
+  return element.classList[type ? "add" : "remove"]("hidden");
+};
 
-export { addRemoveClass, getNumber, htmlSubstr };
+/**
+ * Set attributes to element
+ *
+ * @param {HTMLElement} el
+ * @param {Object} object
+ */
+const setAttributes = (el, object) => {
+  for (let key in object) {
+    el.setAttribute(key, object[key]);
+  }
+};
+
+/**
+ * Create element
+ *
+ * @param {String} type - type of element
+ * @returns {HTMLElement}
+ */
+const createElement = (type) => document.createElement(type);
+
+export { addRemoveClass, createElement, getNumber, htmlSubstr, setAttributes };
