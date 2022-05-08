@@ -60,16 +60,16 @@ npm run prod
 <script src="/path/to/showMore.min.js"></script>
 ```
 
-<img src="https://cdn.jsdelivr.net/www.jsdelivr.com/4a8e863f4c627929f243db3360393a7eed05238c/img/logo-horizontal.svg">
+## CDN
 
 HTML 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/tomik23/show-more@1.1.2/dist/js/showMore.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/tomik23/show-more@1.1.3/dist/js/showMore.min.js"></script>
 ```
 
 CSS
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/tomik23/show-more@1.1.2/dist/css/showMore.min.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/tomik23/show-more@1.1.3/dist/css/show-more.min.css" />
 ```
 
 -- OR --
@@ -156,7 +156,7 @@ CSS
 ### Only the ellipsis → [live example](https://tomik23.github.io/show-more#ellipsis):
 
 ```html
-<div class="element" data-config='{ "type": "text", "limit": 100 }'>
+<div class="element" data-config='{ "type": "text", "limit": 100, "nobutton": true }'>
   It is a long established fact that a reader will be distracted by the readable
   content of a page when looking at its layout.
 </div>
@@ -244,8 +244,10 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 });
 ```
-You can also mix, `global configuration` + `data-config`. In these cases, `data-config` takes precedence over `global configuration`.  
+You can also mix, `global configuration` + `data-config`. In such cases, the `global configuration` object will merge with` data-config`.
 For example, we have 10 texts to shorten, then we add the global configuration, but we also have a table that we want to shorten, in this case we add `data-config` to table - [see table example](#for-table--live-example)
+
+You don't need to add all the variables in the `data-config`. For example, if we have more/less buttons in `global configuration` then in `data-config` we do not have to declare them, but if we add them, they will overwrite their settings in globalen configuration.
 
 ## Configuration of the plugin
 
@@ -260,6 +262,7 @@ For example, we have 10 texts to shorten, then we add the global configuration, 
 | `more/less`      |         | is the text and chars that appears after the text, list or table e.g. `> show more` and `< show less`                                                                       |
 | `number`         |         | number of hidden items to show more/less e.g. `-> show more 3`, only works for list and table                                                                               |
 | `ellipsis`       |         | By default, adding an ellipsis to shortened text can be turned off by setting 'ellipsis': false                                                                             |
+| `nobutton`       |         | Diable showing the read more/less button, by default 'nobutton': false                                                                                                      |
 | `regex`          |         | adding your own regular expressions. It is an object with two parameters `match` and `replace`, see example below                                                           |
 | `btnClass`       |         | Button class name. Default: `show-more-btn`                                                                                                                                 |
 | `btnClassAppend` |         | Opportunity to add additional classes to the button                                                                                                                         |
@@ -280,7 +283,7 @@ Configuration for IE:
 
 ### cdn
 
-- https://cdn.jsdelivr.net/gh/tomik23/show-more@1.1.2/dist/js/showMore.min.js
+- https://cdn.jsdelivr.net/gh/tomik23/show-more@1.1.3/dist/js/showMore.ie.min.js
 
 ### cdn polyfill from npm
 
