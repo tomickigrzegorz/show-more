@@ -101,7 +101,6 @@ var ShowMore = (function () {
         });
         const limitCounts = limit + after;
         const ellips = ellipsis === false ? "" : "...";
-        console.log(nobutton);
         if (type === "text") {
           const originalText = element.innerHTML.trim();
           const elementText = element.textContent.trim();

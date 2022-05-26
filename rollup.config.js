@@ -70,7 +70,12 @@ export default [
       format: "iife",
       sourcemap: false,
       file: "dist/js/showMore.min.js",
-      plugins: [terser({ ...terserConfig })],
+      plugins: [
+        terser({
+          ...terserConfig,
+          compress: { drop_console: true, drop_debugger: true },
+        }),
+      ],
     },
   },
   {
@@ -85,6 +90,7 @@ export default [
         PRODUCTION &&
           terser({
             ...terserConfig,
+            compress: { drop_console: true, drop_debugger: true },
           }),
         !PRODUCTION && serve({ open: true, contentBase: ["docs"] }),
         !PRODUCTION && livereload(),
