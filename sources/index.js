@@ -60,7 +60,7 @@ export default class ShowMore {
     const limitCounts = limit + after;
     const ellips = ellipsis === false ? "" : "...";
 
-    console.log(nobutton);
+    // console.log(nobutton);
 
     // text
     if (type === "text") {
