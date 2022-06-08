@@ -100,6 +100,11 @@ export default class ShowMore {
           addRemoveClass(items[i], true);
         }
 
+        if (!nobutton) {
+        // add button to the list and table
+          this._addBtn(this._object);
+        }
+
         // add event click
         this._clickEvent(
           type === "list" ? element : element.nextElementSibling,
@@ -107,8 +112,6 @@ export default class ShowMore {
         );
 
         if (nobutton) return;
-        // add button to the list and table
-        this._addBtn(this._object);
       }
     }
   };
