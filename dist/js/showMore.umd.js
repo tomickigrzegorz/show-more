@@ -133,9 +133,11 @@
             for (let i = limit; i < items.length; i++) {
               addRemoveClass(items[i], true);
             }
+            if (!nobutton) {
+              this._addBtn(this._object);
+            }
             this._clickEvent(type === "list" ? element : element.nextElementSibling, this._object);
             if (nobutton) return;
-            this._addBtn(this._object);
           }
         }
       };
