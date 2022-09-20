@@ -7,7 +7,7 @@ var ShowMore = (function () {
       children
     } = _ref;
     const elementType = type === "table" ? rows : children;
-    const numbersElementHidden = [].slice.call(elementType).filter(el => el.className === "hidden").length;
+    const numbersElementHidden = [].slice.call(elementType).filter(el => el.classList.contains("hidden")).length;
     return numbersElementHidden !== 0 ? " " + numbersElementHidden : "";
   };
   const htmlSubstr = (originalText, count) => {
