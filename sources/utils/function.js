@@ -10,7 +10,7 @@ const getNumber = ({ rows, children }, type) => {
 
   const numbersElementHidden = [].slice
     .call(elementType)
-    .filter((el) => el.className === "hidden").length;
+    .filter((el) => el.classList.contains("hidden")).length;
   return numbersElementHidden !== 0 ? ` ${numbersElementHidden}` : "";
 };
 

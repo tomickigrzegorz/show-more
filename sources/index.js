@@ -101,7 +101,7 @@ export default class ShowMore {
         }
 
         if (!nobutton) {
-        // add button to the list and table
+          // add button to the list and table
           this._addBtn(this._object);
         }
 
@@ -157,6 +157,7 @@ export default class ShowMore {
       "beforeend",
       number ? typeAria + getNumber(element, type) : typeAria
     );
+
     return button;
   };
 
