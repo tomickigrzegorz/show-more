@@ -6,12 +6,12 @@
   "author": "Grzegorz Tomicki",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/tomik23/show-more/issues"
+    "url": "https://github.com/tomickigrzegorz/show-more/issues"
   },
-  "homepage": "https://github.com/tomik23/show-more#readme",
+  "homepage": "https://github.com/tomickigrzegorz/show-more#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/tomik23/show-more.git"
+    "url": "https://github.com/tomickigrzegorz/show-more.git"
   },
   "scripts": {
     "dev": "concurrently \"yarn sass:dev\" \"yarn sass:prod\" \"yarn watch\"",

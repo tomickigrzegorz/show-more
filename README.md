@@ -7,8 +7,8 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/github/package-json/v/tomik23/show-more">
-  <img src="https://img.shields.io/github/size/tomik23/show-more/dist/js/showMore.min.js">
+  <img src="https://img.shields.io/github/package-json/v/tomickigrzegorz/show-more">
+  <img src="https://img.shields.io/github/size/tomickigrzegorz/show-more/dist/js/showMore.min.js">
   <a href="LICENSE">
     <img src="https://img.shields.io/badge/License-MIT-green.svg">
   </a>
@@ -20,7 +20,7 @@
 
 ## Demo
 
-See the demo - [example](https://tomik23.github.io/show-more/)
+See the demo - [example](https://tomickigrzegorz.github.io/show-more/)
 
 ## Clone the repo and install dependencies
 
@@ -64,12 +64,12 @@ npm run prod
 
 HTML 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/tomik23/show-more@1.1.6/dist/js/showMore.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/tomickigrzegorz/show-more@1.1.6/dist/js/showMore.min.js"></script>
 ```
 
 CSS
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/tomik23/show-more@1.1.6/dist/css/show-more.min.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/tomickigrzegorz/show-more@1.1.6/dist/css/show-more.min.css" />
 ```
 
 -- OR --
@@ -102,7 +102,7 @@ CSS
 
 ---
 
-### For text → [live example](https://tomik23.github.io/show-more#example-text):
+### For text → [live example](https://tomickigrzegorz.github.io/show-more#example-text):
 
 ```html
 <div class="element" data-config='{ "type": "text", "limit": 120, "more": "→ show more", "less": "← less" }'>
@@ -112,7 +112,7 @@ CSS
 
 ---
 
-### For list → [live example](https://tomik23.github.io/show-more#example-list):
+### For list → [live example](https://tomickigrzegorz.github.io/show-more#example-list):
 
 ```html
 <ul class="element" data-config='{ "type": "list", "limit": 5, "element": "li", "more": "↓ show more", "less": "↑ less", "number": true }'>
@@ -124,7 +124,7 @@ CSS
 
 ---
 
-### For table → [live example](https://tomik23.github.io/show-more#example-table):
+### For table → [live example](https://tomickigrzegorz.github.io/show-more#example-table):
 
 ```html
 <table class="element" data-config='{ "type": "table", "limit": 4, "more": "↓ show more", "less": "↑ less", "number": true }'>
@@ -134,7 +134,7 @@ CSS
 
 ---
 
-### Only `show more` button → [live example](https://tomik23.github.io/show-more#example-onlyexpandable):
+### Only `show more` button → [live example](https://tomickigrzegorz.github.io/show-more#example-onlyexpandable):
 
 ```html
 <div class="element links-style" data-config='{ "type": "list", "limit": 5, "more": "→ show more" }'>
@@ -144,7 +144,7 @@ CSS
 
 ---
 
-### Show the number next to the button → [live example](https://tomik23.github.io/show-more#show-number):
+### Show the number next to the button → [live example](https://tomickigrzegorz.github.io/show-more#show-number):
 
 ```html
 <ul class="element display-inline" data-config='{ "type": "list", "limit": 3, "element": "li", "more": "→ show more", "less": "← less", "number": true }'>
@@ -153,7 +153,7 @@ CSS
 </ul>
 ```
 
-### Only the ellipsis → [live example](https://tomik23.github.io/show-more#ellipsis):
+### Only the ellipsis → [live example](https://tomickigrzegorz.github.io/show-more#ellipsis):
 
 ```html
 <div class="element" data-config='{ "type": "text", "limit": 100, "nobutton": true }'>
@@ -162,7 +162,7 @@ CSS
 </div>
 ```
 
-### HTML tags → [live example](https://tomik23.github.io/show-more#html):
+### HTML tags → [live example](https://tomickigrzegorz.github.io/show-more#html):
 
 ```html
 <div class="element" data-config='{ "type": "text", "limit": 100, "more": "→ show more", "less": "← less" }'>
@@ -283,7 +283,7 @@ Configuration for IE:
 
 ### cdn
 
-- https://cdn.jsdelivr.net/gh/tomik23/show-more@1.1.6/dist/js/showMore.ie.min.js
+- https://cdn.jsdelivr.net/gh/tomickigrzegorz/show-more@1.1.6/dist/js/showMore.ie.min.js
 
 ### cdn polyfill from npm
 
