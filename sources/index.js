@@ -145,8 +145,10 @@ export default class ShowMore {
     const expanded = this._checkExp ? true : false;
 
     const button = createElement("button");
+
     button.className =
       btnClassAppend == null ? btnClass : btnClass + " " + btnClassAppend;
+    button.type = "button";
     setAttributes(button, {
       "aria-expanded": expanded,
       "aria-label": label,
