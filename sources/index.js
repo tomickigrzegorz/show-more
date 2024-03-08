@@ -55,7 +55,7 @@ export default class ShowMore {
   _initial = () => {
     const { element, after, ellipsis, nobutton, limit, type } = this._object;
     // set default aria-expande to false
-    setAttributes(element, { "aria-expanded": "false" });
+    setAttributes(element, { "showmore-expanded": "false" });
 
     const limitCounts = limit + after;
     const ellips = ellipsis === false ? "" : "...";
@@ -186,8 +186,8 @@ export default class ShowMore {
 
     if (!checkContainsClass) return;
 
-    const ariaExpanded = element.getAttribute("aria-expanded");
-    this._checkExp = ariaExpanded === "false";
+    const showMoreExpanded = element.getAttribute("showmore-expanded");
+    this._checkExp = showMoreExpanded === "false";
 
     // --------------------------------------------------
     // text
@@ -267,7 +267,7 @@ export default class ShowMore {
     const ariaText = type === "table" ? type : `the ${type}`;
     const lastChild = element.lastElementChild;
 
-    setAttributes(element, { "aria-expanded": this._checkExp });
+    setAttributes(element, { "showmore-expanded": this._checkExp });
     setAttributes(target, {
       "aria-expanded": this._checkExp,
       "aria-label": `${aria} ${ariaText}`,
