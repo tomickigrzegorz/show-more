@@ -1,4 +1,4 @@
-const defaultOptions = {
+export const defaultOptions = {
   typeElement: "span",
   more: false,
   less: false,
@@ -8,5 +8,3 @@ const defaultOptions = {
   btnClass: "show-more-btn",
   btnClassAppend: null,
 };
-
-export default defaultOptions;

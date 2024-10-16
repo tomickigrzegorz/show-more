@@ -124,7 +124,7 @@
         type
       } = this._object;
       setAttributes(element, {
-        "aria-expanded": "false"
+        "showmore-expanded": "false"
       });
       const limitCounts = limit + after;
       const ellips = ellipsis === false ? "" : "...";
@@ -178,11 +178,11 @@
         btnClassAppend
       } = _ref;
       const typeAria = this._checkExp ? less || "" : more || "";
-      const label = this._checkExp ? "collapse" : "expand";
+      let label = this._checkExp ? less.trim() || "collapse" : more.trim() || "expand";
+      label = number ? label + getNumber(element, type) : label;
       const expanded = this._checkExp ? true : false;
       const button = createElement("button");
       button.className = btnClassAppend == null ? btnClass : btnClass + " " + btnClassAppend;
-      button.type = "button";
       setAttributes(button, {
         "aria-expanded": expanded,
         "aria-label": label,
@@ -207,8 +207,8 @@
       } = object;
       const checkContainsClass = target.classList.contains(btnClass);
       if (!checkContainsClass) return;
-      const ariaExpanded = element.getAttribute("aria-expanded");
-      this._checkExp = ariaExpanded === "false";
+      const showMoreExpanded = element.getAttribute("showmore-expanded");
+      this._checkExp = showMoreExpanded === "false";
       if (type === "text" && checkContainsClass) {
         element.textContent = "";
         element.insertAdjacentHTML("beforeend", this._checkExp ? originalText : truncatedText);
@@ -223,7 +223,7 @@
         const items = this._getNumberCount(element, type);
         for (let i = 0; i < items.length; i++) {
           const typeRemove = type === "list" ? i >= limit && i < items.length - 1 : i >= limit;
-          if (ariaExpanded === "false") {
+          if (showMoreExpanded === "false") {
             addRemoveClass(items[i]);
           } else if (typeRemove) {
             addRemoveClass(items[i], true);
@@ -268,14 +268,14 @@
       } = object;
       const typeAria = this._checkExp ? less : more;
       const aria = this._checkExp ? "expand" : "collapse";
-      const ariaText = type === "table" ? type : `the ${type}`;
       const lastChild = element.lastElementChild;
+      const ariaLabel = number ? typeAria + getNumber(element, type) : typeAria;
       setAttributes(element, {
-        "aria-expanded": this._checkExp
+        "showmore-expanded": this._checkExp
       });
       setAttributes(target, {
         "aria-expanded": this._checkExp,
-        "aria-label": `${aria} ${ariaText}`
+        "aria-label": ariaLabel
       });
       this._onMoreLess(aria, object);
       if (typeAria) {
