@@ -5,7 +5,7 @@
  * @param {String} type - type of element table | div
  * @returns
  */
-const getNumber = ({ rows, children }, type) => {
+export const getNumber = ({ rows, children }, type) => {
   const elementType = type === "table" ? rows : children;
 
   const numbersElementHidden = [].slice
@@ -22,7 +22,7 @@ const getNumber = ({ rows, children }, type) => {
  * @param {String} count - limit of characters
  * @returns
  */
-const htmlSubstr = (originalText, count) => {
+export const htmlSubstr = (originalText, count) => {
   let div = createElement("div");
   div.insertAdjacentHTML("afterbegin", originalText);
 
@@ -59,7 +59,7 @@ const htmlSubstr = (originalText, count) => {
  * @param {HTMLElement} element
  * @param {String} type - type of element add or remove
  */
-const addRemoveClass = (element, type = false) => {
+export const addRemoveClass = (element, type = false) => {
   return element.classList[type ? "add" : "remove"]("hidden");
 };
 
@@ -69,7 +69,7 @@ const addRemoveClass = (element, type = false) => {
  * @param {HTMLElement} el
  * @param {Object} object
  */
-const setAttributes = (el, object) => {
+export const setAttributes = (el, object) => {
   for (let key in object) {
     el.setAttribute(key, object[key]);
   }
@@ -81,6 +81,4 @@ const setAttributes = (el, object) => {
  * @param {String} type - type of element
  * @returns {HTMLElement}
  */
-const createElement = (type) => document.createElement(type);
-
-export { addRemoveClass, createElement, getNumber, htmlSubstr, setAttributes };
+export const createElement = (type) => document.createElement(type);

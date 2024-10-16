@@ -1,7 +1,7 @@
 /**
  * Default regexes for validation
  */
-const defaultRegex = {
+export const defaultRegex = {
   newLine: {
     match: /(\r\n|\n|\r)/gm,
     replace: "",
@@ -19,5 +19,3 @@ const defaultRegex = {
     replace: "",
   },
 };
-
-export default defaultRegex;

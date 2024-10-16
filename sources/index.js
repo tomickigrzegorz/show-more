@@ -5,8 +5,8 @@ import {
   htmlSubstr,
   setAttributes,
 } from "./utils/function";
-import defaultRegex from "./utils/regex";
-import defaultOptions from "./utils/defaults";
+import { defaultRegex } from "./utils/regex";
+import { defaultOptions } from "./utils/defaults";
 
 /**
  * @class ShowMore
@@ -108,7 +108,7 @@ export default class ShowMore {
         // add event click
         this._clickEvent(
           type === "list" ? element : element.nextElementSibling,
-          this._object
+          this._object,
         );
 
         if (nobutton) return;
@@ -141,14 +141,18 @@ export default class ShowMore {
     btnClassAppend,
   }) => {
     const typeAria = this._checkExp ? less || "" : more || "";
-    const label = this._checkExp ? "collapse" : "expand";
+    let label = this._checkExp
+      ? less.trim() || "collapse"
+      : more.trim() || "expand";
+
+    label = number ? label + getNumber(element, type) : label;
+
     const expanded = this._checkExp ? true : false;
 
     const button = createElement("button");
 
     button.className =
       btnClassAppend == null ? btnClass : btnClass + " " + btnClassAppend;
-    button.type = "button";
     setAttributes(button, {
       "aria-expanded": expanded,
       "aria-label": label,
@@ -157,7 +161,7 @@ export default class ShowMore {
 
     button.insertAdjacentHTML(
       "beforeend",
-      number ? typeAria + getNumber(element, type) : typeAria
+      number ? typeAria + getNumber(element, type) : typeAria,
     );
 
     return button;
@@ -196,7 +200,7 @@ export default class ShowMore {
 
       element.insertAdjacentHTML(
         "beforeend",
-        this._checkExp ? originalText : truncatedText
+        this._checkExp ? originalText : truncatedText,
       );
 
       if (less) {
@@ -216,7 +220,7 @@ export default class ShowMore {
         const typeRemove =
           type === "list" ? i >= limit && i < items.length - 1 : i >= limit;
 
-        if (ariaExpanded === "false") {
+        if (showMoreExpanded === "false") {
           addRemoveClass(items[i]);
         } else if (typeRemove) {
           addRemoveClass(items[i], true);
@@ -264,13 +268,14 @@ export default class ShowMore {
 
     const typeAria = this._checkExp ? less : more;
     const aria = this._checkExp ? "expand" : "collapse";
-    const ariaText = type === "table" ? type : `the ${type}`;
     const lastChild = element.lastElementChild;
+
+    const ariaLabel = number ? typeAria + getNumber(element, type) : typeAria;
 
     setAttributes(element, { "showmore-expanded": this._checkExp });
     setAttributes(target, {
       "aria-expanded": this._checkExp,
-      "aria-label": `${aria} ${ariaText}`,
+      "aria-label": ariaLabel,
     });
 
     // callback function on more/less
