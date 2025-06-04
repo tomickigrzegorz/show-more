@@ -12,7 +12,7 @@ export const defaultRegex = {
   },
   br: {
     match: /<br\b[^>]*\/?>/gim,
-    replace: "||||",
+    replace: " ",
   },
   html: {
     match: /(<((?!b|\/b|!strong|\/strong)[^>]+)>)/gi,
