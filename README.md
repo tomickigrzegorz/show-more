@@ -64,12 +64,12 @@ npm run prod
 
 HTML 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/tomickigrzegorz/show-more@1.1.8/dist/js/showMore.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/tomickigrzegorz/show-more@1.1.9/dist/js/showMore.min.js"></script>
 ```
 
 CSS
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/tomickigrzegorz/show-more@1.1.8/dist/css/show-more.min.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/tomickigrzegorz/show-more@1.1.9/dist/css/show-more.min.css" />
 ```
 
 -- OR --
@@ -283,7 +283,7 @@ Configuration for IE:
 
 ### cdn
 
-- https://cdn.jsdelivr.net/gh/tomickigrzegorz/show-more@1.1.8/dist/js/showMore.ie.min.js
+- https://cdn.jsdelivr.net/gh/tomickigrzegorz/show-more@1.1.9/dist/js/showMore.ie.min.js
 
 ### cdn polyfill from npm
 

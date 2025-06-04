@@ -56,15 +56,15 @@
   const defaultRegex = {
     newLine: {
       match: /(\r\n|\n|\r)/gm,
-      replace: ""
+      replace: " "
     },
     space: {
       match: /\s\s+/gm,
       replace: " "
     },
     br: {
-      match: /<br\s*\/?>/gim,
-      replace: ""
+      match: /<br\b[^>]*\/?>/gim,
+      replace: "||||"
     },
     html: {
       match: /(<((?!b|\/b|!strong|\/strong)[^>]+)>)/gi,
