@@ -11,6 +11,7 @@ interface ShowMoreOptions {
     type?: "text" | "list" | "table";
     element?: HTMLElement;
     ellipsis?: boolean | string;
+    removeElements?: string[];
 }
 
 interface RegexRule {

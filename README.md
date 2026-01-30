@@ -230,6 +230,62 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 ```
 
+### Remove specific HTML elements
+
+You can customize which HTML elements (with their content) should be removed when truncating text using the `removeElements` option:
+
+```javascript
+document.addEventListener('DOMContentLoaded', function () {
+  new ShowMore('.element', {
+    config: {
+      type: "text",
+      limit: 120,
+      // Remove only images and videos
+      // Tables and lists will remain visible
+      removeElements: ['img', 'video']
+    }
+  });
+});
+```
+
+**How it works:**
+
+- **Default behavior** (when `removeElements` is not specified): removes `table`, `ul`, `ol`, `img`, `video`, `figure`, `iframe`, `script`, and more structural elements. Only inline text formatting (`<b>`, `<i>`, `<strong>`, etc.) is kept.
+
+- **Custom list** (e.g., `['img', 'video']`): removes ONLY specified elements. Other elements like `<table>`, `<ul>` remain with their full HTML structure. The `html` regex is **not applied** when using custom list.
+
+- **Empty array** (`[]`): keeps ALL elements. Only text is truncated, all HTML structure remains intact.
+
+**Important:** When elements are kept (not removed), their text content still counts toward the character limit. For example, if you keep a table with 50 characters of text, it counts toward your `limit`.
+
+### Smart table cleanup
+
+When tables are kept (not removed), the library intelligently handles empty table rows and cells:
+
+**Table row cleanup:**
+- If a row has **at least one cell with text** → the entire row is kept (including empty cells)
+- If a row has **all cells empty** → the entire row is removed
+
+**Example:**
+
+```html
+<!-- Before truncation: -->
+<table>
+  <tr><td>Product A</td><td>$100</td></tr>
+  <tr><td>Product B</td><td>Long description that will be cut...</td></tr>
+  <tr><td>Very long text that will be completely truncated...</td><td>Another long text...</td></tr>
+</table>
+
+<!-- After truncation (short limit, with removeElements: []): -->
+<table>
+  <tr><td>Product A</td><td>$100</td></tr>
+  <tr><td>Product B</td><td></td></tr>  <!-- Row kept: has "Product B" -->
+  <!-- Third row removed: all cells were empty after truncation -->
+</table>
+```
+
+This ensures tables maintain proper structure (same number of columns per row) while removing completely empty rows.
+
 ## Global configuration
 If you have one type of items that you want to shorten, you can add global configuration, you don't need to add `data-config` to each item. Below is an example:
 ```javascript
@@ -264,6 +320,7 @@ You don't need to add all the variables in the `data-config`. For example, if we
 | `ellipsis`       |         | By default, adding an ellipsis to shortened text can be turned off by setting 'ellipsis': false                                                                             |
 | `nobutton`       |         | Diable showing the read more/less button, by default 'nobutton': false                                                                                                      |
 | `regex`          |         | adding your own regular expressions. It is an object with two parameters `match` and `replace`, see example below                                                           |
+| `removeElements` |         | Array of HTML tag names to remove (with content) for `type: "text"`. Default: `['table', 'ul', 'ol', 'img', 'video', 'figure', 'iframe', 'script', ...]`. Set to `[]` to keep all |
 | `btnClass`       |         | Button class name. Default: `show-more-btn`                                                                                                                                 |
 | `btnClassAppend` |         | Opportunity to add additional classes to the button                                                                                                                         |
 | `onMoreLess`     |         | callback function                                                                                                                                                           |

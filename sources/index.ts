@@ -1,10 +1,11 @@
 import type { ShowMoreOptions } from "./utils/defaults";
-import { defaultOptions } from "./utils/defaults";
+import { defaultOptions, defaultRemoveElements } from "./utils/defaults";
 import {
   addRemoveClass,
   createElement,
   getNumber,
   htmlSubstr,
+  removeElements,
   setAttributes,
 } from "./utils/function";
 import type { RegexConfig } from "./utils/regex";
@@ -97,11 +98,23 @@ export default class ShowMore {
       const elementText = element.textContent?.trim() || "";
 
       if (elementText.length > limitCounts) {
-        let orgTexReg = originalText;
+        // Remove unwanted elements (with their content) based on config
+        const elementsToRemove = this._object.removeElements || [];
+        let orgTexReg = removeElements(originalText, elementsToRemove);
 
-        // Optimize: use Object.values instead of for...in
+        // Check if removeElements is customized (different from default)
+        const isCustomRemoveElements =
+          JSON.stringify(elementsToRemove) !==
+          JSON.stringify(defaultRemoveElements);
+
+        // Apply regex rules for remaining tags
         for (const rule of Object.values(this._regex)) {
           if (rule?.match) {
+            // Skip 'html' regex if user has custom removeElements
+            // (user controls what to remove via removeElements)
+            if (isCustomRemoveElements && rule === this._regex.html) {
+              continue;
+            }
             orgTexReg = orgTexReg.replace(rule.match, rule.replace);
           }
         }

@@ -173,8 +173,9 @@
           data-config='{ "type": "text", "limit": 120, "after": 50, "more": "&#8594; read more", "less": "&#8592; read less" }'
         >
           <b>Contrary to popular belief</b>, Lorem Ipsum is not simply random
-          text. It has roots in a piece of classical Latin literature from 45
-          BC, making it over 2000 years old.
+          text. It has roots in a piece of classical Latin
+          <i><b>literature from 45 BC, making it over 2000 years old</b></i
+          >.
           <i
             >Richard McClintock, a Latin professor at Hampden-Sydney College in
             Virginia</i
@@ -508,7 +509,7 @@
         </div>
         <div
           class="element"
-          data-config='{ "type": "text", "limit": 100, "more": " &#8594; read more", "less": " &#8592; read less" }'
+          data-config='{ "type": "text", "limit": 300, "more": " &#8594; read more", "less": " &#8592; read less" }'
         >
           <b>Lorem ipsum dolor sit</b>, amet consectetur adipisicing elit.
           Libero deserunt dignissimos blanditiis animi esse veritatis, quasi,
@@ -552,6 +553,103 @@
   "limit": 100,
   "more": "&#8594; read more",
   "less": "&#8592; read less"
+}</code>
+          </pre>
+        </div>
+      </section>
+
+      <!-- removeElements examples -->
+      <section id="example-remove-elements">
+        <h2>Custom removeElements - Remove only images</h2>
+        <div class="explanation">
+          By default, tables, lists, images, and multimedia are removed. You can
+          customize this with <code>removeElements</code>.
+        </div>
+        <div
+          class="element"
+          data-config='{ "type": "text", "limit": 150, "more": " → read more", "less": " ← read less", "removeElements": ["img", "video"] }'
+        >
+          <b>Lorem ipsum dolor sit</b>, amet consectetur adipisicing elit.
+          Libero deserunt dignissimos blanditiis animi.
+          <table>
+            <tr>
+              <td>Table content</td>
+              <td>will be visible</td>
+            </tr>
+            <tr>
+              <td>because table</td>
+              <td>is not in list</td>
+            </tr>
+            <tr>
+              <td>because table</td>
+              <td>is not in list</td>
+            </tr>
+          </table>
+          Sequi debitis suscipit molestias, eligendi ab odit ullam.
+          <img
+            src="https://grzegorztomicki.pl/images/maroko/1200/IMG_0738.jpg"
+            title="Morocco"
+          />
+          This image above is removed. Vero eius debitis quis corporis, possimus
+          veniam sit fugit aliquid.
+          <ul>
+            <li>List item 1 - will be visible</li>
+            <li>List item 2 - will be visible</li>
+          </ul>
+          More text after list. Fuga, libero eaque consequuntur ipsa esse omnis.
+        </div>
+        <div class="example-html">
+          <pre>
+            <code code class="language-json">{
+  "type": "text",
+  "limit": 150,
+  "more": " → read more",
+  "less": " ← read less",
+  // Only remove images and videos
+  // Tables and lists will be visible!
+  // (but their text counts toward the limit)
+  "removeElements": ["img", "video"]
+}</code>
+          </pre>
+        </div>
+      </section>
+
+      <section id="example-keep-all">
+        <h2>Keep all elements (empty removeElements)</h2>
+        <div class="explanation">
+          Set <code>removeElements: []</code> to keep all HTML elements. Only
+          regex rules will be applied.
+        </div>
+        <div
+          class="element"
+          data-config='{ "type": "text", "limit": 30, "more": " → show more", "less": " ← show less", "removeElements": [] }'
+        >
+          Text before table.
+          <table border="1">
+            <tr>
+              <td>A</td>
+              <td>B</td>
+            </tr>
+            <tr>
+              <td>C</td>
+              <td>D</td>
+            </tr>
+          </table>
+          Text after table.
+          <ul>
+            <li>Item 1</li>
+            <li>Item 2</li>
+          </ul>
+          Final text with <strong>formatting</strong>.
+        </div>
+        <div class="example-html">
+          <pre>
+            <code code class="language-json">{
+  "type": "text",
+  "limit": 100,
+  // Empty array = keep all elements
+  // Only text will be truncated
+  "removeElements": []
 }</code>
           </pre>
         </div>

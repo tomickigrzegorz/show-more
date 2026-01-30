@@ -4,6 +4,48 @@
   (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.ShowMore = factory());
 })(this, (function () { 'use strict';
 
+  /**
+   * Default list of HTML elements to remove (with their content) for type="text"
+   */ const defaultRemoveElements = [
+      // Tables
+      "table",
+      "thead",
+      "tbody",
+      "tfoot",
+      "tr",
+      "td",
+      "th",
+      // Lists
+      "ul",
+      "ol",
+      "li",
+      "dl",
+      "dt",
+      "dd",
+      // Multimedia
+      "figure",
+      "figcaption",
+      "img",
+      "picture",
+      "source",
+      "video",
+      "audio",
+      // Embedded content
+      "iframe",
+      "object",
+      "embed",
+      "canvas",
+      "svg",
+      // Scripts & styles
+      "script",
+      "style",
+      // Forms
+      "form",
+      "input",
+      "select",
+      "textarea",
+      "button"
+  ];
   const defaultOptions = {
       typeElement: "span",
       more: false,
@@ -12,7 +54,8 @@
       nobutton: false,
       after: 0,
       btnClass: "show-more-btn",
-      btnClassAppend: null
+      btnClassAppend: null,
+      removeElements: defaultRemoveElements
   };
 
   /**
@@ -26,6 +69,59 @@
       if (!elementType) return "";
       const numbersElementHidden = Array.from(elementType).filter((el)=>el.classList.contains("hidden")).length;
       return numbersElementHidden !== 0 ? ` ${numbersElementHidden}` : "";
+  };
+  /**
+   * Remove specific HTML elements with their content
+   *
+   * @param html - HTML string
+   * @param tags - Array of tag names to remove (e.g., ['table', 'img', 'figure'])
+   * @returns HTML string without specified elements
+   */ const removeElements = (html, tags)=>{
+      const div = createElement("div");
+      div.innerHTML = html;
+      tags.forEach((tag)=>{
+          const elements = div.querySelectorAll(tag);
+          elements.forEach((el)=>{
+              el.remove();
+          });
+      });
+      return div.innerHTML;
+  };
+  /**
+   * Remove table rows where ALL cells are empty
+   *
+   * @param div - DOM element containing HTML
+   */ const cleanupTableRows = (div)=>{
+      const tables = div.querySelectorAll("table");
+      tables.forEach((table)=>{
+          const rows = table.querySelectorAll("tr");
+          rows.forEach((row)=>{
+              const cells = row.querySelectorAll("td, th");
+              // Check if ALL cells in this row are empty
+              const allEmpty = cells.length > 0 && Array.from(cells).every((cell)=>!cell.textContent?.trim());
+              if (allEmpty) {
+                  row.remove();
+              }
+          });
+      });
+  };
+  /**
+   * Remove empty HTML tags recursively
+   *
+   * @param html - HTML string
+   * @returns HTML string without empty tags
+   */ const removeEmptyTags = (html)=>{
+      let cleaned = html;
+      let prev;
+      // Recursively remove empty tags (including nested ones)
+      // BUT keep table structure tags (td, th, tr) - they're handled separately
+      do {
+          prev = cleaned;
+          // Remove tags that contain only whitespace or &nbsp;
+          // Exclude: td, th, tr (table structure handled by cleanupTableRows)
+          cleaned = cleaned.replace(/<((?!td|th|tr)\w+)(\s[^>]*)?>(\s|&nbsp;|<br\s*\/?>)*<\/\1>/gi, "");
+      }while (cleaned !== prev)
+      return cleaned;
   };
   // https://stackoverflow.com/questions/6003271/substring-text-with-html-tags-in-javascript
   /**
@@ -61,7 +157,10 @@
               node = node.nextSibling;
           }
       }
-      return div.innerHTML;
+      // Clean up table rows where ALL cells are empty
+      cleanupTableRows(div);
+      // Remove empty tags after truncation
+      return removeEmptyTags(div.innerHTML);
   };
   /**
    * Add/remove class 'hidden' to element
@@ -90,6 +189,10 @@
 
   /**
    * Default regexes for validation
+   *
+   * For type="text": removes all HTML tags except inline text formatting
+   * - Keeps: <b>, <strong>, <i>, <em>, <u>, <mark>, <small>, <sub>, <sup>
+   * - Removes: <table>, <ul>, <img>, <figure>, <div>, <p>, etc.
    */ const defaultRegex = {
       newLine: {
           match: /(\r\n|\n|\r)/gm,
@@ -104,7 +207,9 @@
           replace: " "
       },
       html: {
-          match: /(<((?!b|\/b|!strong|\/strong)[^>]+)>)/gi,
+          // Removes all tags except inline text formatting
+          // \b ensures word boundary (e.g., <i> is kept, but <img> is removed)
+          match: /(<((?!\/?(?:b|strong|i|em|u|mark|small|sub|sup)\b)[^>]+)>)/gi,
           replace: ""
       }
   };
@@ -132,10 +237,19 @@
                   const originalText = element.innerHTML.trim();
                   const elementText = element.textContent?.trim() || "";
                   if (elementText.length > limitCounts) {
-                      let orgTexReg = originalText;
-                      // Optimize: use Object.values instead of for...in
+                      // Remove unwanted elements (with their content) based on config
+                      const elementsToRemove = this._object.removeElements || [];
+                      let orgTexReg = removeElements(originalText, elementsToRemove);
+                      // Check if removeElements is customized (different from default)
+                      const isCustomRemoveElements = JSON.stringify(elementsToRemove) !== JSON.stringify(defaultRemoveElements);
+                      // Apply regex rules for remaining tags
                       for (const rule of Object.values(this._regex)){
                           if (rule?.match) {
+                              // Skip 'html' regex if user has custom removeElements
+                              // (user controls what to remove via removeElements)
+                              if (isCustomRemoveElements && rule === this._regex.html) {
+                                  continue;
+                              }
                               orgTexReg = orgTexReg.replace(rule.match, rule.replace);
                           }
                       }

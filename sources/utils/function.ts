@@ -22,6 +22,74 @@ export const getNumber = (
   return numbersElementHidden !== 0 ? ` ${numbersElementHidden}` : "";
 };
 
+/**
+ * Remove specific HTML elements with their content
+ *
+ * @param html - HTML string
+ * @param tags - Array of tag names to remove (e.g., ['table', 'img', 'figure'])
+ * @returns HTML string without specified elements
+ */
+export const removeElements = (html: string, tags: string[]): string => {
+  const div = createElement("div");
+  div.innerHTML = html;
+
+  tags.forEach((tag) => {
+    const elements = div.querySelectorAll(tag);
+    elements.forEach((el) => {
+      el.remove();
+    });
+  });
+
+  return div.innerHTML;
+};
+
+/**
+ * Remove table rows where ALL cells are empty
+ *
+ * @param div - DOM element containing HTML
+ */
+const cleanupTableRows = (div: HTMLElement): void => {
+  const tables = div.querySelectorAll("table");
+  tables.forEach((table) => {
+    const rows = table.querySelectorAll("tr");
+    rows.forEach((row) => {
+      const cells = row.querySelectorAll("td, th");
+      // Check if ALL cells in this row are empty
+      const allEmpty =
+        cells.length > 0 &&
+        Array.from(cells).every((cell) => !cell.textContent?.trim());
+      if (allEmpty) {
+        row.remove();
+      }
+    });
+  });
+};
+
+/**
+ * Remove empty HTML tags recursively
+ *
+ * @param html - HTML string
+ * @returns HTML string without empty tags
+ */
+const removeEmptyTags = (html: string): string => {
+  let cleaned = html;
+  let prev: string;
+
+  // Recursively remove empty tags (including nested ones)
+  // BUT keep table structure tags (td, th, tr) - they're handled separately
+  do {
+    prev = cleaned;
+    // Remove tags that contain only whitespace or &nbsp;
+    // Exclude: td, th, tr (table structure handled by cleanupTableRows)
+    cleaned = cleaned.replace(
+      /<((?!td|th|tr)\w+)(\s[^>]*)?>(\s|&nbsp;|<br\s*\/?>)*<\/\1>/gi,
+      "",
+    );
+  } while (cleaned !== prev);
+
+  return cleaned;
+};
+
 // https://stackoverflow.com/questions/6003271/substring-text-with-html-tags-in-javascript
 /**
  * Substring text with html tags
@@ -61,7 +129,12 @@ export const htmlSubstr = (originalText: string, count: number): string => {
       node = node.nextSibling;
     }
   }
-  return div.innerHTML;
+
+  // Clean up table rows where ALL cells are empty
+  cleanupTableRows(div);
+
+  // Remove empty tags after truncation
+  return removeEmptyTags(div.innerHTML);
 };
 
 /**
