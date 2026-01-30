@@ -99,11 +99,10 @@ export default class ShowMore {
       if (elementText.length > limitCounts) {
         let orgTexReg = originalText;
 
-        for (const key in this._regex) {
-          const rule = this._regex[key];
-          if (rule && key) {
-            const { match, replace } = rule;
-            if (match) orgTexReg = orgTexReg.replace(match, replace);
+        // Optimize: use Object.values instead of for...in
+        for (const rule of Object.values(this._regex)) {
+          if (rule?.match) {
+            orgTexReg = orgTexReg.replace(rule.match, rule.replace);
           }
         }
 
@@ -118,9 +117,11 @@ export default class ShowMore {
           truncatedText,
         });
 
-        if (nobutton) return;
-        this._addBtn(this._object);
+        if (!nobutton) {
+          this._addBtn(this._object);
+        }
       }
+      return;
     }
 
     // list and table
@@ -128,12 +129,12 @@ export default class ShowMore {
       const items = this._getNumberCount(element, type);
 
       if (items.length > limitCounts) {
+        // Optimize: iterate only from limit to end
         for (let i = limit; i < items.length; i++) {
           addRemoveClass(items[i], true);
         }
 
         if (!nobutton) {
-          // add button to the list and table
           this._addBtn(this._object);
         }
 
@@ -144,8 +145,6 @@ export default class ShowMore {
             : (element.nextElementSibling as HTMLElement),
           this._object,
         );
-
-        if (nobutton) return;
       }
     }
   };
@@ -179,23 +178,24 @@ export default class ShowMore {
       ? (less as string).trim() || "collapse"
       : (more as string).trim() || "expand";
 
-    label = number ? label + getNumber(element, type || "") : label;
-
-    const expanded = !!this._checkExp;
+    // Optimize: cache getNumber result
+    const numberText = number ? getNumber(element, type || "") : "";
+    label = number ? label + numberText : label;
 
     const button = createElement("button");
 
     button.className =
       btnClassAppend == null ? btnClass : `${btnClass} ${btnClassAppend}`;
     setAttributes(button, {
-      "aria-expanded": expanded,
+      "aria-expanded": this._checkExp,
       "aria-label": label,
       tabindex: 0,
     });
 
+    // Use cached numberText
     button.insertAdjacentHTML(
       "beforeend",
-      number ? typeAria + getNumber(element, type || "") : typeAria,
+      number ? typeAria + numberText : typeAria,
     );
 
     return button;
@@ -226,16 +226,14 @@ export default class ShowMore {
     } = object;
 
     // check if the button is clicked
-    const checkContainsClass = target.classList.contains(btnClass);
-
-    if (!checkContainsClass) return;
+    if (!target.classList.contains(btnClass)) return;
 
     const showMoreExpanded = element.getAttribute("showmore-expanded");
     this._checkExp = showMoreExpanded === "false";
 
     // --------------------------------------------------
     // text
-    if (type === "text" && checkContainsClass) {
+    if (type === "text") {
       element.textContent = "";
 
       element.insertAdjacentHTML(
@@ -256,14 +254,17 @@ export default class ShowMore {
     // list and table
     if (type === "list" || type === "table") {
       const items = this._getNumberCount(element, type);
+      const isExpanding = showMoreExpanded === "false";
 
-      for (let i = 0; i < items.length; i++) {
-        const typeRemove =
-          type === "list" ? i >= limit && i < items.length - 1 : i >= limit;
-
-        if (showMoreExpanded === "false") {
-          addRemoveClass(items[i]);
-        } else if (typeRemove) {
+      if (isExpanding) {
+        // Show all: remove hidden class from all
+        for (let i = limit; i < items.length; i++) {
+          addRemoveClass(items[i], false);
+        }
+      } else {
+        // Hide: add hidden class from limit to end
+        const endIndex = type === "list" ? items.length - 1 : items.length;
+        for (let i = limit; i < endIndex; i++) {
           addRemoveClass(items[i], true);
         }
       }
@@ -324,9 +325,9 @@ export default class ShowMore {
     const aria = this._checkExp ? "expand" : "collapse";
     const lastChild = element.lastElementChild;
 
-    const ariaLabel = number
-      ? typeAria + getNumber(element, type || "")
-      : typeAria;
+    // Optimize: cache getNumber result
+    const numberText = number ? getNumber(element, type || "") : "";
+    const ariaLabel = number ? typeAria + numberText : typeAria;
 
     setAttributes(element, { "showmore-expanded": this._checkExp });
     setAttributes(target, {
@@ -338,9 +339,8 @@ export default class ShowMore {
     this._onMoreLess(aria, object);
 
     if (typeAria) {
-      target.innerHTML = number
-        ? typeAria + getNumber(element, type || "")
-        : typeAria;
+      // Use cached numberText
+      target.innerHTML = number ? typeAria + numberText : typeAria;
     } else if (type === "table") {
       target.parentNode?.removeChild(target);
     } else if (type === "list" && lastChild?.parentNode) {

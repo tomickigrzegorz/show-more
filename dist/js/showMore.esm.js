@@ -127,11 +127,10 @@ class ShowMore {
                 const elementText = element.textContent?.trim() || "";
                 if (elementText.length > limitCounts) {
                     let orgTexReg = originalText;
-                    for(const key in this._regex){
-                        const rule = this._regex[key];
-                        if (rule && key) {
-                            const { match, replace } = rule;
-                            if (match) orgTexReg = orgTexReg.replace(match, replace);
+                    // Optimize: use Object.values instead of for...in
+                    for (const rule of Object.values(this._regex)){
+                        if (rule?.match) {
+                            orgTexReg = orgTexReg.replace(rule.match, rule.replace);
                         }
                     }
                     const truncatedText = htmlSubstr(orgTexReg, limit - 1).concat(ellips);
@@ -142,24 +141,25 @@ class ShowMore {
                         originalText,
                         truncatedText
                     });
-                    if (nobutton) return;
-                    this._addBtn(this._object);
+                    if (!nobutton) {
+                        this._addBtn(this._object);
+                    }
                 }
+                return;
             }
             // list and table
             if (type === "list" || type === "table") {
                 const items = this._getNumberCount(element, type);
                 if (items.length > limitCounts) {
+                    // Optimize: iterate only from limit to end
                     for(let i = limit; i < items.length; i++){
                         addRemoveClass(items[i], true);
                     }
                     if (!nobutton) {
-                        // add button to the list and table
                         this._addBtn(this._object);
                     }
                     // add event click
                     this._clickEvent(type === "list" ? element : element.nextElementSibling, this._object);
-                    if (nobutton) return;
                 }
             }
         };
@@ -181,16 +181,18 @@ class ShowMore {
             const { element, number, less, more, type, btnClass, btnClassAppend } = config;
             const typeAria = this._checkExp ? less || "" : more || "";
             let label = this._checkExp ? less.trim() || "collapse" : more.trim() || "expand";
-            label = number ? label + getNumber(element, type || "") : label;
-            const expanded = !!this._checkExp;
+            // Optimize: cache getNumber result
+            const numberText = number ? getNumber(element, type || "") : "";
+            label = number ? label + numberText : label;
             const button = createElement("button");
             button.className = btnClassAppend == null ? btnClass : `${btnClass} ${btnClassAppend}`;
             setAttributes(button, {
-                "aria-expanded": expanded,
+                "aria-expanded": this._checkExp,
                 "aria-label": label,
                 tabindex: 0
             });
-            button.insertAdjacentHTML("beforeend", number ? typeAria + getNumber(element, type || "") : typeAria);
+            // Use cached numberText
+            button.insertAdjacentHTML("beforeend", number ? typeAria + numberText : typeAria);
             return button;
         };
         /**
@@ -203,13 +205,12 @@ class ShowMore {
             if (!(target instanceof HTMLElement)) return;
             const { element, type, limit = 0, less, typeElement, originalText, truncatedText, btnClass } = object;
             // check if the button is clicked
-            const checkContainsClass = target.classList.contains(btnClass);
-            if (!checkContainsClass) return;
+            if (!target.classList.contains(btnClass)) return;
             const showMoreExpanded = element.getAttribute("showmore-expanded");
             this._checkExp = showMoreExpanded === "false";
             // --------------------------------------------------
             // text
-            if (type === "text" && checkContainsClass) {
+            if (type === "text") {
                 element.textContent = "";
                 element.insertAdjacentHTML("beforeend", this._checkExp ? originalText || "" : truncatedText || "");
                 if (less) {
@@ -224,11 +225,16 @@ class ShowMore {
             // list and table
             if (type === "list" || type === "table") {
                 const items = this._getNumberCount(element, type);
-                for(let i = 0; i < items.length; i++){
-                    const typeRemove = type === "list" ? i >= limit && i < items.length - 1 : i >= limit;
-                    if (showMoreExpanded === "false") {
-                        addRemoveClass(items[i]);
-                    } else if (typeRemove) {
+                const isExpanding = showMoreExpanded === "false";
+                if (isExpanding) {
+                    // Show all: remove hidden class from all
+                    for(let i = limit; i < items.length; i++){
+                        addRemoveClass(items[i], false);
+                    }
+                } else {
+                    // Hide: add hidden class from limit to end
+                    const endIndex = type === "list" ? items.length - 1 : items.length;
+                    for(let i = limit; i < endIndex; i++){
                         addRemoveClass(items[i], true);
                     }
                 }
@@ -275,7 +281,9 @@ class ShowMore {
             const typeAria = this._checkExp ? less : more;
             const aria = this._checkExp ? "expand" : "collapse";
             const lastChild = element.lastElementChild;
-            const ariaLabel = number ? typeAria + getNumber(element, type || "") : typeAria;
+            // Optimize: cache getNumber result
+            const numberText = number ? getNumber(element, type || "") : "";
+            const ariaLabel = number ? typeAria + numberText : typeAria;
             setAttributes(element, {
                 "showmore-expanded": this._checkExp
             });
@@ -286,7 +294,8 @@ class ShowMore {
             // callback function on more/less
             this._onMoreLess(aria, object);
             if (typeAria) {
-                target.innerHTML = number ? typeAria + getNumber(element, type || "") : typeAria;
+                // Use cached numberText
+                target.innerHTML = number ? typeAria + numberText : typeAria;
             } else if (type === "table") {
                 target.parentNode?.removeChild(target);
             } else if (type === "list" && lastChild?.parentNode) {
