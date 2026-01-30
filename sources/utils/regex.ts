@@ -1,7 +1,20 @@
+export interface RegexRule {
+  match: RegExp;
+  replace: string;
+}
+
+export interface RegexConfig {
+  newLine?: RegexRule;
+  space?: RegexRule;
+  br?: RegexRule;
+  html?: RegexRule;
+  [key: string]: RegexRule | undefined;
+}
+
 /**
  * Default regexes for validation
  */
-export const defaultRegex = {
+export const defaultRegex: RegexConfig = {
   newLine: {
     match: /(\r\n|\n|\r)/gm,
     replace: " ",

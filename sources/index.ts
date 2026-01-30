@@ -1,3 +1,5 @@
+import type { ShowMoreOptions } from "./utils/defaults";
+import { defaultOptions } from "./utils/defaults";
 import {
   addRemoveClass,
   createElement,
@@ -5,34 +7,58 @@ import {
   htmlSubstr,
   setAttributes,
 } from "./utils/function";
+import type { RegexConfig } from "./utils/regex";
 import { defaultRegex } from "./utils/regex";
-import { defaultOptions } from "./utils/defaults";
+
+interface ShowMoreConfig {
+  onMoreLess?: (action: string, object: ShowMoreInternalObject) => void;
+  regex?: RegexConfig;
+  config?: Partial<ShowMoreOptions>;
+}
+
+interface ShowMoreInternalObject extends ShowMoreOptions {
+  index: number;
+  classArray: DOMTokenList;
+  element: HTMLElement;
+  originalText?: string;
+  truncatedText?: string;
+  target?: EventTarget;
+}
 
 /**
- * @class ShowMore
+ * ShowMore - JavaScript library that truncates text, list or table by chars, elements or rows
  */
 export default class ShowMore {
+  private _onMoreLess: (action: string, object: ShowMoreInternalObject) => void;
+  private _regex: RegexConfig;
+  private _object!: ShowMoreInternalObject;
+  private _checkExp = false;
+
   /**
    * Constructor
    *
-   * @param {HTMLElement} className
-   * @param {Object} object
+   * @param className - CSS selector for elements
+   * @param config - Configuration object
    */
-  constructor(className, { onMoreLess = () => {}, regex = {}, config } = {}) {
-    // all html elements
-    const elements = [].slice.call(document.querySelectorAll(className));
+  constructor(className: string, config: ShowMoreConfig = {}) {
+    const { onMoreLess = () => {}, regex = {}, config: globalConfig } = config;
 
-    // colback function
+    // all html elements
+    const elements = Array.from(
+      document.querySelectorAll<HTMLElement>(className),
+    );
+
+    // callback function
     this._onMoreLess = onMoreLess;
 
     // global regex
     this._regex = { ...defaultRegex, ...regex };
 
-    elements.map((item, index) => {
-      const configData = JSON.parse(item.getAttribute("data-config"));
-      const configGlobal = config;
+    elements.forEach((item, index) => {
+      const configDataAttr = item.getAttribute("data-config");
+      const configData = configDataAttr ? JSON.parse(configDataAttr) : {};
 
-      const configDataAndGlobal = { ...configGlobal, ...configData };
+      const configDataAndGlobal = { ...globalConfig, ...configData };
 
       this._object = {
         index,
@@ -41,38 +67,44 @@ export default class ShowMore {
         ...configDataAndGlobal,
         typeElement: configDataAndGlobal.element || "span",
         element: item,
-      };
+      } as ShowMoreInternalObject;
 
       this._initial();
     });
   }
 
   /**
-   * Initail function
-   *
-   * @param {Object} object
+   * Initial function
    */
-  _initial = () => {
-    const { element, after, ellipsis, nobutton, limit, type } = this._object;
-    // set default aria-expande to false
+  private _initial = (): void => {
+    const {
+      element,
+      after = 0,
+      ellipsis,
+      nobutton,
+      limit = 0,
+      type,
+    } = this._object;
+    // set default aria-expanded to false
     setAttributes(element, { "showmore-expanded": "false" });
 
     const limitCounts = limit + after;
     const ellips = ellipsis === false ? "" : "...";
 
-    // console.log(nobutton);
-
     // text
     if (type === "text") {
       const originalText = element.innerHTML.trim();
-      const elementText = element.textContent.trim();
+      const elementText = element.textContent?.trim() || "";
 
       if (elementText.length > limitCounts) {
         let orgTexReg = originalText;
 
-        for (let key in this._regex) {
-          const { match, replace } = this._regex[key];
-          if (key && match) orgTexReg = orgTexReg.replace(match, replace);
+        for (const key in this._regex) {
+          const rule = this._regex[key];
+          if (rule && key) {
+            const { match, replace } = rule;
+            if (match) orgTexReg = orgTexReg.replace(match, replace);
+          }
         }
 
         const truncatedText = htmlSubstr(orgTexReg, limit - 1).concat(ellips);
@@ -107,7 +139,9 @@ export default class ShowMore {
 
         // add event click
         this._clickEvent(
-          type === "list" ? element : element.nextElementSibling,
+          type === "list"
+            ? element
+            : (element.nextElementSibling as HTMLElement),
           this._object,
         );
 
@@ -119,40 +153,40 @@ export default class ShowMore {
   /**
    * Event click
    *
-   * @param {HTMLElement} element
-   * @param {Object} object
+   * @param element - HTMLElement to attach event to
+   * @param object - Configuration object
    */
-  _clickEvent = (element, object) =>
+  private _clickEvent = (
+    element: HTMLElement | null,
+    object: ShowMoreInternalObject,
+  ): void => {
+    if (!element) return;
     element.addEventListener("click", this._handleEvent.bind(this, object));
+  };
 
   /**
    * Create button
    *
-   * @param {Object} object
-   * @returns HTMLElement
+   * @param config - Configuration object
+   * @returns HTMLButtonElement
    */
-  _createBtn = ({
-    element,
-    number,
-    less,
-    more,
-    type,
-    btnClass,
-    btnClassAppend,
-  }) => {
+  private _createBtn = (config: ShowMoreInternalObject): HTMLButtonElement => {
+    const { element, number, less, more, type, btnClass, btnClassAppend } =
+      config;
+
     const typeAria = this._checkExp ? less || "" : more || "";
     let label = this._checkExp
-      ? less.trim() || "collapse"
-      : more.trim() || "expand";
+      ? (less as string).trim() || "collapse"
+      : (more as string).trim() || "expand";
 
-    label = number ? label + getNumber(element, type) : label;
+    label = number ? label + getNumber(element, type || "") : label;
 
-    const expanded = this._checkExp ? true : false;
+    const expanded = !!this._checkExp;
 
     const button = createElement("button");
 
     button.className =
-      btnClassAppend == null ? btnClass : btnClass + " " + btnClassAppend;
+      btnClassAppend == null ? btnClass : `${btnClass} ${btnClassAppend}`;
     setAttributes(button, {
       "aria-expanded": expanded,
       "aria-label": label,
@@ -161,7 +195,7 @@ export default class ShowMore {
 
     button.insertAdjacentHTML(
       "beforeend",
-      number ? typeAria + getNumber(element, type) : typeAria,
+      number ? typeAria + getNumber(element, type || "") : typeAria,
     );
 
     return button;
@@ -170,14 +204,20 @@ export default class ShowMore {
   /**
    * Event handler
    *
-   * @param {Object} object
-   * @param {Event} event
+   * @param object - Configuration object
+   * @param event - Mouse event
    */
-  _handleEvent = (object, { target }) => {
+  private _handleEvent = (
+    object: ShowMoreInternalObject,
+    event: MouseEvent,
+  ): void => {
+    const { target } = event;
+    if (!(target instanceof HTMLElement)) return;
+
     const {
       element,
       type,
-      limit,
+      limit = 0,
       less,
       typeElement,
       originalText,
@@ -200,13 +240,14 @@ export default class ShowMore {
 
       element.insertAdjacentHTML(
         "beforeend",
-        this._checkExp ? originalText : truncatedText,
+        this._checkExp ? originalText || "" : truncatedText || "",
       );
 
       if (less) {
-        const el = createElement(typeElement);
+        const el = createElement(typeElement as keyof HTMLElementTagNameMap);
         el.classList.add("show-more-wrapper");
-        el.insertAdjacentElement("beforeend", this._createBtn(object));
+        const btn = this._createBtn(object);
+        if (btn) el.insertAdjacentElement("beforeend", btn);
         element.appendChild(el);
       }
     }
@@ -234,16 +275,25 @@ export default class ShowMore {
     }
   };
 
-  _getNumberCount = (element, type) => {
-    return type === "list" ? [].slice.call(element.children) : element.rows;
+  /**
+   * Get number count based on type
+   */
+  private _getNumberCount = (
+    element: HTMLElement,
+    type: string,
+  ): HTMLElement[] | HTMLCollectionOf<HTMLTableRowElement> => {
+    if (type === "list") {
+      return Array.from(element.children) as HTMLElement[];
+    }
+    return (element as HTMLTableElement).rows;
   };
 
   /**
    * Add button
    *
-   * @param {Object} object
+   * @param object - Configuration object
    */
-  _addBtn = (object) => {
+  private _addBtn = (object: ShowMoreInternalObject): void => {
     const { type, element, more, typeElement } = object;
 
     if (!more) return;
@@ -251,7 +301,7 @@ export default class ShowMore {
     if (type === "table") {
       element.insertAdjacentElement("afterend", this._createBtn(object));
     } else {
-      const el = createElement(typeElement);
+      const el = createElement(typeElement as keyof HTMLElementTagNameMap);
       el.classList.add("show-more-wrapper");
       el.appendChild(this._createBtn(object));
       element.appendChild(el);
@@ -261,16 +311,22 @@ export default class ShowMore {
   /**
    * Set aria-expanded
    *
-   * @param {Object} object
+   * @param object - Configuration object with target
    */
-  _setExpand = (object) => {
+  private _setExpand = (
+    object: ShowMoreInternalObject & { target: EventTarget },
+  ): void => {
     const { element, type, less, more, number, target } = object;
+
+    if (!(target instanceof HTMLElement)) return;
 
     const typeAria = this._checkExp ? less : more;
     const aria = this._checkExp ? "expand" : "collapse";
     const lastChild = element.lastElementChild;
 
-    const ariaLabel = number ? typeAria + getNumber(element, type) : typeAria;
+    const ariaLabel = number
+      ? typeAria + getNumber(element, type || "")
+      : typeAria;
 
     setAttributes(element, { "showmore-expanded": this._checkExp });
     setAttributes(target, {
@@ -283,11 +339,11 @@ export default class ShowMore {
 
     if (typeAria) {
       target.innerHTML = number
-        ? typeAria + getNumber(element, type)
+        ? typeAria + getNumber(element, type || "")
         : typeAria;
     } else if (type === "table") {
-      target.parentNode.removeChild(target);
-    } else if (type === "list") {
+      target.parentNode?.removeChild(target);
+    } else if (type === "list" && lastChild?.parentNode) {
       lastChild.parentNode.removeChild(lastChild);
     }
   };

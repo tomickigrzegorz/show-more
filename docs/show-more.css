@@ -1,1 +1,13 @@
-.show-more-btn{background:transparent;border:0;color:#0095e5;cursor:pointer;font-size:.8em;margin:auto;transition:color .3s ease-in-out;white-space:nowrap}.show-more-btn:hover{color:red}
+.show-more-btn {
+  margin: auto;
+  cursor: pointer;
+  color: #0095e5;
+  white-space: nowrap;
+  transition: color 300ms ease-in-out;
+  border: 0;
+  font-size: 0.8em;
+  background: transparent;
+}
+.show-more-btn:hover {
+  color: red;
+}
