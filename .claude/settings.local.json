@@ -8,7 +8,9 @@
       "Bash(npm run check:*)",
       "Bash(npm run type-check:*)",
       "Bash(npm run build:*)",
-      "Bash(ls:*)"
+      "Bash(ls:*)",
+      "Bash(ssh:*)",
+      "Bash(git pull:*)"
     ]
   }
 }
