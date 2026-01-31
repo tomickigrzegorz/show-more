@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "target": "ES2015",
+    "module": "ESNext",
+    "lib": ["ES2015", "DOM"],
+    "declaration": true,
+    "declarationMap": true,
+    "outDir": "./dist/types",
+    "rootDir": "./sources",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true
+  },
+  "include": ["sources/**/*"],
+  "exclude": ["node_modules", "dist", "docs"]
+}
