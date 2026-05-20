@@ -1,6 +1,6 @@
 {
   "name": "show-more-read",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "main": "dist/js/showMore.js",
   "types": "dist/types/index.d.ts",
   "description": "JavaScript library that truncates text, list or table by chars, elements or rows",
@@ -16,7 +16,7 @@
   },
   "scripts": {
     "dev": "concurrently \"yarn sass:dev\" \"yarn sass:prod\" \"yarn watch\"",
-    "prod": "yarn build && yarn sass:prod && yarn postcss && yarn postcss:prod && yarn lib:version",
+    "prod": "yarn build && yarn sass:prod && yarn postcss && yarn postcss:prod",
     "build": "rollup -c --environment PRODUCTION",
     "watch": "rollup -c -w",
     "sass:prod": "sass --no-source-map sources/scss:docs",
