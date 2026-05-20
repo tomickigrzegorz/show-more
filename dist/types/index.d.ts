@@ -45,7 +45,6 @@ interface ShowMoreInternalObject extends ShowMoreOptions {
 declare class ShowMore {
     private _onMoreLess;
     private _regex;
-    private _object;
     private _checkExp;
     /**
      * Constructor

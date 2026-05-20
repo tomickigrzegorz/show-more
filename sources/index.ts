@@ -32,7 +32,6 @@ interface ShowMoreInternalObject extends ShowMoreOptions {
 export default class ShowMore {
   private _onMoreLess: (action: string, object: ShowMoreInternalObject) => void;
   private _regex: RegexConfig;
-  private _object!: ShowMoreInternalObject;
   private _checkExp = false;
 
   /**
@@ -61,7 +60,7 @@ export default class ShowMore {
 
       const configDataAndGlobal = { ...globalConfig, ...configData };
 
-      this._object = {
+      const object = {
         index,
         classArray: item.classList,
         ...defaultOptions,
@@ -70,22 +69,15 @@ export default class ShowMore {
         element: item,
       } as ShowMoreInternalObject;
 
-      this._initial();
+      this._initial(object);
     });
   }
 
   /**
    * Initial function
    */
-  private _initial = (): void => {
-    const {
-      element,
-      after = 0,
-      ellipsis,
-      nobutton,
-      limit = 0,
-      type,
-    } = this._object;
+  private _initial = (object: ShowMoreInternalObject): void => {
+    const { element, after = 0, ellipsis, nobutton, limit = 0, type } = object;
     // set default aria-expanded to false
     setAttributes(element, { "showmore-expanded": "false" });
 
@@ -99,13 +91,12 @@ export default class ShowMore {
 
       if (elementText.length > limitCounts) {
         // Remove unwanted elements (with their content) based on config
-        const elementsToRemove = this._object.removeElements || [];
+        const elementsToRemove = object.removeElements || [];
         let orgTexReg = removeElements(originalText, elementsToRemove);
 
         // Check if removeElements is customized (different from default)
         const isCustomRemoveElements =
-          JSON.stringify(elementsToRemove) !==
-          JSON.stringify(defaultRemoveElements);
+          elementsToRemove !== defaultRemoveElements;
 
         // Apply regex rules for remaining tags
         for (const rule of Object.values(this._regex)) {
@@ -125,13 +116,13 @@ export default class ShowMore {
         element.insertAdjacentHTML("beforeend", truncatedText);
 
         this._clickEvent(element, {
-          ...this._object,
+          ...object,
           originalText,
           truncatedText,
         });
 
         if (!nobutton) {
-          this._addBtn(this._object);
+          this._addBtn(object);
         }
       }
       return;
@@ -148,7 +139,7 @@ export default class ShowMore {
         }
 
         if (!nobutton) {
-          this._addBtn(this._object);
+          this._addBtn(object);
         }
 
         // add event click
@@ -156,7 +147,7 @@ export default class ShowMore {
           type === "list"
             ? element
             : (element.nextElementSibling as HTMLElement),
-          this._object,
+          object,
         );
       }
     }
@@ -334,7 +325,7 @@ export default class ShowMore {
 
     if (!(target instanceof HTMLElement)) return;
 
-    const typeAria = this._checkExp ? less : more;
+    const typeAria: string = (this._checkExp ? less : more) || "";
     const aria = this._checkExp ? "expand" : "collapse";
     const lastChild = element.lastElementChild;
 

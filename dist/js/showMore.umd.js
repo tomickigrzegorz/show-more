@@ -224,8 +224,8 @@
           this._checkExp = false;
           /**
      * Initial function
-     */ this._initial = ()=>{
-              const { element, after = 0, ellipsis, nobutton, limit = 0, type } = this._object;
+     */ this._initial = (object)=>{
+              const { element, after = 0, ellipsis, nobutton, limit = 0, type } = object;
               // set default aria-expanded to false
               setAttributes(element, {
                   "showmore-expanded": "false"
@@ -238,10 +238,10 @@
                   const elementText = element.textContent?.trim() || "";
                   if (elementText.length > limitCounts) {
                       // Remove unwanted elements (with their content) based on config
-                      const elementsToRemove = this._object.removeElements || [];
+                      const elementsToRemove = object.removeElements || [];
                       let orgTexReg = removeElements(originalText, elementsToRemove);
                       // Check if removeElements is customized (different from default)
-                      const isCustomRemoveElements = JSON.stringify(elementsToRemove) !== JSON.stringify(defaultRemoveElements);
+                      const isCustomRemoveElements = elementsToRemove !== defaultRemoveElements;
                       // Apply regex rules for remaining tags
                       for (const rule of Object.values(this._regex)){
                           if (rule?.match) {
@@ -257,12 +257,12 @@
                       element.textContent = "";
                       element.insertAdjacentHTML("beforeend", truncatedText);
                       this._clickEvent(element, {
-                          ...this._object,
+                          ...object,
                           originalText,
                           truncatedText
                       });
                       if (!nobutton) {
-                          this._addBtn(this._object);
+                          this._addBtn(object);
                       }
                   }
                   return;
@@ -276,10 +276,10 @@
                           addRemoveClass(items[i], true);
                       }
                       if (!nobutton) {
-                          this._addBtn(this._object);
+                          this._addBtn(object);
                       }
                       // add event click
-                      this._clickEvent(type === "list" ? element : element.nextElementSibling, this._object);
+                      this._clickEvent(type === "list" ? element : element.nextElementSibling, object);
                   }
               }
           };
@@ -398,7 +398,7 @@
      */ this._setExpand = (object)=>{
               const { element, type, less, more, number, target } = object;
               if (!(target instanceof HTMLElement)) return;
-              const typeAria = this._checkExp ? less : more;
+              const typeAria = (this._checkExp ? less : more) || "";
               const aria = this._checkExp ? "expand" : "collapse";
               const lastChild = element.lastElementChild;
               // Optimize: cache getNumber result
@@ -439,7 +439,7 @@
                   ...globalConfig,
                   ...configData
               };
-              this._object = {
+              const object = {
                   index,
                   classArray: item.classList,
                   ...defaultOptions,
@@ -447,7 +447,7 @@
                   typeElement: configDataAndGlobal.element || "span",
                   element: item
               };
-              this._initial();
+              this._initial(object);
           });
       }
   }
